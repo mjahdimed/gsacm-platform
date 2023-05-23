@@ -1,0 +1,7 @@
+# Server Settings
+server:
+  port: 8088
+# spring Settings
+spring:
+  profiles:
+    active: native

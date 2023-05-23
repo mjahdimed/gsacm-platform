@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~   Copyright
+  ~   © 2023.Spring Microservices Gestion du Sport Médical. Tous les droits sont réservés.
+  ~   Énoncé/Déclaration des droits Sous réserve des dispositions du présent avis,
+  ~   ce site Web et l'ensemble de son contenu, de ses informations ou de son matériel sont protégés par le droit d'auteur de Spring Microservices Medical Sport Management,
+  ~   ainsi que de ses concédants de licence. En conséquence, votre utilisation de notre site Web ou de ses services ne constitue pas une licence d'utilisation
+  ~   du droit d'auteur sur notre site Web.
+  ~   Sauf dans la mesure permise par la loi sur le droit d'auteur applicable ou Spring Microservices Medical Sport Management, toute forme d'utilisation,
+  ~   de reproduction ou de redistribution d'une partie de l'ensemble du contenu, des informations ou du matériel de ce site Web sous quelque forme que ce soit est interdite.
+  ~   Vous ne pouvez pas, sauf autorisation préalable et consentement écrit exprès de Spring Microservices Medical Sport Management, copier, télécharger,
+  ~   imprimer, extraire, exploiter, adapter, éditer, modifier, republier, reproduire, rediffuser, dupliquer,
+  ~   distribuer ou afficher publiquement tout contenu, information ou élément de ce site Web à des fins non personnelles ou commerciales,
+  ~   à l'exception de toute autre utilisation autorisée par la loi sur le droit d'auteur applicable. Vous ne pouvez pas non plus transmettre,
+  ~   héberger ou stocker un tel contenu, information ou matériel sous quelque forme ou par quelque moyen que ce soit, y compris, mais sans s'y limiter, la photocopie,
+  ~   l'enregistrement ou sous toute forme imprimée, électronique ou numérique, ou sur tout autre site Web.
+  ~   Cependant, vous êtes autorisé à copier le contenu,
+  ~   les informations ou le matériel de ce site Web pour un usage personnel, un usage éducatif de tiers individuels,
+  ~   un usage gouvernemental ou toute autre utilisation autorisée par la loi sur le droit d'auteur applicable tout en reconnaissant
+  ~   cet auteur Spring Microservices Medical Sport Management comme source d'un tel contenu,
+  ~   information ou matériel.  Sous réserve de nos termes et conditions,
+  ~   vous n'êtes pas autorisé à publier des informations ou à ajouter du contenu protégé par des droits d'auteur par des tiers.
+  ~   Conformément au Digital Millennium Copyright Act (DMCA),
+  ~   Spring Microservices Medical Sport Management répondra aux avis de retrait ou aux rapports d'abus par les titulaires
+  ~   de droits d'auteur pour supprimer tout contenu abusif ou contrefait sur ce site Web.
+  ~   Spring Microservices Medical Sport Management ne sera pas responsable de la qualité, de l'exactitude,
+  ~   de l'exhaustivité ou de la pertinence du contenu, des informations ou du matériel de ce site Web.
+  ~
+  -->
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- Required project information -->
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.gsacm</groupId>
+    <artifactId>gsacm-platform</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <!-- modules -->
+    <modules>
+        <module>cloud-config</module>
+        <module>eureka-server</module>
+        <module>api-gateway</module>
+    </modules>
+    <!-- Project metadata -->
+    <name>gsacm-platform</name>
+    <description>Sports risk management microservice</description>
+    <url>https://gsacm-platform.com</url>
+
+    <!-- Project properties -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>17</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <spring.boot.maven.plugin.version>3.0.7</spring.boot.maven.plugin.version>
+        <spring.boot.dependencies.version>3.0.7</spring.boot.dependencies.version>
+        <spring.cloud.dependencies.version>2022.0.2</spring.cloud.dependencies.version>
+        <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
+    </properties>
+
+    <!-- Project dependency Management -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- spring-boot-dependencies -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.dependencies.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+            <!-- spring-cloud-dependencies -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.dependencies.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- Project dependencies -->
+    <dependencies>
+        <!-- spring boot dependencies -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <!-- boilerplate code reducer -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <!-- Health Checks dependencies -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!-- zipkin dependencies-->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-reporter-brave</artifactId>
+        </dependency>
+    </dependencies>
+
+    <!-- Build settings -->
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <version>${spring.boot.maven.plugin.version}</version>
+                    <configuration>
+                        <excludes>
+                            <exclude>
+                                <groupId>org.projectlombok</groupId>
+                                <artifactId>lombok</artifactId>
+                            </exclude>
+                        </excludes>
+                        <executable>true</executable> <!-- Set to 'true' to create an executable JAR -->
+                        <mainClass>com.gsacm.SpringApplication
+                        </mainClass> <!-- Replace 'com.example.YourMainClass' with your application's main class -->
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>repackage</goal> <!-- The 'repackage' goal repackages the application -->
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <!-- Build plugins -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- repositories netflix configurations -->
+    <!--    <repositories>-->
+    <!--        <repository>-->
+    <!--            <id>netflix-candidates</id>-->
+    <!--            <name>Netflix Candidates</name>-->
+    <!--            <url>https://artifactory-oss.prod.netflix.net/artifactory/maven-oss-candidates</url>-->
+    <!--            <snapshots>-->
+    <!--                <enabled>false</enabled>-->
+    <!--            </snapshots>-->
+    <!--        </repository>-->
+    <!--    </repositories>-->
+
+</project>
