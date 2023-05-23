@@ -1,1 +1,1 @@
-# Welcome  To gsacm-platform!
+# ACTIVITÉS SPORTIVES : RESPONSABILITÉS ET ASSURANCES
