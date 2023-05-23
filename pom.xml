@@ -43,6 +43,7 @@
         <module>cloud-config</module>
         <module>eureka-server</module>
         <module>api-gateway</module>
+        <module>assurance</module>
     </modules>
     <!-- Project metadata -->
     <name>gsacm-platform</name>
