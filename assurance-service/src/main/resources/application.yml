@@ -1,7 +1,7 @@
 # Spring Settings
 spring:
   application:
-    name: assurance
+    name: assurance-service
   config:
     import: "optional:configserver:http://localhost:8088"
 
