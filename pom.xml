@@ -44,6 +44,7 @@
         <module>eureka-server</module>
         <module>api-gateway</module>
         <module>assurance-service</module>
+        <module>federation-service</module>
     </modules>
     <!-- Project metadata -->
     <name>gsacm-platform</name>
