@@ -45,6 +45,7 @@
         <module>api-gateway</module>
         <module>assurance-service</module>
         <module>federation-service</module>
+        <module>club-service</module>
     </modules>
     <!-- Project metadata -->
     <name>gsacm-platform</name>
