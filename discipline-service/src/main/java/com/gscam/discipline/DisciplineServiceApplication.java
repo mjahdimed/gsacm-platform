@@ -27,30 +27,16 @@
  *
  */
 
-package com.gscam.association.model;
+package com.gscam.discipline;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "association_tbl")
-public class Association extends AbstractEntity {
-
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "logo")
-    private String logo;
-
-    @Column(name = "description")
-    private String description;
-
-
+@SpringBootApplication
+@EnableDiscoveryClient
+public class DisciplineServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(DisciplineServiceApplication.class, args);
+    }
 }

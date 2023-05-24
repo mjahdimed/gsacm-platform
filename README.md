@@ -1,5 +1,8 @@
 # ACTIVITÉS SPORTIVES : RESPONSABILITÉS ET ASSURANCES
 
+
+![schemat-expertise-sinistre.jpg](ressource/schemat-expertise-sinistre.jpg)
+
 1 - LA PRATIQUE INDIVIDUELLE
 La réalisation d'une activité sportive (judo, karté, football...)
 exercée en toute liberté appelle, sur le plan de la responsabilité, à distinguer deux situations  :

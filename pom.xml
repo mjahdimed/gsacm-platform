@@ -38,15 +38,28 @@
     <artifactId>gsacm-platform</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-    <!-- modules -->
+    <!-- modules gsacm-platform -->
     <modules>
+        <!-- Config Cloud Server Module -->
         <module>cloud-config</module>
+        <!-- Eureka Cloud Server Module -->
         <module>eureka-server</module>
+        <!-- API Gateway Cloud Server Module -->
         <module>api-gateway</module>
+        <!-- Assurance Service Module -->
         <module>assurance-service</module>
+        <!-- Fédération Service Module -->
         <module>federation-service</module>
+        <!-- Club Service Module -->
         <module>club-service</module>
+        <!-- Association Service Module -->
         <module>association-service</module>
+        <!-- Discipline Service Module -->
+        <module>discipline-service</module>
+        <!-- Clinique Service Module -->
+        <module>clinique-service</module>
+        <!-- Notification Service Module -->
+        <module>notification-service</module>
     </modules>
     <!-- Project metadata -->
     <name>gsacm-platform</name>

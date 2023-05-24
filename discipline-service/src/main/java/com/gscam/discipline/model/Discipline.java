@@ -27,7 +27,7 @@
  *
  */
 
-package com.gscam.association.model;
+package com.gscam.discipline.model;
 
 
 import jakarta.persistence.Column;
@@ -39,15 +39,12 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "association_tbl")
-public class Association extends AbstractEntity {
+@Table(name = "discipline_tbl")
+public class Discipline extends AbstractEntity {
 
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "logo")
-    private String logo;
 
     @Column(name = "description")
     private String description;

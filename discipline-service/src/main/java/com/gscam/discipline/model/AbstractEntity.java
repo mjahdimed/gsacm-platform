@@ -27,30 +27,52 @@
  *
  */
 
-package com.gscam.association.model;
+package com.gscam.discipline.model;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.UUID;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "association_tbl")
-public class Association extends AbstractEntity {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public class AbstractEntity implements Serializable {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
+
+    @CreatedDate
+    @Column(name = "creationDate", updatable = false)
+    @JsonIgnore
+    private Instant creationDate;
+
+    @LastModifiedDate
+    @Column(name = "lastModifiedDate", updatable = true)
+    @JsonIgnore
+    private Instant lastModifiedDate;
 
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "logo")
-    private String logo;
-
-    @Column(name = "description")
-    private String description;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "deletedDate", updatable = true)
+    private Instant deletedDate;
 
 
+    @Column(name = "status")
+    @JsonIgnore
+    private boolean status;
 }
