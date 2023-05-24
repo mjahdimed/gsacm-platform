@@ -27,36 +27,52 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.List;
+import java.io.Serializable;
+import java.time.Instant;
+import java.util.UUID;
 
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "discipline_tbl")
-public class Discipline extends AbstractEntity {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public class AbstractEntity implements Serializable {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    private UUID id;
 
-    @Column(name = "name")
-    private String name;
+    @CreatedDate
+    @Column(name = "creationDate", updatable = false)
+    @JsonIgnore
+    private Instant creationDate;
 
-    @Column(name = "description")
-    private String description;
+    @LastModifiedDate
+    @Column(name = "lastModifiedDate", updatable = true)
+    @JsonIgnore
+    private Instant lastModifiedDate;
 
-    @Column(name = "minimum_age")
-    private int minimumAge;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "deletedDate", updatable = true)
+    private Instant deletedDate;
 
 
-    @OneToMany(mappedBy = "primaryDiscipline")
-    private List<Club> clubs;
-
-    @ManyToOne
-    @JoinColumn(
-            name = "sports_federation_id",
-            nullable = false)
-    private List<SportsFederation> sportsFederation;
+    @Column(name = "status")
+    @JsonIgnore
+    private boolean status;
 }

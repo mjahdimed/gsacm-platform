@@ -27,37 +27,16 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.time.LocalDate;
-
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
-
-    @Column(name = "initial")
-    private String initial;
-
-    @Column(name = "member_type")
-    private String memberType;
-
-    @Column(name = "country")
-    private String country;
-
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
-
-
-
+@SpringBootApplication
+@EnableDiscoveryClient
+public class ClubServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ClubServiceApplication.class, args);
+    }
 }

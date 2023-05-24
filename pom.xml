@@ -46,6 +46,7 @@
         <module>assurance-service</module>
         <module>federation-service</module>
         <module>club-service</module>
+        <module>association-service</module>
     </modules>
     <!-- Project metadata -->
     <name>gsacm-platform</name>

@@ -27,7 +27,7 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.model;
 
 
 import jakarta.persistence.Column;
@@ -36,27 +36,21 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalDate;
-
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
+@Table(name = "club_tbl")
+public class Club extends AbstractEntity {
 
-    @Column(name = "initial")
-    private String initial;
 
-    @Column(name = "member_type")
-    private String memberType;
+    @Column(name = "name")
+    private String name;
 
-    @Column(name = "country")
-    private String country;
+    @Column(name = "logo")
+    private String logo;
 
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
+    @Column(name = "description")
+    private String description;
 
 
 

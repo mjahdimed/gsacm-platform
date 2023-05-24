@@ -27,32 +27,30 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.association.model;
 
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Table(name = "association_tbl")
+@Table(name = "club_tbl")
 public class Association extends AbstractEntity {
 
 
     @Column(name = "name")
     private String name;
 
+    @Column(name = "logo")
+    private String logo;
+
     @Column(name = "description")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "sports_federation_id", nullable = false)
-    private SportsFederation sportsFederation;
-
-    @ManyToOne
-    @JoinColumn(name = "discipline_id")
-    private Discipline primaryDiscipline;
 
 }
