@@ -38,6 +38,9 @@ import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 
+/**
+ * The type Sports federation.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -57,7 +60,6 @@ public class SportsFederation extends AbstractEntity {
 
     @Column(name = "year_of_foundation")
     private LocalDate yearOfFoundation;
-
 
 
 }

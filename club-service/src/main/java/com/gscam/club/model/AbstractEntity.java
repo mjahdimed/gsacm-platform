@@ -35,15 +35,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.util.UUID;
 
+/**
+ * The type Abstract entity.
+ */
 @Data
 @Builder
 @AllArgsConstructor
@@ -52,9 +53,16 @@ import java.util.UUID;
 @EntityListeners(AuditingEntityListener.class)
 public class AbstractEntity implements Serializable {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID id;
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "sequence_generator"
+    )
+    @SequenceGenerator(
+            name = "sequence_generator",
+            sequenceName = "sports_federation_seq", allocationSize = 1
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
     @CreatedDate
     @Column(name = "creationDate", updatable = false)

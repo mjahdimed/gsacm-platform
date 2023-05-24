@@ -1,0 +1,12 @@
+# Spring Settings
+spring:
+  application:
+    name: security-service
+  config:
+    import: "optional:configserver:http://localhost:8088"
+
+
+
+
+
+

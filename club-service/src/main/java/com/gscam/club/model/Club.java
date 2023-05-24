@@ -36,6 +36,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * The type Club.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -51,7 +54,6 @@ public class Club extends AbstractEntity {
 
     @Column(name = "description")
     private String description;
-
 
 
 }

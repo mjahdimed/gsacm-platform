@@ -1,0 +1,23 @@
+# Server Settings
+server:
+  port: 8197
+# Eureka Settings
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+
+# Actuator Settings
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "*"
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans

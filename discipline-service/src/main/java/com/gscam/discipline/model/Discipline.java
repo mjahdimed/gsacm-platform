@@ -36,6 +36,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * The type Discipline.
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
 @Entity

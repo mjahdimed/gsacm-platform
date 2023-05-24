@@ -27,60 +27,24 @@
  *
  */
 
-package com.gscam.association.model;
+package com.gscam.security;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.io.Serializable;
-import java.time.Instant;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * The type Abstract entity.
+ * The type Security service application.
  */
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
-public class AbstractEntity implements Serializable {
-    @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "sequence_generator"
-    )
-    @SequenceGenerator(
-            name = "sequence_generator",
-            sequenceName = "sports_federation_seq", allocationSize = 1
-    )
-    @Column(name = "id", updatable = false, nullable = false)
-    private Long id;
-
-    @CreatedDate
-    @Column(name = "creationDate", updatable = false)
-    @JsonIgnore
-    private Instant creationDate;
-
-    @LastModifiedDate
-    @Column(name = "lastModifiedDate", updatable = true)
-    @JsonIgnore
-    private Instant lastModifiedDate;
-
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "deletedDate", updatable = true)
-    private Instant deletedDate;
-
-
-    @Column(name = "status")
-    @JsonIgnore
-    private boolean status;
+@SpringBootApplication
+@EnableDiscoveryClient
+public class SecurityServiceApplication {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
+    public static void main(String[] args) {
+        SpringApplication.run(SecurityServiceApplication.class, args);
+    }
 }

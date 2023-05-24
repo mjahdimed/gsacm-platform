@@ -60,6 +60,12 @@
         <module>clinique-service</module>
         <!-- Notification Service Module -->
         <module>notification-service</module>
+        <!-- security Service Module -->
+        <module>security-service</module>
+        <!-- adherent Service Module -->
+        <module>adherent-service</module>
+        <!-- Dossier médical Service Module -->
+        <module>dossier-medical-service</module>
     </modules>
     <!-- Project metadata -->
     <name>gsacm-platform</name>

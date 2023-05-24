@@ -34,9 +34,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.config.server.EnableConfigServer;
 
+/**
+ * The type Cloud server config application.
+ */
 @SpringBootApplication
 @EnableConfigServer
 public class CloudServerConfigApplication {
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         SpringApplication.run(CloudServerConfigApplication.class, args);
     }
