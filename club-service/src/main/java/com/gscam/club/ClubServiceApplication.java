@@ -40,7 +40,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients(
-        basePackages = "com.gsacm.clients"
+        basePackages = "com.gsacm.clients.club"
 )
 public class ClubServiceApplication {
     /**

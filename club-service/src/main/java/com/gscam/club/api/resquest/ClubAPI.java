@@ -30,7 +30,7 @@
 package com.gscam.club.api.resquest;
 
 
-import com.gsacm.clients.club.ClubClient;
+
 import com.gsacm.clients.club.ClubDTO;
 import com.gscam.club.api.IClubAPI;
 import com.gscam.club.services.ClubService;
@@ -44,16 +44,12 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class ClubAPI implements IClubAPI {
     private final ClubService clubService;
-    private final ClubClient clubClient;
 
     @Override
     public ResponseEntity<ClubDTO> newClub(ClubDTO dto) {
-        log.info("Club {} saved successfully ", dto);
+        log.info("Club {} saved successfully", dto);
         ClubDTO createdClub = clubService.newClub(dto);
-
         // Call the ClubClient to add the club
-        ResponseEntity<ClubDTO> response = clubClient.newClub(createdClub);
-
-        return ResponseEntity.ok(response.getBody());
+        return ResponseEntity.ok(createdClub);
     }
 }
