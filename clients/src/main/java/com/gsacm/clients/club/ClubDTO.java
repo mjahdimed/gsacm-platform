@@ -27,33 +27,41 @@
  *
  */
 
-package com.gscam.club.api.resquest;
+package com.gsacm.clients.club;
 
-
-import com.gsacm.clients.club.ClubClient;
-import com.gsacm.clients.club.ClubDTO;
-import com.gscam.club.api.IClubAPI;
-import com.gscam.club.services.ClubService;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.Builder;
+import lombok.Data;
 
-@RestController
-@Slf4j
+import java.time.LocalDateTime;
+
+/**
+ * DTO for {@link ClubDTO}
+ */
+@Data
 @AllArgsConstructor
-public class ClubAPI implements IClubAPI {
-    private final ClubService clubService;
-    private final ClubClient clubClient;
+@Builder
+public class ClubDTO {
 
-    @Override
-    public ResponseEntity<ClubDTO> newClub(ClubDTO dto) {
-        log.info("Club {} saved successfully ", dto);
-        ClubDTO createdClub = clubService.newClub(dto);
+    private Long id;
+    private String name;
+    private String logoUrl;
+    private String description;
+    private String email;
+    private String numFix;
+    private String numFax;
+    private String gsm;
+    private String siteWeb;
+    private String address1;
+    private String address2;
+    private String ville;
+    private String codepostale;
+    private String pays;
+    private LocalDateTime creationDate;
+    private LocalDateTime lastModifiedDate;
+    private LocalDateTime deletedDate;
+    private boolean status;
 
-        // Call the ClubClient to add the club
-        ResponseEntity<ClubDTO> response = clubClient.newClub(createdClub);
-
-        return ResponseEntity.ok(response.getBody());
+    public ClubDTO() {
     }
 }

@@ -30,13 +30,14 @@
 package com.gscam.club.api;
 
 
-import com.gscam.club.dto.ClubDTO;
+import com.gsacm.clients.club.ClubDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import static com.gscam.club.helpers.RequestRouts.API_CLUB_ROUT;
+import static com.gsacm.clients.helpers.RequestRouts.API_CLUB_ROUT;
+
 
 @RequestMapping(path = API_CLUB_ROUT)
 public interface IClubAPI {

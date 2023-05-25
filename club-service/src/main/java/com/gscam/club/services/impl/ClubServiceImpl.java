@@ -29,8 +29,8 @@
 
 package com.gscam.club.services.impl;
 
+import com.gsacm.clients.club.ClubDTO;
 import com.gscam.club.dao.IClubDAO;
-import com.gscam.club.dto.ClubDTO;
 import com.gscam.club.exceptions.ErrorCodes;
 import com.gscam.club.exceptions.InvalidEntityException;
 import com.gscam.club.models.Club;

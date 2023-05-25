@@ -29,7 +29,7 @@
 
 package com.gscam.club.validators;
 
-import com.gscam.club.dto.ClubDTO;
+import com.gsacm.clients.club.ClubDTO;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;

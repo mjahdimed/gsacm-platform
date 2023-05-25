@@ -29,7 +29,7 @@
 
 package com.gscam.club.services;
 
-import com.gscam.club.dto.ClubDTO;
+import com.gsacm.clients.club.ClubDTO;
 
 import java.util.List;
 

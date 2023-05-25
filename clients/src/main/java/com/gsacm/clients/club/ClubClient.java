@@ -27,15 +27,16 @@
  *
  */
 
-package com.gscam.club.helpers;
+package com.gsacm.clients.club;
 
-/**
- * The interface Request routs.
- */
-public interface RequestRouts {
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
-    /**
-     * The constant API_CLUB_ROUT.
-     */
-    String API_CLUB_ROUT = "api/v1/clubs";
+
+@FeignClient("club")
+public interface ClubClient {
+    @PostMapping(path = "/add")
+    ResponseEntity<ClubDTO> newClub(@RequestBody ClubDTO dto);
 }

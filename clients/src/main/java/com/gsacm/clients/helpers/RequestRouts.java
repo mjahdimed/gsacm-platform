@@ -27,41 +27,15 @@
  *
  */
 
-package com.gscam.club.dto;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-
-import java.time.LocalDateTime;
+package com.gsacm.clients.helpers;
 
 /**
- * DTO for {@link com.gscam.club.models.Club}
+ * The interface Request routs.
  */
-@Data
-@AllArgsConstructor
-@Builder
-public class ClubDTO {
+public interface RequestRouts {
 
-    private Long id;
-    private String name;
-    private String logoUrl;
-    private String description;
-    private String email;
-    private String numFix;
-    private String numFax;
-    private String gsm;
-    private String siteWeb;
-    private String address1;
-    private String address2;
-    private String ville;
-    private String codepostale;
-    private String pays;
-    private LocalDateTime creationDate;
-    private LocalDateTime lastModifiedDate;
-    private LocalDateTime deletedDate;
-    private boolean status;
-
-    public ClubDTO() {
-    }
+    /**
+     * The constant API_CLUB_ROUT.
+     */
+    String API_CLUB_ROUT = "api/v1/clubs";
 }

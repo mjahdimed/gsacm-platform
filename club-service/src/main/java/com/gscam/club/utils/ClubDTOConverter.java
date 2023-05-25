@@ -29,7 +29,8 @@
 
 package com.gscam.club.utils;
 
-import com.gscam.club.dto.ClubDTO;
+
+import com.gsacm.clients.club.ClubDTO;
 import com.gscam.club.models.Address;
 import com.gscam.club.models.Club;
 import com.gscam.club.models.Info;
