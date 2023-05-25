@@ -27,40 +27,22 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.handlers;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.gscam.club.exceptions.ErrorCodes;
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.springframework.http.HttpStatus;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * The type Sports federation.
- */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
-
-    @Column(name = "initial")
-    private String initial;
-
-    @Column(name = "member_type")
-    private String memberType;
-
-    @Embedded
-    private Address address;
-
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
-
-
+@Builder
+public class ErrorDTO {
+    private HttpStatus httpStatus;
+    private ErrorCodes code;
+    private String message;
+    @Builder.Default
+    private List<String> errors = new ArrayList<>();
 }

@@ -34,7 +34,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
- * The type Assurance service application.
+ * The type Adherent service application.
  */
 @SpringBootApplication
 @EnableDiscoveryClient

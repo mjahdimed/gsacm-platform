@@ -59,7 +59,7 @@ public class AbstractEntity implements Serializable {
     )
     @SequenceGenerator(
             name = "sequence_generator",
-            sequenceName = "sports_federation_seq", allocationSize = 1
+            sequenceName = "dscipline_seq", allocationSize = 1
     )
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;

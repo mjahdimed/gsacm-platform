@@ -27,40 +27,39 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.models;
 
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-
-import java.time.LocalDate;
+import lombok.NoArgsConstructor;
 
 /**
- * The type Sports federation.
+ * The type Address.
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Embeddable
+public class Info {
 
-    @Column(name = "initial")
-    private String initial;
+    @Column(name = "email")
+    private String email;
 
-    @Column(name = "member_type")
-    private String memberType;
+    @Column(name = "num_fix")
+    private String numFix;
 
-    @Embedded
-    private Address address;
+    @Column(name = "num_fax")
+    private String numFax;
 
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
+    @Column(name = "gsm")
+    private String gsm;
 
+    @Column(name = "site_web")
+    private String siteWeb;
 
 }

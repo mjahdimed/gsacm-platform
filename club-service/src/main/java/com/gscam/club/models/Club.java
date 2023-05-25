@@ -27,19 +27,24 @@
  *
  */
 
-package com.gscam.club.model;
+package com.gscam.club.models;
 
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * The type Club.
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Table(name = "club_tbl")
@@ -49,11 +54,19 @@ public class Club extends AbstractEntity {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "logo")
-    private String logo;
+    @Column(name = "logo_url")
+    private String logoUrl;
+
+    @Embedded
+    private Info info;
+
+    @Embedded
+    private Address address;
 
     @Column(name = "description")
     private String description;
 
+    @Column(name = "status")
+    private Boolean status;
 
 }

@@ -31,6 +31,7 @@ package com.gscam.association.model;
 
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -52,8 +53,16 @@ public class Association extends AbstractEntity {
     @Column(name = "logo")
     private String logo;
 
+    @Embedded
+    private Info info;
+
+    @Embedded
+    private Address address;
+
     @Column(name = "description")
     private String description;
 
+    @Column(name = "status")
+    private Boolean status;
 
 }

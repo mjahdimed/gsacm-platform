@@ -27,40 +27,12 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.services;
 
+import com.gscam.club.dto.ClubDTO;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+public interface ClubService {
 
-import java.time.LocalDate;
-
-/**
- * The type Sports federation.
- */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
-
-    @Column(name = "initial")
-    private String initial;
-
-    @Column(name = "member_type")
-    private String memberType;
-
-    @Embedded
-    private Address address;
-
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
-
-
+    // Insert New Club
+    ClubDTO newClub(ClubDTO dto);
 }

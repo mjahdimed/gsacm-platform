@@ -27,40 +27,51 @@
  *
  */
 
-package com.gscam.federation.model;
-
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.time.LocalDate;
+package com.gscam.club.helpers;
 
 /**
- * The type Sports federation.
+ * The interface Error list.
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
-
-    @Column(name = "initial")
-    private String initial;
-
-    @Column(name = "member_type")
-    private String memberType;
-
-    @Embedded
-    private Address address;
-
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
-
-
+public interface ErrorList {
+    /**
+     * The constant ERROR_CLUB_NAME_REQUIRED.
+     */
+    String ERROR_CLUB_NAME_REQUIRED = "Please enter the club name";
+    /**
+     * The constant ERROR_CLUB_DESCRIPTION_REQUIRED.
+     */
+    String ERROR_CLUB_DESCRIPTION_REQUIRED = "Please enter the club description";
+    /**
+     * The constant ERROR_CLUB_EMAIL_REQUIRED.
+     */
+    String ERROR_CLUB_EMAIL_REQUIRED = "Please enter the club email";
+    /**
+     * The constant ERROR_CLUB_PHONE_REQUIRED.
+     */
+    String ERROR_CLUB_PHONE_REQUIRED = "Please enter the club phone";
+    /**
+     * The constant ERROR_CLUB_FAX_REQUIRED.
+     */
+    String ERROR_CLUB_FAX_REQUIRED = "Please enter the club fax";
+    /**
+     * The constant ERROR_CLUB_GSM_REQUIRED.
+     */
+    String ERROR_CLUB_GSM_REQUIRED = "Please enter the club GSM";
+    /**
+     * The constant ERROR_CLUB_ADDRESS_ONE_REQUIRED.
+     */
+    String ERROR_CLUB_ADDRESS_ONE_REQUIRED = "Please enter the club address 1";
+    /**
+     * The constant ERROR_CLUB_VILLE_REQUIRED.
+     */
+    String ERROR_CLUB_VILLE_REQUIRED = "Please enter the club ville";
+    /**
+     * The constant ERROR_CLUB_POSTAL_CODE_REQUIRED.
+     */
+    String ERROR_CLUB_POSTAL_CODE_REQUIRED = "Please enter the club postal code";
+    /**
+     * The constant ERROR_CLUB_PAYS_REQUIRED.
+     */
+    String ERROR_CLUB_PAYS_REQUIRED = "Please enter the club pays";
 }
+

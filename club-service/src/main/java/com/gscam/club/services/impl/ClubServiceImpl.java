@@ -27,40 +27,51 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.services.impl;
 
+import com.gscam.club.dao.IClubDAO;
+import com.gscam.club.dto.ClubDTO;
+import com.gscam.club.exceptions.ErrorCodes;
+import com.gscam.club.exceptions.InvalidEntityException;
+import com.gscam.club.models.Club;
+import com.gscam.club.services.ClubService;
+import com.gscam.club.utils.ClubDTOConverter;
+import com.gscam.club.validators.ClubValidator;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.time.LocalDate;
+import java.time.Instant;
+import java.util.List;
 
 /**
- * The type Sports federation.
+ * The type Club service.
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
+@Service
+@Slf4j
+@AllArgsConstructor
+public class ClubServiceImpl implements ClubService {
 
-    @Column(name = "initial")
-    private String initial;
+    //Import Club Repository
+    private final IClubDAO iClubDAO;
 
-    @Column(name = "member_type")
-    private String memberType;
+    // Insert New Club
+    @Override
+    public ClubDTO newClub(ClubDTO dto) {
+        //Validate Fields
+        List<String> errors = ClubValidator.validate(dto);
+        if (!errors.isEmpty()) {
+            log.error("Club is not valid: {}", dto);
+            throw new InvalidEntityException("Club is not valid", ErrorCodes.INVALID_INPUT, errors);
+        }
+        Club club = ClubDTOConverter.toEntity(dto);
+        // Set Creation date
+        club.setCreationDate(Instant.now());
+        // Set Status to true
+        club.setStatus(true);
+        // Save Club
+        Club savedClub = iClubDAO.save(club);
+        return ClubDTOConverter.fromEntity(savedClub);
 
-    @Embedded
-    private Address address;
-
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
-
-
+    }
 }

@@ -27,40 +27,104 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.exceptions;
 
+import lombok.Getter;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.List;
 
-import java.time.LocalDate;
+@Getter
+public class InvalidEntityException extends RuntimeException {
 
-/**
- * The type Sports federation.
- */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
+    private ErrorCodes errorCodes;
+    private List<String> errors;
 
-    @Column(name = "initial")
-    private String initial;
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param message the message
+     * @param cause   the cause
+     */
+    public InvalidEntityException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-    @Column(name = "member_type")
-    private String memberType;
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param message the message
+     */
+    public InvalidEntityException(String message) {
+        super(message);
+    }
 
-    @Embedded
-    private Address address;
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param message    the message
+     * @param cause      the cause
+     * @param errorCodes the error codes
+     * @param errors     the errors
+     */
+    public InvalidEntityException(String message, Throwable cause, ErrorCodes errorCodes, List<String> errors) {
+        super(message, cause);
+        this.errorCodes = errorCodes;
+        this.errors = errors;
+    }
 
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param message the message
+     * @param cause   the cause
+     * @param errors  the errors
+     */
+    public InvalidEntityException(String message, ErrorCodes cause, List<String> errors) {
+        super(message);
+        this.errors = errors;
+    }
 
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param message    the message
+     * @param cause      the cause
+     * @param errorCodes the error codes
+     */
+    public InvalidEntityException(String message, Throwable cause, ErrorCodes errorCodes) {
+        super(message, cause);
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param message    the message
+     * @param errorCodes the error codes
+     */
+    public InvalidEntityException(String message, ErrorCodes errorCodes) {
+        super(message);
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param errorCodes the error codes
+     */
+    public InvalidEntityException(ErrorCodes errorCodes) {
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param errorCodes the error codes
+     * @param errors     the errors
+     */
+    public InvalidEntityException(ErrorCodes errorCodes, List<String> errors) {
+        this.errorCodes = errorCodes;
+        this.errors = errors;
+    }
 
 }

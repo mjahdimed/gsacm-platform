@@ -27,40 +27,30 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.exceptions;
 
+public enum ErrorCodes {
+    INVALID_INPUT("InvalidInput", "The input provided is invalid."),
+    MISSING_FIELD("MissingField", "A required field is missing."),
+    DATABASE_ERROR("DatabaseError", "An error occurred while accessing the database."),
+    AUTHENTICATION_ERROR("AuthenticationError", "Authentication failed."),
+    PERMISSION_DENIED("PermissionDenied", "You don't have permission to perform this operation."),
+    RESOURCE_NOT_FOUND("ResourceNotFound", "The requested resource was not found.");
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+    private final String code;
+    private final String message;
 
-import java.time.LocalDate;
+    ErrorCodes(String code, String message) {
+        this.code = code;
+        this.message = message;
+    }
 
-/**
- * The type Sports federation.
- */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
+    public String getCode() {
+        return code;
+    }
 
-    @Column(name = "initial")
-    private String initial;
-
-    @Column(name = "member_type")
-    private String memberType;
-
-    @Embedded
-    private Address address;
-
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
-
-
+    public String getMessage() {
+        return message;
+    }
 }
+

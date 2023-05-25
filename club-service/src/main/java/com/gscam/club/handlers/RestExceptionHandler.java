@@ -27,40 +27,38 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.handlers;
 
+import com.gscam.club.exceptions.EntityNotFoundException;
+import com.gscam.club.exceptions.InvalidEntityException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+@RestControllerAdvice
+public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-import java.time.LocalDate;
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleException(EntityNotFoundException exception, WebRequest webRequest) {
+        ErrorDTO errorDto = ErrorDTO.builder()
+                .code(exception.getErrorCodes())
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .message(exception.getMessage())
+                .build();
+        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+    }
 
-/**
- * The type Sports federation.
- */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
-
-    @Column(name = "initial")
-    private String initial;
-
-    @Column(name = "member_type")
-    private String memberType;
-
-    @Embedded
-    private Address address;
-
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
-
-
+    @ExceptionHandler(InvalidEntityException.class)
+    public ResponseEntity<ErrorDTO> handleException(InvalidEntityException exception, WebRequest webRequest) {
+        ErrorDTO errorDto = ErrorDTO.builder()
+                .code(exception.getErrorCodes())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .message(exception.getMessage())
+                .errors(exception.getErrors())
+                .build();
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    }
 }

@@ -27,40 +27,87 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.validators;
 
+import com.gscam.club.dto.ClubDTO;
+import org.springframework.util.StringUtils;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import java.util.ArrayList;
+import java.util.List;
 
-import java.time.LocalDate;
+import static com.gscam.club.helpers.ErrorList.*;
+
 
 /**
- * The type Sports federation.
+ * The type Club validator.
  */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
+public class ClubValidator {
+    /**
+     * Validate list.
+     *
+     * @param clubDTO the club dto
+     * @return the list
+     */
+    public static List<String> validate(ClubDTO clubDTO) {
+        List<String> errors = new ArrayList<>();
 
-    @Column(name = "initial")
-    private String initial;
+        if (clubDTO == null) {
+            errors.add(ERROR_CLUB_NAME_REQUIRED);
+            errors.add(ERROR_CLUB_DESCRIPTION_REQUIRED);
+            errors.add(ERROR_CLUB_EMAIL_REQUIRED);
+            errors.add(ERROR_CLUB_ADDRESS_ONE_REQUIRED);
+            errors.add(ERROR_CLUB_VILLE_REQUIRED);
+            errors.add(ERROR_CLUB_POSTAL_CODE_REQUIRED);
+            errors.add(ERROR_CLUB_PAYS_REQUIRED);
+            errors.add(ERROR_CLUB_PHONE_REQUIRED);
+            errors.add(ERROR_CLUB_FAX_REQUIRED);
+            errors.add(ERROR_CLUB_GSM_REQUIRED);
+            return errors;
+        }
 
-    @Column(name = "member_type")
-    private String memberType;
+        if (StringUtils.isEmpty(clubDTO.getName())) {
+            errors.add(ERROR_CLUB_NAME_REQUIRED);
+        }
 
-    @Embedded
-    private Address address;
+        if (StringUtils.isEmpty(clubDTO.getDescription())) {
+            errors.add(ERROR_CLUB_DESCRIPTION_REQUIRED);
+        }
 
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
+        if (StringUtils.isEmpty(clubDTO.getEmail())) {
+            errors.add(ERROR_CLUB_EMAIL_REQUIRED);
+        }
+
+        if (StringUtils.isEmpty(clubDTO.getAddress1())) {
+            errors.add(ERROR_CLUB_ADDRESS_ONE_REQUIRED);
+        }
+
+        if (StringUtils.isEmpty(clubDTO.getVille())) {
+            errors.add(ERROR_CLUB_VILLE_REQUIRED);
+        }
 
 
+        if (StringUtils.isEmpty(clubDTO.getCodepostale())) {
+            errors.add(ERROR_CLUB_POSTAL_CODE_REQUIRED);
+        }
+
+
+        if (StringUtils.isEmpty(clubDTO.getNumFix())) {
+            errors.add(ERROR_CLUB_PHONE_REQUIRED);
+        }
+
+        if (StringUtils.isEmpty(clubDTO.getNumFax())) {
+            errors.add(ERROR_CLUB_FAX_REQUIRED);
+        }
+
+        if (StringUtils.isEmpty(clubDTO.getGsm())) {
+            errors.add(ERROR_CLUB_GSM_REQUIRED);
+        }
+
+        if (StringUtils.isEmpty(clubDTO.getPays())) {
+            errors.add(ERROR_CLUB_PAYS_REQUIRED);
+        }
+
+        return errors;
+    }
 }
+

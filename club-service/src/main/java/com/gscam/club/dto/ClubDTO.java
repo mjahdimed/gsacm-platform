@@ -27,60 +27,40 @@
  *
  */
 
-package com.gscam.club.model;
+package com.gscam.club.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.io.Serializable;
 import java.time.Instant;
 
 /**
- * The type Abstract entity.
+ * DTO for {@link com.gscam.club.models.Club}
  */
 @Data
-@Builder
 @AllArgsConstructor
-@NoArgsConstructor
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
-public class AbstractEntity implements Serializable {
-    @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "sequence_generator"
-    )
-    @SequenceGenerator(
-            name = "sequence_generator",
-            sequenceName = "sports_federation_seq", allocationSize = 1
-    )
-    @Column(name = "id", updatable = false, nullable = false)
+@Builder
+public class ClubDTO {
+
+
     private Long id;
-
-    @CreatedDate
-    @Column(name = "creationDate", updatable = false)
-    @JsonIgnore
+    private String name;
+    private String logoUrl;
+    private String description;
+    private String email;
+    private String numFix;
+    private String numFax;
+    private String gsm;
+    private String siteWeb;
+    private String address1;
+    private String address2;
+    private String ville;
+    private String codepostale;
+    private String pays;
     private Instant creationDate;
-
-    @LastModifiedDate
-    @Column(name = "lastModifiedDate", updatable = true)
-    @JsonIgnore
     private Instant lastModifiedDate;
-
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "deletedDate", updatable = true)
     private Instant deletedDate;
-
-
-    @Column(name = "status")
-    @JsonIgnore
     private boolean status;
+
 }

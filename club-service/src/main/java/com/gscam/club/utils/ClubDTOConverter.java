@@ -27,40 +27,85 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.utils;
 
+import com.gscam.club.dto.ClubDTO;
+import com.gscam.club.models.Address;
+import com.gscam.club.models.Club;
+import com.gscam.club.models.Info;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+public class ClubDTOConverter {
+    /**
+     * From entity club dto.
+     *
+     * @param club the club
+     * @return the club dto
+     */
+    public static ClubDTO fromEntity(Club club) {
+        if (club == null) {
+            return null;
+        }
+        return ClubDTO.builder()
+                .id(club.getId())
+                .name(club.getName())
+                .logoUrl(club.getLogoUrl())
+                .description(club.getDescription())
+                .email(club.getInfo().getEmail())
+                .numFix(club.getInfo().getNumFix())
+                .numFax(club.getInfo().getNumFax())
+                .gsm(club.getInfo().getGsm())
+                .siteWeb(club.getInfo().getSiteWeb())
+                .address1(club.getAddress().getAddress1())
+                .address2(club.getAddress().getAddress2())
+                .ville(club.getAddress().getVille())
+                .codepostale(club.getAddress().getCodepostale())
+                .pays(club.getAddress().getPays())
+                .creationDate(club.getCreationDate())
+                .lastModifiedDate(club.getLastModifiedDate())
+                .deletedDate(club.getDeletedDate())
+                .status(club.isStatus())
+                .build();
+    }
 
-import java.time.LocalDate;
+    /**
+     * To entity club.
+     *
+     * @param clubDTO the club dto
+     * @return the club
+     */
+    public static Club toEntity(ClubDTO clubDTO) {
+        if (clubDTO == null) {
+            return null;
+        }
 
-/**
- * The type Sports federation.
- */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
+        Club club = new Club();
+        club.setId(clubDTO.getId());
+        club.setName(clubDTO.getName());
+        club.setLogoUrl(clubDTO.getLogoUrl());
+        club.setDescription(clubDTO.getDescription());
+        club.setStatus(clubDTO.isStatus());
 
-    @Column(name = "initial")
-    private String initial;
+        // Set properties from embedded classes
+        Info info = new Info();
+        info.setEmail(clubDTO.getEmail());
+        info.setNumFix(clubDTO.getNumFix());
+        info.setNumFax(clubDTO.getNumFax());
+        info.setGsm(clubDTO.getGsm());
+        info.setSiteWeb(clubDTO.getSiteWeb());
+        club.setInfo(info);
 
-    @Column(name = "member_type")
-    private String memberType;
+        Address address = new Address();
+        address.setAddress1(clubDTO.getAddress1());
+        address.setAddress2(clubDTO.getAddress2());
+        address.setVille(clubDTO.getVille());
+        address.setCodepostale(clubDTO.getCodepostale());
+        address.setPays(clubDTO.getPays());
+        club.setAddress(address);
 
-    @Embedded
-    private Address address;
+        club.setCreationDate(clubDTO.getCreationDate());
+        club.setLastModifiedDate(clubDTO.getLastModifiedDate());
+        club.setDeletedDate(clubDTO.getDeletedDate());
 
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
-
-
+        return club;
+    }
 }

@@ -27,40 +27,60 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.models;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.time.LocalDate;
+import java.io.Serializable;
+import java.time.Instant;
 
 /**
- * The type Sports federation.
+ * The type Abstract entity.
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public class AbstractEntity implements Serializable {
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "sequence_generator"
+    )
+    @SequenceGenerator(
+            name = "sequence_generator",
+            sequenceName = "club_seq", allocationSize = 1
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
-    @Column(name = "initial")
-    private String initial;
+    @CreatedDate
+    @Column(name = "creationDate", updatable = false)
+    @JsonIgnore
+    private Instant creationDate;
 
-    @Column(name = "member_type")
-    private String memberType;
-
-    @Embedded
-    private Address address;
-
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
+    @LastModifiedDate
+    @Column(name = "lastModifiedDate", updatable = true)
+    @JsonIgnore
+    private Instant lastModifiedDate;
 
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "deletedDate", updatable = true)
+    private Instant deletedDate;
+
+
+    @Column(name = "status")
+    @JsonIgnore
+    private boolean status;
 }

@@ -27,40 +27,51 @@
  *
  */
 
-package com.gscam.federation.model;
+package com.gscam.club.exceptions;
+
+import lombok.Getter;
+
+@Getter
+public class EntityNotFoundException extends RuntimeException {
+
+    private ErrorCodes errorCodes;
+
+    public EntityNotFoundException(String message) {
+        super(message);
+    }
+
+    /**
+     * Instantiates a new Entity not foudn exception.
+     *
+     * @param message    the message
+     * @param errorCodes the error codes
+     */
+    public EntityNotFoundException(String message, ErrorCodes errorCodes) {
+        super(message);
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instantiates a new Entity not foudn exception.
+     *
+     * @param message the message
+     * @param cause   the cause
+     */
+    public EntityNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-
-import java.time.LocalDate;
-
-/**
- * The type Sports federation.
- */
-@Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "federation_tbl")
-public class SportsFederation extends AbstractEntity {
-    @Column(name = "federation_name")
-    private String federationName;
-
-    @Column(name = "initial")
-    private String initial;
-
-    @Column(name = "member_type")
-    private String memberType;
-
-    @Embedded
-    private Address address;
-
-    @Column(name = "year_of_foundation")
-    private LocalDate yearOfFoundation;
-
-
+    /**
+     * Instantiates a new Entity not foudn exception.
+     *
+     * @param message    the message
+     * @param cause      the cause
+     * @param errorCodes the error codes
+     */
+    public EntityNotFoundException(String message, Throwable cause, ErrorCodes errorCodes) {
+        super(message, cause);
+        this.errorCodes = errorCodes;
+    }
 }
+
