@@ -35,7 +35,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gscam.club.helpers.ErrorList.*;
+import static com.gscam.club.helpers.ErrorList.ERROR_CLUB_NAME_REQUIRED;
 
 
 /**
@@ -53,15 +53,15 @@ public class ClubValidator {
 
         if (clubDTO == null) {
             errors.add(ERROR_CLUB_NAME_REQUIRED);
-            errors.add(ERROR_CLUB_DESCRIPTION_REQUIRED);
-            errors.add(ERROR_CLUB_EMAIL_REQUIRED);
-            errors.add(ERROR_CLUB_ADDRESS_ONE_REQUIRED);
-            errors.add(ERROR_CLUB_VILLE_REQUIRED);
-            errors.add(ERROR_CLUB_POSTAL_CODE_REQUIRED);
-            errors.add(ERROR_CLUB_PAYS_REQUIRED);
-            errors.add(ERROR_CLUB_PHONE_REQUIRED);
-            errors.add(ERROR_CLUB_FAX_REQUIRED);
-            errors.add(ERROR_CLUB_GSM_REQUIRED);
+//            errors.add(ERROR_CLUB_DESCRIPTION_REQUIRED);
+//            errors.add(ERROR_CLUB_EMAIL_REQUIRED);
+//            errors.add(ERROR_CLUB_ADDRESS_ONE_REQUIRED);
+//            errors.add(ERROR_CLUB_VILLE_REQUIRED);
+//            errors.add(ERROR_CLUB_POSTAL_CODE_REQUIRED);
+//            errors.add(ERROR_CLUB_PAYS_REQUIRED);
+//            errors.add(ERROR_CLUB_PHONE_REQUIRED);
+//            errors.add(ERROR_CLUB_FAX_REQUIRED);
+//            errors.add(ERROR_CLUB_GSM_REQUIRED);
             return errors;
         }
 
@@ -69,43 +69,43 @@ public class ClubValidator {
             errors.add(ERROR_CLUB_NAME_REQUIRED);
         }
 
-        if (StringUtils.isEmpty(clubDTO.getDescription())) {
-            errors.add(ERROR_CLUB_DESCRIPTION_REQUIRED);
-        }
-
-        if (StringUtils.isEmpty(clubDTO.getEmail())) {
-            errors.add(ERROR_CLUB_EMAIL_REQUIRED);
-        }
-
-        if (StringUtils.isEmpty(clubDTO.getAddress1())) {
-            errors.add(ERROR_CLUB_ADDRESS_ONE_REQUIRED);
-        }
-
-        if (StringUtils.isEmpty(clubDTO.getVille())) {
-            errors.add(ERROR_CLUB_VILLE_REQUIRED);
-        }
-
-
-        if (StringUtils.isEmpty(clubDTO.getCodepostale())) {
-            errors.add(ERROR_CLUB_POSTAL_CODE_REQUIRED);
-        }
-
-
-        if (StringUtils.isEmpty(clubDTO.getNumFix())) {
-            errors.add(ERROR_CLUB_PHONE_REQUIRED);
-        }
-
-        if (StringUtils.isEmpty(clubDTO.getNumFax())) {
-            errors.add(ERROR_CLUB_FAX_REQUIRED);
-        }
-
-        if (StringUtils.isEmpty(clubDTO.getGsm())) {
-            errors.add(ERROR_CLUB_GSM_REQUIRED);
-        }
-
-        if (StringUtils.isEmpty(clubDTO.getPays())) {
-            errors.add(ERROR_CLUB_PAYS_REQUIRED);
-        }
+//        if (StringUtils.isEmpty(clubDTO.getDescription())) {
+//            errors.add(ERROR_CLUB_DESCRIPTION_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getEmail())) {
+//            errors.add(ERROR_CLUB_EMAIL_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getAddress1())) {
+//            errors.add(ERROR_CLUB_ADDRESS_ONE_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getVille())) {
+//            errors.add(ERROR_CLUB_VILLE_REQUIRED);
+//        }
+//
+//
+//        if (StringUtils.isEmpty(clubDTO.getCodepostale())) {
+//            errors.add(ERROR_CLUB_POSTAL_CODE_REQUIRED);
+//        }
+//
+//
+//        if (StringUtils.isEmpty(clubDTO.getNumFix())) {
+//            errors.add(ERROR_CLUB_PHONE_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getNumFax())) {
+//            errors.add(ERROR_CLUB_FAX_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getGsm())) {
+//            errors.add(ERROR_CLUB_GSM_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getPays())) {
+//            errors.add(ERROR_CLUB_PAYS_REQUIRED);
+//        }
 
         return errors;
     }

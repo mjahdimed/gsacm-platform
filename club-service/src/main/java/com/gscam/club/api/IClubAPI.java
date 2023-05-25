@@ -27,39 +27,19 @@
  *
  */
 
-package com.gscam.club.exceptions;
+package com.gscam.club.api;
 
-import org.springframework.http.HttpStatus;
 
-public enum ErrorCodes {
-    INVALID_INPUT(HttpStatus.BAD_REQUEST, "InvalidInput", "The input provided is invalid."),
-    MISSING_FIELD(HttpStatus.BAD_REQUEST, "MissingField", "A required field is missing."),
-    DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "DatabaseError", "An error occurred while accessing the database."),
-    AUTHENTICATION_ERROR(HttpStatus.UNAUTHORIZED, "AuthenticationError", "Authentication failed."),
-    PERMISSION_DENIED(HttpStatus.FORBIDDEN, "PermissionDenied", "You don't have permission to perform this operation."),
-    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "ResourceNotFound", "The requested resource was not found.");
+import com.gscam.club.dto.ClubDTO;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-    private final HttpStatus httpStatus;
-    private final String code;
-    private final String message;
+import static com.gscam.club.helpers.RequestRouts.API_CLUB_ROUT;
 
-    ErrorCodes(HttpStatus httpStatus, String code, String message) {
-        this.httpStatus = httpStatus;
-        this.code = code;
-        this.message = message;
-    }
-
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
+@RequestMapping(path = API_CLUB_ROUT)
+public interface IClubAPI {
+    @PostMapping(path = "/add")
+    ResponseEntity<ClubDTO> newClub(@RequestBody ClubDTO dto);
 }
-
-

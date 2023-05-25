@@ -45,6 +45,7 @@ public class ClubDTOConverter {
         if (club == null) {
             return null;
         }
+
         return ClubDTO.builder()
                 .id(club.getId())
                 .name(club.getName())

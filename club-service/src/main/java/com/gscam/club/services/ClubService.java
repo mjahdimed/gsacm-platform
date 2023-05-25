@@ -31,8 +31,25 @@ package com.gscam.club.services;
 
 import com.gscam.club.dto.ClubDTO;
 
+import java.util.List;
+
 public interface ClubService {
 
     // Insert New Club
     ClubDTO newClub(ClubDTO dto);
+
+    //Update Club By ID
+    ClubDTO updateClubByID(ClubDTO dto, Long clubId);
+
+    //Find Club By ID
+    ClubDTO findClubByID(Long clubId);
+
+    //Find Club By Name
+    ClubDTO findClubByName(String clubName);
+
+    //Get All Clubs
+    List<ClubDTO> findAllClubs();
+
+    //Delete Club By ID
+    ClubDTO deleteClubByID(Long clubId);
 }

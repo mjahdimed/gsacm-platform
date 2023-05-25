@@ -33,7 +33,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /**
  * DTO for {@link com.gscam.club.models.Club}
@@ -42,7 +42,6 @@ import java.time.Instant;
 @AllArgsConstructor
 @Builder
 public class ClubDTO {
-
 
     private Long id;
     private String name;
@@ -58,9 +57,11 @@ public class ClubDTO {
     private String ville;
     private String codepostale;
     private String pays;
-    private Instant creationDate;
-    private Instant lastModifiedDate;
-    private Instant deletedDate;
+    private LocalDateTime creationDate;
+    private LocalDateTime lastModifiedDate;
+    private LocalDateTime deletedDate;
     private boolean status;
 
+    public ClubDTO() {
+    }
 }

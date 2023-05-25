@@ -41,7 +41,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -66,12 +66,46 @@ public class ClubServiceImpl implements ClubService {
         }
         Club club = ClubDTOConverter.toEntity(dto);
         // Set Creation date
-        club.setCreationDate(Instant.now());
+        club.setCreationDate(LocalDateTime.now());
         // Set Status to true
         club.setStatus(true);
         // Save Club
-        Club savedClub = iClubDAO.save(club);
-        return ClubDTOConverter.fromEntity(savedClub);
+        return ClubDTOConverter.fromEntity(
+                iClubDAO.save(club)
+        );
 
+    }
+
+    //Update Club By ID
+    @Override
+    public ClubDTO updateClubByID(ClubDTO dto, Long clubId) {
+        return null;
+    }
+
+
+    //Find Club By ID
+    @Override
+    public ClubDTO findClubByID(Long clubId) {
+        return null;
+    }
+
+    //Find Club By Name
+    @Override
+    public ClubDTO findClubByName(String clubName) {
+        return null;
+    }
+
+
+    //Get All Clubs
+    @Override
+    public List<ClubDTO> findAllClubs() {
+        return null;
+    }
+
+
+    //Delete Club By ID
+    @Override
+    public ClubDTO deleteClubByID(Long clubId) {
+        return null;
     }
 }

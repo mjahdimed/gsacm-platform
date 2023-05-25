@@ -40,7 +40,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /**
  * The type Abstract entity.
@@ -67,18 +67,17 @@ public class AbstractEntity implements Serializable {
     @CreatedDate
     @Column(name = "creationDate", updatable = false)
     @JsonIgnore
-    private Instant creationDate;
+    private LocalDateTime creationDate;
 
     @LastModifiedDate
     @Column(name = "lastModifiedDate", updatable = true)
     @JsonIgnore
-    private Instant lastModifiedDate;
+    private LocalDateTime lastModifiedDate;
 
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "deletedDate", updatable = true)
-    private Instant deletedDate;
-
+    private LocalDateTime deletedDate;
 
     @Column(name = "status")
     @JsonIgnore

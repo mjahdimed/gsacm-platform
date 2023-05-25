@@ -27,39 +27,27 @@
  *
  */
 
-package com.gscam.club.exceptions;
+package com.gscam.club.api.resquest;
 
-import org.springframework.http.HttpStatus;
 
-public enum ErrorCodes {
-    INVALID_INPUT(HttpStatus.BAD_REQUEST, "InvalidInput", "The input provided is invalid."),
-    MISSING_FIELD(HttpStatus.BAD_REQUEST, "MissingField", "A required field is missing."),
-    DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "DatabaseError", "An error occurred while accessing the database."),
-    AUTHENTICATION_ERROR(HttpStatus.UNAUTHORIZED, "AuthenticationError", "Authentication failed."),
-    PERMISSION_DENIED(HttpStatus.FORBIDDEN, "PermissionDenied", "You don't have permission to perform this operation."),
-    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "ResourceNotFound", "The requested resource was not found.");
+import com.gscam.club.api.IClubAPI;
+import com.gscam.club.dto.ClubDTO;
+import com.gscam.club.services.ClubService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RestController;
 
-    private final HttpStatus httpStatus;
-    private final String code;
-    private final String message;
+@RestController
+@Slf4j
+@AllArgsConstructor
+public class ClubAPI implements IClubAPI {
+    private final ClubService clubService;
 
-    ErrorCodes(HttpStatus httpStatus, String code, String message) {
-        this.httpStatus = httpStatus;
-        this.code = code;
-        this.message = message;
-    }
-
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
+    @Override
+    public ResponseEntity<ClubDTO> newClub(ClubDTO dto) {
+        log.info("Club {} saved successfully ", dto);
+        ClubDTO createdClub = clubService.newClub(dto);
+        return ResponseEntity.ok(createdClub);
     }
 }
-
-
