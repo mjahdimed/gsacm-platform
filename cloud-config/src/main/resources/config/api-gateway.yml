@@ -11,8 +11,17 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
 
+# Logging Settings
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+
 #Spring API Gateway Settings
 spring:
+  output:
+    ansi:
+      enabled: always
+  # gateway Settings
   cloud:
     gateway:
       routes:
@@ -20,13 +29,16 @@ spring:
           uri: lb://CLUB-SERVICE
           predicates:
             - Path=/api/v1/clubs/**
+
 # Actuator Settings
 management:
   tracing:
     sampling:
       probability: 1.0
-  # Zipkin Settings
-  zipkin:
-    tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
 
+# Zipkin Settings
+opentelemetry:
+  trace:
+    exporter:
+      zipkin:
+        endpoint: http://localhost:9411/api/v2/spans

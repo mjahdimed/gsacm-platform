@@ -83,6 +83,7 @@
         <spring.boot.maven.plugin.version>3.0.7</spring.boot.maven.plugin.version>
         <spring.boot.dependencies.version>3.0.7</spring.boot.dependencies.version>
         <spring.cloud.dependencies.version>2022.0.2</spring.cloud.dependencies.version>
+        <springdoc.version>2.1.0</springdoc.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
     </properties>
 
@@ -131,16 +132,17 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-
         <!-- zipkin dependencies-->
         <dependency>
             <groupId>io.micrometer</groupId>
-            <artifactId>micrometer-tracing-bridge-brave</artifactId>
+            <artifactId>micrometer-tracing-bridge-otel</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.zipkin.reporter2</groupId>
-            <artifactId>zipkin-reporter-brave</artifactId>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-zipkin</artifactId>
         </dependency>
+        <!-- springdoc openapi dependencies -->
+
     </dependencies>
 
     <!-- Build settings -->

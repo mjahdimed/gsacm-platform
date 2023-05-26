@@ -5,3 +5,4 @@ server:
 spring:
   profiles:
     active: native
+

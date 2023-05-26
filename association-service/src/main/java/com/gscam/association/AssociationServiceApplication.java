@@ -38,6 +38,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
+
 public class AssociationServiceApplication {
     /**
      * The entry point of application.

@@ -11,12 +11,27 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
 
+# Logging Settings
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+
+
+# Spring bootSettings
+spring:
+  output:
+    ansi:
+      enabled: always
+
 # Actuator Settings
 management:
   tracing:
     sampling:
       probability: 1.0
-  # Zipkin Settings
-  zipkin:
-    tracing:
-      endpoint: http://zipkin:9411/api/v2/spans
+
+# Zipkin Settings
+opentelemetry:
+  trace:
+    exporter:
+      zipkin:
+        endpoint: http://localhost:9411/api/v2/spans
