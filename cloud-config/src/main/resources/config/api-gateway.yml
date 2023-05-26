@@ -13,12 +13,6 @@ eureka:
 
 #Spring API Gateway Settings
 spring:
-  # Zipkin Settings
-  zipkin:
-    enabled: true
-    service:
-      name: your-service-name
-    base-url: http://localhost:9411
   cloud:
     gateway:
       routes:
@@ -28,9 +22,11 @@ spring:
             - Path=/api/v1/clubs/**
 # Actuator Settings
 management:
-  endpoints:
-    web:
-      base-path: /actuator
-      exposure:
-        include: "*"
+  tracing:
+    sampling:
+      probability: 1.0
+  # Zipkin Settings
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans
 
