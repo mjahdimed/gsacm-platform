@@ -39,8 +39,15 @@ opentelemetry:
 
 # SpringDoc OpenAPI Configuration
 springdoc:
-  packagesToScan: com.gsacm.adherent
+  packagesToScan: com.gsacm.security
   api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
+    path: /security-service/v3/api-docs
+    swagger-ui:
+      path: /security-service/swagger-ui.html
+
+# openapi Settings
+openapi:
+  service:
+    title: security-service doc
+    version: 1.0.0
+    url: http://localhost:8091

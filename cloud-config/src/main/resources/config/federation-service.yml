@@ -38,8 +38,15 @@ opentelemetry:
 
 # SpringDoc OpenAPI Configuration
 springdoc:
-  packagesToScan: com.gsacm.adherent
+  packagesToScan: com.gsacm.federation
   api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
+    path: /federation-service/v3/api-docs
+    swagger-ui:
+      path: /federation-service/swagger-ui.html
+
+  # openapi Settings
+  openapi:
+    service:
+      title: federation-service doc
+      version: 1.0.0
+      url: http://localhost:8091

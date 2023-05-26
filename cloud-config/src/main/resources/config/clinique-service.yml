@@ -38,8 +38,15 @@ opentelemetry:
 
 # SpringDoc OpenAPI Configuration
 springdoc:
-  packagesToScan: com.gsacm.adherent
+  packagesToScan: com.gsacm.clinique
   api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
+    path: /clinique-service/v3/api-docs
+    swagger-ui:
+      path: /clinique-service/swagger-ui.html
+
+# openapi Settings
+openapi:
+  service:
+    title: clinique-service doc
+    version: 1.0.0
+    url: http://localhost:8091

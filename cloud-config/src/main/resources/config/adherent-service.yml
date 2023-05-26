@@ -23,6 +23,7 @@ spring:
     ansi:
       enabled: always
 
+
 # Actuator Settings
 management:
   tracing:
@@ -40,6 +41,13 @@ opentelemetry:
 springdoc:
   packagesToScan: com.gsacm.adherent
   api-docs:
-    enabled: true
+    path: /adherent-service/v3/api-docs
   swagger-ui:
-    enabled: true
+    path: /adherent-service/swagger-ui.html
+
+# openapi Settings
+openapi:
+  service:
+    title: adherent-service doc
+    version: 1.0.0
+    url: http://localhost:8091

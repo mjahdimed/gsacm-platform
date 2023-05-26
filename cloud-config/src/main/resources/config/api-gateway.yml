@@ -31,12 +31,12 @@ spring:
             - Path=/api/v1/clubs/**
           filters:
             - RewritePath=/club-service/(?<path>.*), /$\{path}
-        - id: openapi
-          uri: http://localhost:8091
-          predicates:
-            - Path=/v3/api-docs/**
-          filters:
-            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+#        - id: openapi
+#          uri: http://localhost:8091
+#          predicates:
+#            - Path=/v3/api-docs/**
+#          filters:
+#            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
 
 # Actuator Settings
 management:
@@ -55,11 +55,20 @@ opentelemetry:
       zipkin:
         endpoint: http://localhost:9411/api/v2/spans
 
-# SpringDoc OpenAPI Configuration
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-    urls:
-      - name: club
-        url: /v3/api-docs/club
 
+
+springdoc:
+  enable-native-support: true
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
+    config-url: /v3/api-docs/swagger-config
+    urls:
+      - url: /v3/api-docs
+        name: API Gateway Service
+        primaryName: API Gateway Service
+      - url: /club-service/v3/api-docs
+        name: club Service
+        primaryName: Club Service

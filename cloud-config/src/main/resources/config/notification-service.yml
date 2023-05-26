@@ -38,8 +38,15 @@ opentelemetry:
 
 # SpringDoc OpenAPI Configuration
 springdoc:
-  packagesToScan: com.gsacm.adherent
+  packagesToScan: com.gsacm.notification
   api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
+    path: /notification-service/v3/api-docs
+    swagger-ui:
+      path: /notification-service/swagger-ui.html
+
+# openapi Settings
+openapi:
+  service:
+    title: notification-service doc
+    version: 1.0.0
+    url: http://localhost:8091

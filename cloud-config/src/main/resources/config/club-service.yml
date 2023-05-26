@@ -38,8 +38,15 @@ opentelemetry:
 
 # SpringDoc OpenAPI Configuration
 springdoc:
-  packagesToScan: com.gsacm.adherent
+  packagesToScan: com.gsacm.club
   api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
+    path: /club-service/v3/api-docs
+    swagger-ui:
+      path: /club-service/swagger-ui.html
+
+# openapi Settings
+openapi:
+  service:
+    title: club-service doc
+    version: 1.0.0
+    url: http://localhost:8091
