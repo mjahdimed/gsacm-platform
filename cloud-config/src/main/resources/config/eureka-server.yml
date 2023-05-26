@@ -7,9 +7,9 @@ eureka:
     hostname: localhost
   client:
     service-url:
-      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
-    fetch-registry: true
-    register-with-eureka: true
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+    fetch-registry: false
+    register-with-eureka: false
 
 # Logging Settings
 logging:
@@ -28,10 +28,3 @@ management:
   tracing:
     sampling:
       probability: 1.0
-
-# Zipkin Settings
-opentelemetry:
-  trace:
-    exporter:
-      zipkin:
-        endpoint: http://localhost:9411/api/v2/spans

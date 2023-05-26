@@ -35,3 +35,12 @@ opentelemetry:
     exporter:
       zipkin:
         endpoint: http://localhost:9411/api/v2/spans
+
+
+# SpringDoc OpenAPI Configuration
+springdoc:
+  packagesToScan: com.gsacm.adherent
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

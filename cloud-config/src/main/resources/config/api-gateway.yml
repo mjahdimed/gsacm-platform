@@ -29,12 +29,24 @@ spring:
           uri: lb://CLUB-SERVICE
           predicates:
             - Path=/api/v1/clubs/**
+          filters:
+            - RewritePath=/club-service/(?<path>.*), /$\{path}
+        - id: openapi
+          uri: http://localhost:8091
+          predicates:
+            - Path=/v3/api-docs/**
+          filters:
+            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
 
 # Actuator Settings
 management:
-  tracing:
-    sampling:
-      probability: 1.0
+  endpoints:
+    web:
+      exposure:
+        include: openapi, swagger-ui
+  endpoint:
+    swagger-ui:
+      enabled: true
 
 # Zipkin Settings
 opentelemetry:
@@ -42,3 +54,12 @@ opentelemetry:
     exporter:
       zipkin:
         endpoint: http://localhost:9411/api/v2/spans
+
+# SpringDoc OpenAPI Configuration
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: club
+        url: /v3/api-docs/club
+

@@ -40,6 +40,8 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 @SpringBootApplication
 @EnableConfigServer
 public class CloudServerConfigApplication {
+
+
     /**
      * The entry point of application.
      *

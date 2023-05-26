@@ -1,6 +1,7 @@
 # Server Settings
 server:
   port: 8196
+
 # Eureka Settings
 eureka:
   instance:
@@ -15,7 +16,6 @@ eureka:
 logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] ${LOG_LEVEL_PATTERN:-%5p} %m%n"
-
 
 # Spring bootSettings
 spring:
@@ -35,3 +35,11 @@ opentelemetry:
     exporter:
       zipkin:
         endpoint: http://localhost:9411/api/v2/spans
+
+# SpringDoc OpenAPI Configuration
+springdoc:
+  packagesToScan: com.gsacm.adherent
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

@@ -43,8 +43,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 public class ApiGatewayApplication {
 
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(ApiGatewayApplication.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApiGatewayApplication.class);
 
     /**
      * The entry point of application.
@@ -54,7 +53,6 @@ public class ApiGatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(ApiGatewayApplication.class, args);
     }
-
 
 
 
