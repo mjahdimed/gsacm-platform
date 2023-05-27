@@ -34,22 +34,40 @@ package com.gscam.club.api.resquest;
 import com.gsacm.clients.club.ClubDTO;
 import com.gscam.club.api.IClubAPI;
 import com.gscam.club.services.ClubService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
 @AllArgsConstructor
+@Tag(name = "Club API", description = "API endpoints for managing clubs")
 public class ClubAPI implements IClubAPI {
     private final ClubService clubService;
 
     @Override
+    @Operation(summary = "Create a new club")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Club created successfully",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            examples = @ExampleObject(value = "{\n" +
+                                    "  \"id\": 1,\n" +
+                                    "  \"name\": \"Example Club\",\n" +
+                                    "  \"description\": \"Example description\"\n" +
+                                    "}"))),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
     public ResponseEntity<ClubDTO> newClub(ClubDTO dto) {
         log.info("Club {} saved successfully", dto);
         ClubDTO createdClub = clubService.newClub(dto);
-        // Call the ClubClient to add the club
         return ResponseEntity.ok(createdClub);
     }
 }
