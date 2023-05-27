@@ -5,6 +5,7 @@ server:
 eureka:
   instance:
     hostname: localhost
+    preferIpAddress: true
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
@@ -36,17 +37,21 @@ opentelemetry:
       zipkin:
         endpoint: http://localhost:9411/api/v2/spans
 
-# SpringDoc OpenAPI Configuration
-springdoc:
-  packagesToScan: com.gsacm.club
-  api-docs:
-    path: /club-service/v3/api-docs
-    swagger-ui:
-      path: /club-service/swagger-ui.html
 
 # openapi Settings
 openapi:
   service:
-    title: club-service doc
+    title: Club Service
     version: 1.0.0
     url: http://localhost:8091
+
+#springdoc settings
+springdoc:
+  api-docs:
+    path: /v3/api-docs/club-service
+  swagger-ui:
+    path: /club-service/swagger-ui.html
+
+
+
+

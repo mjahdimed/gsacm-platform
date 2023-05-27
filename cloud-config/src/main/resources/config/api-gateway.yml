@@ -22,21 +22,26 @@ spring:
     ansi:
       enabled: always
   # gateway Settings
-  cloud:
-    gateway:
-      routes:
-        - id: club-service
-          uri: lb://CLUB-SERVICE
-          predicates:
-            - Path=/api/v1/clubs/**
-          filters:
-            - RewritePath=/club-service/(?<path>.*), /$\{path}
-#        - id: openapi
-#          uri: http://localhost:8091
-#          predicates:
-#            - Path=/v3/api-docs/**
-#          filters:
-#            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+  spring:
+    cloud:
+      discovery:
+        locator:
+          enabled: true
+      gateway:
+        routes:
+          - id: club-service
+            uri: lb://CLUB-SERVICE
+            predicates:
+              - Path=/api/v1/clubs/**
+            filters:
+              - RewritePath=/club-service/(?<path>.*), /$\{path}
+          - id: openapi
+            uri: http://localhost:${server.port}
+            predicates:
+              - Path=/v3/api-docs/**
+            filters:
+              - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+
 
 # Actuator Settings
 management:
@@ -55,8 +60,7 @@ opentelemetry:
       zipkin:
         endpoint: http://localhost:9411/api/v2/spans
 
-
-
+#Spring Doc Settings
 springdoc:
   enable-native-support: true
   api-docs:
@@ -69,6 +73,8 @@ springdoc:
       - url: /v3/api-docs
         name: API Gateway Service
         primaryName: API Gateway Service
-      - url: /club-service/v3/api-docs
-        name: club Service
+      - url: /v3/api-docs/club-service
+        name: club
         primaryName: Club Service
+
+

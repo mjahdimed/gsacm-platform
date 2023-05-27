@@ -30,13 +30,20 @@
 package com.gscam.gateway;
 
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
+import com.gsacm.clients.documentation.OpenApiConfigs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.core.models.GroupedOpenApi;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.gateway.route.RouteDefinition;
+import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
+import org.springframework.context.annotation.Bean;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -44,7 +51,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-@OpenAPIDefinition(info = @Info(title = "API Gateway", version = "1.0", description = "Documentation API Gateway v1.0"))
 public class ApiGatewayApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiGatewayApplication.class);
@@ -58,7 +64,35 @@ public class ApiGatewayApplication {
         SpringApplication.run(ApiGatewayApplication.class, args);
     }
 
+    @Autowired
+    private RouteDefinitionLocator locator;
 
+    @Bean
+    public List<GroupedOpenApi> apis() {
+        return locator.getRouteDefinitions()
+                .collectList()
+                .map(this::createGroupedOpenApis)
+                .block();
+    }
 
+    private List<GroupedOpenApi> createGroupedOpenApis(List<RouteDefinition> routeDefinitions) {
+        return routeDefinitions.stream()
+                .filter(routeDefinition -> routeDefinition.getId().matches(".*-service"))
+                .map(this::createGroupedOpenApi)
+                .collect(Collectors.toList());
+    }
+
+    private GroupedOpenApi createGroupedOpenApi(RouteDefinition routeDefinition) {
+        String name = routeDefinition.getId().replaceAll("-service", "");
+        return GroupedOpenApi.builder()
+                .pathsToMatch("/" + name + "/**")
+                .group(name)
+                .build();
+    }
+
+    @Bean
+    public OpenApiConfigs openApiConfigs() {
+        return new OpenApiConfigs();
+    }
 
 }
