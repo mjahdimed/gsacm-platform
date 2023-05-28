@@ -27,26 +27,22 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.handlers;
 
+import com.gsacm.club.exceptions.ErrorCodes;
+import lombok.Builder;
+import lombok.Data;
+import org.springframework.http.HttpStatus;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import java.util.ArrayList;
+import java.util.List;
 
-/**
- * The type Clinique service application.
- */
-@SpringBootApplication
-@EnableDiscoveryClient
-
-public class CliniqueServiceApplication {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
-    }
+@Data
+@Builder
+public class ErrorDTO {
+    private HttpStatus httpStatus;
+    private ErrorCodes code;
+    private String message;
+    @Builder.Default
+    private List<String> errors = new ArrayList<>();
 }

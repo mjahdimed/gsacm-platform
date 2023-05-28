@@ -27,26 +27,53 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.controller;
 
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import com.gsacm.clients.club.ClubDTO;
+import com.gsacm.club.services.ClubService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-/**
- * The type Clinique service application.
- */
-@SpringBootApplication
-@EnableDiscoveryClient
+import static com.gsacm.clients.helpers.RequestRouts.API_CLUB_ROUT;
 
-public class CliniqueServiceApplication {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
+@Slf4j
+@AllArgsConstructor
+@RequestMapping(API_CLUB_ROUT)
+@RestController
+@Tag(name = "Club API", description = "Endpoints for managing clubs")
+public class ClubAPIController {
+
+    private final ClubService clubService;
+
+    @Operation(summary = "Add new club", description = "Add a new club to the system")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Club added successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request format")
+    })
+    @Tag(name = "Add Club", description = "Add a new club")
+    @PostMapping("add")
+    public ResponseEntity<ClubDTO> newClub(@RequestBody ClubDTO dto) {
+        log.info("Club {} saved successfully", dto);
+        ClubDTO createdClub = clubService.newClub(dto);
+        return ResponseEntity.ok(createdClub);
+    }
+
+    @Operation(summary = "Find club by ID", description = "Find club by ID from system")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Club found successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request format")
+    })
+    @Tag(name = "Find Club", description = "Find club by ID")
+    @GetMapping("{clubId}")
+    public ResponseEntity<ClubDTO> findClubByID(@PathVariable("clubId") Long id) {
+        ClubDTO clubByID = clubService.findClubByID(id);
+        return ResponseEntity.ok(clubByID);
     }
 }

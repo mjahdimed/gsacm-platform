@@ -106,9 +106,14 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
+            <!-- classgraph dependency -->
+            <dependency>
+                <groupId>io.github.classgraph</groupId>
+                <artifactId>classgraph</artifactId>
+                <version>4.8.160</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
     <!-- Project dependencies -->
     <dependencies>
         <!-- spring boot dependencies -->
@@ -126,17 +131,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-        <!-- springdoc openapi dependencies -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webflux-ui</artifactId>
-            <version>${springdoc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-            <version>${springdoc.version}</version>
-        </dependency>
         <!-- feign client dependencies -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -151,7 +145,6 @@
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-exporter-zipkin</artifactId>
         </dependency>
-
     </dependencies>
 
     <!-- Build settings -->

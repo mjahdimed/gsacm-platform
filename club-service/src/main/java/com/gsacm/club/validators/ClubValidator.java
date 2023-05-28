@@ -27,26 +27,86 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.validators;
 
+import com.gsacm.clients.club.ClubDTO;
+import com.gsacm.club.helpers.ErrorList;
+import org.springframework.util.StringUtils;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
- * The type Clinique service application.
+ * The type Club validator.
  */
-@SpringBootApplication
-@EnableDiscoveryClient
-
-public class CliniqueServiceApplication {
+public class ClubValidator {
     /**
-     * The entry point of application.
+     * Validate list.
      *
-     * @param args the input arguments
+     * @param clubDTO the club dto
+     * @return the list
      */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
+    public static List<String> validate(ClubDTO clubDTO) {
+        List<String> errors = new ArrayList<>();
+
+        if (clubDTO == null) {
+            errors.add(ErrorList.ERROR_CLUB_NAME_REQUIRED);
+//            errors.add(ERROR_CLUB_DESCRIPTION_REQUIRED);
+//            errors.add(ERROR_CLUB_EMAIL_REQUIRED);
+//            errors.add(ERROR_CLUB_ADDRESS_ONE_REQUIRED);
+//            errors.add(ERROR_CLUB_VILLE_REQUIRED);
+//            errors.add(ERROR_CLUB_POSTAL_CODE_REQUIRED);
+//            errors.add(ERROR_CLUB_PAYS_REQUIRED);
+//            errors.add(ERROR_CLUB_PHONE_REQUIRED);
+//            errors.add(ERROR_CLUB_FAX_REQUIRED);
+//            errors.add(ERROR_CLUB_GSM_REQUIRED);
+            return errors;
+        }
+
+        if (StringUtils.isEmpty(clubDTO.getName())) {
+            errors.add(ErrorList.ERROR_CLUB_NAME_REQUIRED);
+        }
+
+//        if (StringUtils.isEmpty(clubDTO.getDescription())) {
+//            errors.add(ERROR_CLUB_DESCRIPTION_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getEmail())) {
+//            errors.add(ERROR_CLUB_EMAIL_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getAddress1())) {
+//            errors.add(ERROR_CLUB_ADDRESS_ONE_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getVille())) {
+//            errors.add(ERROR_CLUB_VILLE_REQUIRED);
+//        }
+//
+//
+//        if (StringUtils.isEmpty(clubDTO.getCodepostale())) {
+//            errors.add(ERROR_CLUB_POSTAL_CODE_REQUIRED);
+//        }
+//
+//
+//        if (StringUtils.isEmpty(clubDTO.getNumFix())) {
+//            errors.add(ERROR_CLUB_PHONE_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getNumFax())) {
+//            errors.add(ERROR_CLUB_FAX_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getGsm())) {
+//            errors.add(ERROR_CLUB_GSM_REQUIRED);
+//        }
+//
+//        if (StringUtils.isEmpty(clubDTO.getPays())) {
+//            errors.add(ERROR_CLUB_PAYS_REQUIRED);
+//        }
+
+        return errors;
     }
 }
+

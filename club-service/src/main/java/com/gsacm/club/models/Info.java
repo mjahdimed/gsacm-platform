@@ -27,26 +27,39 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.models;
 
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
- * The type Clinique service application.
+ * The type Address.
  */
-@SpringBootApplication
-@EnableDiscoveryClient
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Embeddable
+public class Info {
 
-public class CliniqueServiceApplication {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
-    }
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "num_fix")
+    private String numFix;
+
+    @Column(name = "num_fax")
+    private String numFax;
+
+    @Column(name = "gsm")
+    private String gsm;
+
+    @Column(name = "site_web")
+    private String siteWeb;
+
 }

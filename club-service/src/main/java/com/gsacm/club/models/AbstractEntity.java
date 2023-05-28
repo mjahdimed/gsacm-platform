@@ -27,26 +27,59 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
- * The type Clinique service application.
+ * The type Abstract entity.
  */
-@SpringBootApplication
-@EnableDiscoveryClient
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
+public class AbstractEntity implements Serializable {
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "sequence_generator"
+    )
+    @SequenceGenerator(
+            name = "sequence_generator",
+            sequenceName = "club_seq", allocationSize = 1
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private Long id;
 
-public class CliniqueServiceApplication {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
-    }
+    @CreatedDate
+    @Column(name = "creationDate", updatable = false)
+    @JsonIgnore
+    private LocalDateTime creationDate;
+
+    @LastModifiedDate
+    @Column(name = "lastModifiedDate", updatable = true)
+    @JsonIgnore
+    private LocalDateTime lastModifiedDate;
+
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "deletedDate", updatable = true)
+    private LocalDateTime deletedDate;
+
+    @Column(name = "status")
+    @JsonIgnore
+    private boolean status;
 }

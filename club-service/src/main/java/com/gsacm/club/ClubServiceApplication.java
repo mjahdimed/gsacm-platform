@@ -27,26 +27,24 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
-/**
- * The type Clinique service application.
- */
+
 @SpringBootApplication
 @EnableDiscoveryClient
+public class ClubServiceApplication {
 
-public class CliniqueServiceApplication {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(ClubServiceApplication.class);
+
     public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
+        LOGGER.info("Starting Club Service application");
+        SpringApplication.run(ClubServiceApplication.class, args);
     }
 }

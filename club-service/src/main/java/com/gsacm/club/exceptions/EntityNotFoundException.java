@@ -27,26 +27,51 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.exceptions;
 
+import lombok.Getter;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+@Getter
+public class EntityNotFoundException extends RuntimeException {
 
-/**
- * The type Clinique service application.
- */
-@SpringBootApplication
-@EnableDiscoveryClient
+    private ErrorCodes errorCodes;
 
-public class CliniqueServiceApplication {
+    public EntityNotFoundException(String message) {
+        super(message);
+    }
+
     /**
-     * The entry point of application.
+     * Instantiates a new Entity not foudn exception.
      *
-     * @param args the input arguments
+     * @param message    the message
+     * @param errorCodes the error codes
      */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
+    public EntityNotFoundException(String message, ErrorCodes errorCodes) {
+        super(message);
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instantiates a new Entity not foudn exception.
+     *
+     * @param message the message
+     * @param cause   the cause
+     */
+    public EntityNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+
+    /**
+     * Instantiates a new Entity not foudn exception.
+     *
+     * @param message    the message
+     * @param cause      the cause
+     * @param errorCodes the error codes
+     */
+    public EntityNotFoundException(String message, Throwable cause, ErrorCodes errorCodes) {
+        super(message, cause);
+        this.errorCodes = errorCodes;
     }
 }
+

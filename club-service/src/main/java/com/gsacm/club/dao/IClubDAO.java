@@ -27,26 +27,10 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.dao;
 
+import com.gsacm.club.models.Club;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-
-/**
- * The type Clinique service application.
- */
-@SpringBootApplication
-@EnableDiscoveryClient
-
-public class CliniqueServiceApplication {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
-    }
+public interface IClubDAO extends JpaRepository<Club, Long> {
 }

@@ -27,26 +27,104 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.exceptions;
 
+import lombok.Getter;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import java.util.List;
 
-/**
- * The type Clinique service application.
- */
-@SpringBootApplication
-@EnableDiscoveryClient
+@Getter
+public class InvalidEntityException extends RuntimeException {
 
-public class CliniqueServiceApplication {
+    private ErrorCodes errorCodes;
+    private List<String> errors;
+
     /**
-     * The entry point of application.
+     * Instantiates a new Invalid entity exception.
      *
-     * @param args the input arguments
+     * @param message the message
+     * @param cause   the cause
      */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
+    public InvalidEntityException(String message, Throwable cause) {
+        super(message, cause);
     }
+
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param message the message
+     */
+    public InvalidEntityException(String message) {
+        super(message);
+    }
+
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param message    the message
+     * @param cause      the cause
+     * @param errorCodes the error codes
+     * @param errors     the errors
+     */
+    public InvalidEntityException(String message, Throwable cause, ErrorCodes errorCodes, List<String> errors) {
+        super(message, cause);
+        this.errorCodes = errorCodes;
+        this.errors = errors;
+    }
+
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param message the message
+     * @param cause   the cause
+     * @param errors  the errors
+     */
+    public InvalidEntityException(String message, ErrorCodes cause, List<String> errors) {
+        super(message);
+        this.errors = errors;
+    }
+
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param message    the message
+     * @param cause      the cause
+     * @param errorCodes the error codes
+     */
+    public InvalidEntityException(String message, Throwable cause, ErrorCodes errorCodes) {
+        super(message, cause);
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param message    the message
+     * @param errorCodes the error codes
+     */
+    public InvalidEntityException(String message, ErrorCodes errorCodes) {
+        super(message);
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param errorCodes the error codes
+     */
+    public InvalidEntityException(ErrorCodes errorCodes) {
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instantiates a new Invalid entity exception.
+     *
+     * @param errorCodes the error codes
+     * @param errors     the errors
+     */
+    public InvalidEntityException(ErrorCodes errorCodes, List<String> errors) {
+        this.errorCodes = errorCodes;
+        this.errors = errors;
+    }
+
 }

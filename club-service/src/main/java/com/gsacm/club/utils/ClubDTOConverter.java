@@ -27,26 +27,87 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.utils;
 
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import com.gsacm.clients.club.ClubDTO;
+import com.gsacm.club.models.Address;
+import com.gsacm.club.models.Club;
+import com.gsacm.club.models.Info;
 
-/**
- * The type Clinique service application.
- */
-@SpringBootApplication
-@EnableDiscoveryClient
-
-public class CliniqueServiceApplication {
+public class ClubDTOConverter {
     /**
-     * The entry point of application.
+     * From entity club dto.
      *
-     * @param args the input arguments
+     * @param club the club
+     * @return the club dto
      */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
+    public static ClubDTO fromEntity(Club club) {
+        if (club == null) {
+            return null;
+        }
+
+        return ClubDTO.builder()
+                .id(club.getId())
+                .name(club.getName())
+                .logoUrl(club.getLogoUrl())
+                .description(club.getDescription())
+                .email(club.getInfo().getEmail())
+                .numFix(club.getInfo().getNumFix())
+                .numFax(club.getInfo().getNumFax())
+                .gsm(club.getInfo().getGsm())
+                .siteWeb(club.getInfo().getSiteWeb())
+                .address1(club.getAddress().getAddress1())
+                .address2(club.getAddress().getAddress2())
+                .ville(club.getAddress().getVille())
+                .codepostale(club.getAddress().getCodepostale())
+                .pays(club.getAddress().getPays())
+                .creationDate(club.getCreationDate())
+                .lastModifiedDate(club.getLastModifiedDate())
+                .deletedDate(club.getDeletedDate())
+                .status(club.isStatus())
+                .build();
+    }
+
+    /**
+     * To entity club.
+     *
+     * @param clubDTO the club dto
+     * @return the club
+     */
+    public static Club toEntity(ClubDTO clubDTO) {
+        if (clubDTO == null) {
+            return null;
+        }
+
+        Club club = new Club();
+        club.setId(clubDTO.getId());
+        club.setName(clubDTO.getName());
+        club.setLogoUrl(clubDTO.getLogoUrl());
+        club.setDescription(clubDTO.getDescription());
+        club.setStatus(clubDTO.isStatus());
+
+        // Set properties from embedded classes
+        Info info = new Info();
+        info.setEmail(clubDTO.getEmail());
+        info.setNumFix(clubDTO.getNumFix());
+        info.setNumFax(clubDTO.getNumFax());
+        info.setGsm(clubDTO.getGsm());
+        info.setSiteWeb(clubDTO.getSiteWeb());
+        club.setInfo(info);
+
+        Address address = new Address();
+        address.setAddress1(clubDTO.getAddress1());
+        address.setAddress2(clubDTO.getAddress2());
+        address.setVille(clubDTO.getVille());
+        address.setCodepostale(clubDTO.getCodepostale());
+        address.setPays(clubDTO.getPays());
+        club.setAddress(address);
+
+        club.setCreationDate(clubDTO.getCreationDate());
+        club.setLastModifiedDate(clubDTO.getLastModifiedDate());
+        club.setDeletedDate(clubDTO.getDeletedDate());
+
+        return club;
     }
 }

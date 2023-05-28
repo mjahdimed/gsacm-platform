@@ -27,26 +27,51 @@
  *
  */
 
-package com.gscam.clinique;
-
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+package com.gsacm.club.helpers;
 
 /**
- * The type Clinique service application.
+ * The interface Error list.
  */
-@SpringBootApplication
-@EnableDiscoveryClient
-
-public class CliniqueServiceApplication {
+public interface ErrorList {
     /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
+     * The constant ERROR_CLUB_NAME_REQUIRED.
      */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
-    }
+    String ERROR_CLUB_NAME_REQUIRED = "Please enter the club name";
+    /**
+     * The constant ERROR_CLUB_DESCRIPTION_REQUIRED.
+     */
+    String ERROR_CLUB_DESCRIPTION_REQUIRED = "Please enter the club description";
+    /**
+     * The constant ERROR_CLUB_EMAIL_REQUIRED.
+     */
+    String ERROR_CLUB_EMAIL_REQUIRED = "Please enter the club email";
+    /**
+     * The constant ERROR_CLUB_PHONE_REQUIRED.
+     */
+    String ERROR_CLUB_PHONE_REQUIRED = "Please enter the club phone";
+    /**
+     * The constant ERROR_CLUB_FAX_REQUIRED.
+     */
+    String ERROR_CLUB_FAX_REQUIRED = "Please enter the club fax";
+    /**
+     * The constant ERROR_CLUB_GSM_REQUIRED.
+     */
+    String ERROR_CLUB_GSM_REQUIRED = "Please enter the club GSM";
+    /**
+     * The constant ERROR_CLUB_ADDRESS_ONE_REQUIRED.
+     */
+    String ERROR_CLUB_ADDRESS_ONE_REQUIRED = "Please enter the club address 1";
+    /**
+     * The constant ERROR_CLUB_VILLE_REQUIRED.
+     */
+    String ERROR_CLUB_VILLE_REQUIRED = "Please enter the club ville";
+    /**
+     * The constant ERROR_CLUB_POSTAL_CODE_REQUIRED.
+     */
+    String ERROR_CLUB_POSTAL_CODE_REQUIRED = "Please enter the club postal code";
+    /**
+     * The constant ERROR_CLUB_PAYS_REQUIRED.
+     */
+    String ERROR_CLUB_PAYS_REQUIRED = "Please enter the club pays";
 }
+

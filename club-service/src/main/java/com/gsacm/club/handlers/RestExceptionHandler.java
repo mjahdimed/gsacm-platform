@@ -27,26 +27,38 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.handlers;
 
+import com.gsacm.club.exceptions.EntityNotFoundException;
+import com.gsacm.club.exceptions.InvalidEntityException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+@RestControllerAdvice
+public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-/**
- * The type Clinique service application.
- */
-@SpringBootApplication
-@EnableDiscoveryClient
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleException(EntityNotFoundException exception, WebRequest webRequest) {
+        ErrorDTO errorDto = ErrorDTO.builder()
+                .code(exception.getErrorCodes())
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .message(exception.getMessage())
+                .build();
+        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+    }
 
-public class CliniqueServiceApplication {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
+    @ExceptionHandler(InvalidEntityException.class)
+    public ResponseEntity<ErrorDTO> handleException(InvalidEntityException exception, WebRequest webRequest) {
+        ErrorDTO errorDto = ErrorDTO.builder()
+                .code(exception.getErrorCodes())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .message(exception.getMessage())
+                .errors(exception.getErrors())
+                .build();
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 }

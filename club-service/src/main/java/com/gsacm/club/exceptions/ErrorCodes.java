@@ -27,26 +27,39 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.exceptions;
 
+import org.springframework.http.HttpStatus;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+public enum ErrorCodes {
+    INVALID_INPUT(HttpStatus.BAD_REQUEST, "InvalidInput", "The input provided is invalid."),
+    MISSING_FIELD(HttpStatus.BAD_REQUEST, "MissingField", "A required field is missing."),
+    DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "DatabaseError", "An error occurred while accessing the database."),
+    AUTHENTICATION_ERROR(HttpStatus.UNAUTHORIZED, "AuthenticationError", "Authentication failed."),
+    PERMISSION_DENIED(HttpStatus.FORBIDDEN, "PermissionDenied", "You don't have permission to perform this operation."),
+    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "ResourceNotFound", "The requested resource was not found.");
 
-/**
- * The type Clinique service application.
- */
-@SpringBootApplication
-@EnableDiscoveryClient
+    private final HttpStatus httpStatus;
+    private final String code;
+    private final String message;
 
-public class CliniqueServiceApplication {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
+    ErrorCodes(HttpStatus httpStatus, String code, String message) {
+        this.httpStatus = httpStatus;
+        this.code = code;
+        this.message = message;
+    }
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }
+
+

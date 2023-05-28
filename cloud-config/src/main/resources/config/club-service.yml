@@ -1,6 +1,7 @@
 # Server Settings
 server:
   port: 8094
+
 # Eureka Settings
 eureka:
   instance:
@@ -17,8 +18,7 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] ${LOG_LEVEL_PATTERN:-%5p} %m%n"
 
-
-# Spring bootSettings
+# Spring Boot Settings
 spring:
   output:
     ansi:
@@ -27,8 +27,7 @@ spring:
 # Actuator Settings
 management:
   tracing:
-    sampling:
-      probability: 1.0
+    probability: 1.0
 
 # Zipkin Settings
 opentelemetry:
@@ -37,21 +36,14 @@ opentelemetry:
       zipkin:
         endpoint: http://localhost:9411/api/v2/spans
 
-
-# openapi Settings
+# OpenAPI Settings
 openapi:
   service:
-    title: Club Service
+    title: club-service doc
     version: 1.0.0
     url: http://localhost:8091
-
-#springdoc settings
 springdoc:
   api-docs:
-    path: /v3/api-docs/club-service
+    path: /club-service/v3/api-docs
   swagger-ui:
     path: /club-service/swagger-ui.html
-
-
-
-

@@ -1,10 +1,12 @@
 # Server Settings
 server:
   port: 8091
+
 # Eureka Settings
 eureka:
   instance:
     hostname: localhost
+    preferIpAddress: true
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
@@ -16,51 +18,30 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] ${LOG_LEVEL_PATTERN:-%5p} %m%n"
 
-#Spring API Gateway Settings
-spring:
-  output:
-    ansi:
-      enabled: always
-  # gateway Settings
-  spring:
-    cloud:
-      discovery:
-        locator:
-          enabled: true
-      gateway:
-        routes:
-          - id: club-service
-            uri: lb://CLUB-SERVICE
-            predicates:
-              - Path=/api/v1/clubs/**
-            filters:
-              - RewritePath=/club-service/(?<path>.*), /$\{path}
-          - id: openapi
-            uri: http://localhost:${server.port}
-            predicates:
-              - Path=/v3/api-docs/**
-            filters:
-              - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+# Spring API Gateway Settings
+#spring:
+#  cloud:
+#    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+#      routes:
+#        - id: openapi
+#          uri: http://localhost:${server.port}
+#          predicates:
+#            - Path=/v3/api-docs/**
+#          filters:
+#            - RewritePath=/v3/api-docs/(?<path>.*), /$\{path}/v3/api-docs
+#        - id: club-service-docs
+#          uri: lb://CLUB-SERVICE
+#          predicates:
+#            - Path=/club-service/v3/api-docs/**
+#        - id: club-service
+#          uri: lb://CLUB-SERVICE
+#          predicates:
+#            - Path=/api/v1/clubs/**
 
-
-# Actuator Settings
-management:
-  endpoints:
-    web:
-      exposure:
-        include: openapi, swagger-ui
-  endpoint:
-    swagger-ui:
-      enabled: true
-
-# Zipkin Settings
-opentelemetry:
-  trace:
-    exporter:
-      zipkin:
-        endpoint: http://localhost:9411/api/v2/spans
-
-#Spring Doc Settings
+# Spring Doc Settings
 springdoc:
   enable-native-support: true
   api-docs:
@@ -73,8 +54,24 @@ springdoc:
       - url: /v3/api-docs
         name: API Gateway Service
         primaryName: API Gateway Service
-      - url: /v3/api-docs/club-service
-        name: club
+      - url: /club-service/v3/api-docs
+        name: Club Service
         primaryName: Club Service
 
 
+# Zipkin Settings
+opentelemetry:
+  trace:
+    exporter:
+      zipkin:
+        endpoint: http://localhost:9411/api/v2/spans
+
+# Actuator Settings
+management:
+  endpoints:
+    web:
+      exposure:
+        include: openapi, swagger-ui
+  endpoint:
+    swagger-ui:
+      enabled: true

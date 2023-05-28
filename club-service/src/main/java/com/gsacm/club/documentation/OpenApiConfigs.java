@@ -27,26 +27,36 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.documentation;
 
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
-/**
- * The type Clinique service application.
- */
-@SpringBootApplication
-@EnableDiscoveryClient
+import java.util.Collections;
 
-public class CliniqueServiceApplication {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
+@OpenAPIDefinition
+@Configuration
+public class OpenApiConfigs {
+
+    @Value("${openapi.service.title}")
+    private String serviceTitle;
+
+    @Value("${openapi.service.version}")
+    private String serviceVersion;
+
+    @Value("${openapi.service.url}")
+    private String url;
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .servers(Collections.singletonList(new Server().url(url)))
+                .info(new Info().title(serviceTitle).version(serviceVersion));
     }
 }

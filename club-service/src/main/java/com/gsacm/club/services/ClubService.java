@@ -27,26 +27,29 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.services;
 
+import com.gsacm.clients.club.ClubDTO;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import java.util.List;
 
-/**
- * The type Clinique service application.
- */
-@SpringBootApplication
-@EnableDiscoveryClient
+public interface ClubService {
 
-public class CliniqueServiceApplication {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
-    }
+    // Insert New Club
+    ClubDTO newClub(ClubDTO dto);
+
+    //Update Club By ID
+    ClubDTO updateClubByID(ClubDTO dto, Long clubId);
+
+    //Find Club By ID
+    ClubDTO findClubByID(Long clubId);
+
+    //Find Club By Name
+    ClubDTO findClubByName(String clubName);
+
+    //Get All Clubs
+    List<ClubDTO> findAllClubs();
+
+    //Delete Club By ID
+    ClubDTO deleteClubByID(Long clubId);
 }

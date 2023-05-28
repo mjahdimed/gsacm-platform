@@ -27,26 +27,46 @@
  *
  */
 
-package com.gscam.clinique;
+package com.gsacm.club.models;
 
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
- * The type Clinique service application.
+ * The type Club.
  */
-@SpringBootApplication
-@EnableDiscoveryClient
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Entity
+@Table(name = "club_tbl")
+public class Club extends AbstractEntity {
 
-public class CliniqueServiceApplication {
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
-    public static void main(String[] args) {
-        SpringApplication.run(CliniqueServiceApplication.class, args);
-    }
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "logo_url")
+    private String logoUrl;
+
+    @Embedded
+    private Info info;
+
+    @Embedded
+    private Address address;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "status")
+    private Boolean status;
+
 }

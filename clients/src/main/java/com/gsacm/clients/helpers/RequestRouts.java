@@ -37,5 +37,5 @@ public interface RequestRouts {
     /**
      * The constant API_CLUB_ROUT.
      */
-    String API_CLUB_ROUT = "api/v1/clubs";
+    String API_CLUB_ROUT = "/api/v1/clubs/";
 }

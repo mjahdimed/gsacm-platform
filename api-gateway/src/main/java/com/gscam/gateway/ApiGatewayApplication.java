@@ -30,69 +30,45 @@
 package com.gscam.gateway;
 
 
-import com.gsacm.clients.documentation.OpenApiConfigs;
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.info.Info;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springdoc.core.models.GroupedOpenApi;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.gateway.route.RouteDefinition;
-import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-
-/**
- * The type Api gateway application.
- */
 @SpringBootApplication
 @EnableDiscoveryClient
+@OpenAPIDefinition(info = @Info(title = "API Gateway", version = "1.0", description = "Documentation API Gateway v1.0"))
 public class ApiGatewayApplication {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiGatewayApplication.class);
 
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
     public static void main(String[] args) {
+        LOGGER.info("Starting API Gateway application");
         SpringApplication.run(ApiGatewayApplication.class, args);
     }
 
-    @Autowired
-    private RouteDefinitionLocator locator;
-
     @Bean
-    public List<GroupedOpenApi> apis() {
-        return locator.getRouteDefinitions()
-                .collectList()
-                .map(this::createGroupedOpenApis)
-                .block();
-    }
-
-    private List<GroupedOpenApi> createGroupedOpenApis(List<RouteDefinition> routeDefinitions) {
-        return routeDefinitions.stream()
-                .filter(routeDefinition -> routeDefinition.getId().matches(".*-service"))
-                .map(this::createGroupedOpenApi)
-                .collect(Collectors.toList());
-    }
-
-    private GroupedOpenApi createGroupedOpenApi(RouteDefinition routeDefinition) {
-        String name = routeDefinition.getId().replaceAll("-service", "");
-        return GroupedOpenApi.builder()
-                .pathsToMatch("/" + name + "/**")
-                .group(name)
+    public RouteLocator routeLocator(RouteLocatorBuilder builder) {
+        return builder.routes()
+                .route(r -> r.path("/club-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://club-service"))
+                .route(r -> r.path("/api/v1/clubs/add").and().method(HttpMethod.POST).uri("lb://club-service"))
+                .route(r -> r.path("/api/v1/clubs/{clubId}").and().method(HttpMethod.GET).uri("lb://club-service"))
                 .build();
     }
 
     @Bean
-    public OpenApiConfigs openApiConfigs() {
-        return new OpenApiConfigs();
+    public CommandLineRunner commandLineRunner(RouteLocator routeLocator) {
+        return args -> {
+            // Print effective routes
+            routeLocator.getRoutes().subscribe(route -> LOGGER.info("Effective Route: {}", route));
+        };
     }
-
 }
