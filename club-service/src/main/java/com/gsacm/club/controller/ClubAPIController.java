@@ -41,8 +41,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.gsacm.clients.helpers.RequestRouts.API_CLUB_ROUT;
 
+/**
+ * The type Club api controller.
+ */
 @Slf4j
 @AllArgsConstructor
 @RequestMapping(API_CLUB_ROUT)
@@ -50,14 +55,24 @@ import static com.gsacm.clients.helpers.RequestRouts.API_CLUB_ROUT;
 @Tag(name = "Club API", description = "Endpoints for managing clubs")
 public class ClubAPIController {
 
+    /**
+     * The Club service.
+     */
     private final ClubService clubService;
 
+    /**
+     * New club
+     *
+     * @param dto dto
+     * @return {@link ResponseEntity}
+     * @see ResponseEntity
+     * @see ClubDTO
+     */
     @Operation(summary = "Add new club", description = "Add a new club to the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Club added successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request format")
     })
-    @Tag(name = "Add Club", description = "Add a new club")
     @PostMapping("add")
     public ResponseEntity<ClubDTO> newClub(@RequestBody ClubDTO dto) {
         log.info("Club {} saved successfully", dto);
@@ -65,15 +80,89 @@ public class ClubAPIController {
         return ResponseEntity.ok(createdClub);
     }
 
+    /**
+     * Find club by id response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @Operation(summary = "Find club by ID", description = "Find club by ID from system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Club found successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request format")
     })
-    @Tag(name = "Find Club", description = "Find club by ID")
     @GetMapping("{clubId}")
     public ResponseEntity<ClubDTO> findClubByID(@PathVariable("clubId") Long id) {
         ClubDTO clubByID = clubService.findClubByID(id);
+        return ResponseEntity.ok(clubByID);
+    }
+
+    /**
+     * Find club by name response entity.
+     *
+     * @param name the name
+     * @return the response entity
+     */
+    @Operation(summary = "Find club by Name", description = "Find club by ID from system")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Club found successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request format")
+    })
+    @GetMapping("name/{clubName}")
+    public ResponseEntity<ClubDTO> findClubByName(@PathVariable("clubName") String name) {
+        ClubDTO clubByID = clubService.findClubByName(name);
+        return ResponseEntity.ok(clubByID);
+    }
+
+    /**
+     * Update club by id response entity.
+     *
+     * @param dto the dto
+     * @param id  the id
+     * @return the response entity
+     */
+    @Operation(summary = "Update club by ID", description = "Update club by ID to the system")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Club updated successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request format")
+    })
+    @PutMapping("{clubId}")
+    ResponseEntity<ClubDTO> updateClubByID(@RequestBody ClubDTO dto, @PathVariable("clubId") Long id) {
+        ClubDTO updatedClub = clubService.updateClubByID(dto, id);
+        return ResponseEntity.ok(updatedClub);
+    }
+
+
+    /**
+     * Find all clubs response entity.
+     *
+     * @return the response entity
+     */
+    @Operation(summary = "List Of Clubs", description = "Get List Of Clubs from system")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Clubs fetched successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request format")
+    })
+    @GetMapping("all")
+    public ResponseEntity<List<ClubDTO>> findAllClubs() {
+        List<ClubDTO> allClubs = clubService.findAllClubs();
+        return ResponseEntity.ok(allClubs);
+    }
+
+    /**
+     * Delete club by id response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
+    @Operation(summary = "Delete club by ID", description = "Delete club by ID from system")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Club deleted successfully"),
+            @ApiResponse(responseCode = "400", description = "Invalid request format")
+    })
+    @PatchMapping("{clubId}")
+    public ResponseEntity<ClubDTO> deleteClubByID(@PathVariable("clubId") Long id) {
+        ClubDTO clubByID = clubService.deleteClubByID(id);
         return ResponseEntity.ok(clubByID);
     }
 }

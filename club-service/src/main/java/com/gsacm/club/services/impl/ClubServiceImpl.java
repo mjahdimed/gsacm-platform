@@ -44,7 +44,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 
 /**
  * The type Club service.
@@ -54,31 +57,28 @@ import java.util.List;
 @AllArgsConstructor
 public class ClubServiceImpl implements ClubService {
 
-    //Import Club Repository
+    // Import Club Repository
     private final IClubDAO iClubDAO;
 
-    // Insert New Club
-    @Override
     public ClubDTO newClub(ClubDTO dto) {
-        //Validate Fields
+        // Validate Fields
         List<String> errors = ClubValidator.validate(dto);
         if (!errors.isEmpty()) {
             log.error("Club is not valid: {}", dto);
             throw new InvalidEntityException("Club is not valid", ErrorCodes.INVALID_INPUT, errors);
         }
+
         Club club = ClubDTOConverter.toEntity(dto);
         // Set Creation date
         club.setCreationDate(LocalDateTime.now());
-        // Set Status to true
-        club.setStatus(true);
-        // Save Club
-        return ClubDTOConverter.fromEntity(
-                iClubDAO.save(club)
-        );
+        // Set Status to "Active"
+        club.setStatus("Active");
 
+        // Save Club
+        Club savedClub = iClubDAO.save(club);
+        return ClubDTOConverter.fromEntity(savedClub);
     }
 
-    //Update Club By ID
     @Override
     public ClubDTO updateClubByID(ClubDTO dto, Long clubId) {
         // Check if clubId is not empty
@@ -94,9 +94,12 @@ public class ClubServiceImpl implements ClubService {
             throw new InvalidEntityException("Club is not valid", ErrorCodes.INVALID_INPUT, errors);
         }
 
-        Club existingClub = iClubDAO.findById(clubId)
-                .orElseThrow(() -> new EntityNotFoundException("Club with ID " + clubId + " not found",
-                        ErrorCodes.RESOURCE_NOT_FOUND));
+        Club existingClub = iClubDAO.findByIdAndStatus(clubId, "Active")
+                .orElseThrow(() -> {
+                    log.error("Active club with ID {} not found", clubId);
+                    return new EntityNotFoundException("Active club with ID: " + clubId + " not found",
+                            ErrorCodes.RESOURCE_NOT_FOUND);
+                });
 
         // Update the fields of the existing club with the values from the DTO
         existingClub.setName(dto.getName());
@@ -108,8 +111,6 @@ public class ClubServiceImpl implements ClubService {
         return ClubDTOConverter.fromEntity(updatedClub);
     }
 
-
-    //Find Club By ID
     @Override
     public ClubDTO findClubByID(Long clubId) {
         // Check if clubId is not empty
@@ -117,30 +118,71 @@ public class ClubServiceImpl implements ClubService {
             log.error("Club ID is null");
             throw new InvalidEntityException("Club ID is null", ErrorCodes.INVALID_INPUT);
         }
-        // retrive the club
+        // Retrieve the club
         return iClubDAO.findById(clubId)
+                .filter(club -> club.getStatus().equals("Active")) // Filter for active clubs
                 .map(ClubDTOConverter::fromEntity)
-                .orElseThrow(() -> new EntityNotFoundException("Club with given ID: " + clubId + " not found",
-                        ErrorCodes.RESOURCE_NOT_FOUND));
+                .orElseThrow(() -> {
+                    log.error("Club with given ID {} not found", clubId);
+                    return new EntityNotFoundException("Club with given ID: " + clubId + " not found",
+                            ErrorCodes.RESOURCE_NOT_FOUND);
+                });
     }
 
-    //Find Club By Name
     @Override
     public ClubDTO findClubByName(String clubName) {
-        return null;
+        // Check if clubName is not empty
+        if (clubName == null) {
+            log.error("Club Name is null");
+            throw new InvalidEntityException("Club Name is null", ErrorCodes.INVALID_INPUT);
+        }
+        // Retrieve the club by Name
+        return iClubDAO.findByName(clubName)
+                .filter(club -> club.getStatus().equals("Active")) // Filter for active clubs
+                .map(ClubDTOConverter::fromEntity)
+                .orElseThrow(() -> {
+                    log.error("Club with given Name {} not found", clubName);
+                    return new EntityNotFoundException("Club with given Name: " + clubName + " not found",
+                            ErrorCodes.RESOURCE_NOT_FOUND);
+                });
     }
 
-
-    //Get All Clubs
     @Override
     public List<ClubDTO> findAllClubs() {
-        return null;
+        List<Club> clubs = new ArrayList<>(iClubDAO.findAllByStatus("Active"));
+        if (clubs.isEmpty()) {
+            log.info("No active clubs found");
+        } else {
+            log.info("Found {} active clubs", clubs.size());
+        }
+
+        return clubs.stream()
+                .map(ClubDTOConverter::fromEntity)
+                .collect(Collectors.toList());
     }
 
-
-    //Delete Club By ID
     @Override
     public ClubDTO deleteClubByID(Long clubId) {
-        return null;
+        // Check if clubId is not empty
+        if (clubId == null) {
+            log.error("Club ID is null");
+            throw new InvalidEntityException("Club ID is null", ErrorCodes.INVALID_INPUT);
+        }
+
+        // Check if Club Exist by ID
+        Club existingClub = iClubDAO.findByIdAndStatus(clubId, "Active")
+                .orElseThrow(() -> {
+                    log.error("Club with given ID {} not found", clubId);
+                    return new EntityNotFoundException("Club with given ID: " + clubId + " not found",
+                            ErrorCodes.RESOURCE_NOT_FOUND);
+                });
+
+        // Set Delete date
+        existingClub.setDeletedDate(LocalDateTime.now());
+        // Update the status of the existing club
+        existingClub.setStatus("Inactive");
+        // Update Club
+        Club deletedClub = iClubDAO.save(existingClub);
+        return ClubDTOConverter.fromEntity(deletedClub);
     }
 }

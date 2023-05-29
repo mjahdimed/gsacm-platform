@@ -57,10 +57,10 @@ public class ClubDTO {
     private String ville;
     private String codepostale;
     private String pays;
+    private String status;
     private LocalDateTime creationDate;
     private LocalDateTime lastModifiedDate;
     private LocalDateTime deletedDate;
-    private boolean status;
 
     public ClubDTO() {
     }

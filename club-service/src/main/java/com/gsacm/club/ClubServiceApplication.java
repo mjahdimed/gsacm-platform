@@ -30,12 +30,13 @@
 package com.gsacm.club;
 
 
+import com.gsacm.club.utils.LogFolderInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 @EnableDiscoveryClient
@@ -46,5 +47,10 @@ public class ClubServiceApplication {
     public static void main(String[] args) {
         LOGGER.info("Starting Club Service application");
         SpringApplication.run(ClubServiceApplication.class, args);
+    }
+
+    @Bean
+    public LogFolderInitializer logFolderInitializer() {
+        return new LogFolderInitializer();
     }
 }

@@ -13,7 +13,6 @@ services:
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
-
   pgadmin:
     image: dpage/pgadmin4
     restart: always
@@ -84,11 +83,18 @@ services:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
 
+  flyway:
+    image: flyway/flyway
+    volumes:
+      - ./sql:/flyway/sql
+    environment:
+      - FLYWAY_URL=jdbc:postgresql://postgres:5432/postgres
+      - FLYWAY_USER=admin
+      - FLYWAY_PASSWORD=admin
+
 volumes:
   postgres-data:
   pgadmin-data:
   mongo-data:
   mariadb-data:
   mysql-data:
-
-

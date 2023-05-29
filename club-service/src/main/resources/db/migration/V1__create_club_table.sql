@@ -27,18 +27,34 @@
  *
  */
 
-package com.gsacm.club.dao;
+-- V1__create_club_table.sql
 
-import com.gsacm.club.models.Club;
-import org.springframework.data.jpa.repository.JpaRepository;
+-- Creates the club_tbl table
+CREATE TABLE IF NOT EXISTS club_tbl
+(
+    id               BIGINT NOT NULL,
+    creationDate     TIMESTAMP(6),
+    deletedDate      TIMESTAMP(6),
+    lastModifiedDate TIMESTAMP(6),
+    status           VARCHAR(255),
+    address1         VARCHAR(255),
+    address2         VARCHAR(255),
+    code_postale     VARCHAR(255),
+    pays             VARCHAR(255),
+    ville            VARCHAR(255),
+    description      VARCHAR(255),
+    email            VARCHAR(255),
+    gsm              VARCHAR(255),
+    num_fax          VARCHAR(255),
+    num_fix          VARCHAR(255),
+    site_web         VARCHAR(255),
+    logo_url         VARCHAR(255),
+    name             VARCHAR(255),
+    PRIMARY KEY (id)
+);
 
-import java.util.Collection;
-import java.util.Optional;
+-- Creates the club_seq sequence if it doesn't already exist
+CREATE SEQUENCE IF NOT EXISTS club_seq START WITH 1 INCREMENT BY 1;
 
-public interface IClubDAO extends JpaRepository<Club, Long> {
-    Collection<Club> findAllByStatus(String status);
-
-    Optional<Club> findByName(String clubName);
-
-    Optional<Club> findByIdAndStatus(Long clubId, String status);
-}
+-- Add a meaningful comment here describing the purpose of the migration
+COMMENT ON TABLE club_tbl IS 'Table for storing information about clubs.';

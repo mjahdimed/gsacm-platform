@@ -53,14 +53,8 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 public class AbstractEntity implements Serializable {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "sequence_generator"
-    )
-    @SequenceGenerator(
-            name = "sequence_generator",
-            sequenceName = "club_seq", allocationSize = 1
-    )
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
+    @SequenceGenerator(name = "sequence_generator", sequenceName = "club_seq", allocationSize = 1)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
@@ -80,6 +74,6 @@ public class AbstractEntity implements Serializable {
     private LocalDateTime deletedDate;
 
     @Column(name = "status")
-    @JsonIgnore
-    private boolean status;
+    private String status;
+
 }

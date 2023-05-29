@@ -27,18 +27,28 @@
  *
  */
 
-package com.gsacm.club.dao;
+package com.gsacm.club.utils;
 
-import com.gsacm.club.models.Club;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.ClassPathResource;
 
-import java.util.Collection;
-import java.util.Optional;
+import java.io.File;
 
-public interface IClubDAO extends JpaRepository<Club, Long> {
-    Collection<Club> findAllByStatus(String status);
+public class LogFolderInitializer implements ApplicationRunner {
 
-    Optional<Club> findByName(String clubName);
+    public void run(ApplicationArguments args) throws Exception {
+        // Create log folder if it doesn't exist
+        File resourceFolder = new ClassPathResource("").getFile();
+        File logFolder = new File(resourceFolder, "logs/club-service");
 
-    Optional<Club> findByIdAndStatus(Long clubId, String status);
+        if (!logFolder.exists()) {
+            boolean created = logFolder.mkdirs();
+            if (created) {
+                System.out.println("Log folder created: " + logFolder.getAbsolutePath());
+            } else {
+                System.out.println("Failed to create log folder: " + logFolder.getAbsolutePath());
+            }
+        }
+    }
 }

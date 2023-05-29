@@ -35,6 +35,9 @@ import com.gsacm.club.models.Address;
 import com.gsacm.club.models.Club;
 import com.gsacm.club.models.Info;
 
+/**
+ * The type Club dto converter.
+ */
 public class ClubDTOConverter {
     /**
      * From entity club dto.
@@ -62,10 +65,10 @@ public class ClubDTOConverter {
                 .ville(club.getAddress().getVille())
                 .codepostale(club.getAddress().getCodepostale())
                 .pays(club.getAddress().getPays())
+                .status(club.getStatus())
                 .creationDate(club.getCreationDate())
                 .lastModifiedDate(club.getLastModifiedDate())
                 .deletedDate(club.getDeletedDate())
-                .status(club.isStatus())
                 .build();
     }
 
@@ -85,7 +88,7 @@ public class ClubDTOConverter {
         club.setName(clubDTO.getName());
         club.setLogoUrl(clubDTO.getLogoUrl());
         club.setDescription(clubDTO.getDescription());
-        club.setStatus(clubDTO.isStatus());
+        club.setStatus(clubDTO.getStatus());
 
         // Set properties from embedded classes
         Info info = new Info();

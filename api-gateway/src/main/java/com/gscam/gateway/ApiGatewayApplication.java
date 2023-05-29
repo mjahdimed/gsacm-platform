@@ -30,6 +30,7 @@
 package com.gscam.gateway;
 
 
+import com.gscam.gateway.utils.LogFolderInitializer;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
 import org.slf4j.Logger;
@@ -58,9 +59,14 @@ public class ApiGatewayApplication {
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
+                //Club Service Routes
                 .route(r -> r.path("/club-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://club-service"))
                 .route(r -> r.path("/api/v1/clubs/add").and().method(HttpMethod.POST).uri("lb://club-service"))
+                .route(r -> r.path("/api/v1/clubs/all").and().method(HttpMethod.POST).uri("lb://club-service"))
                 .route(r -> r.path("/api/v1/clubs/{clubId}").and().method(HttpMethod.GET).uri("lb://club-service"))
+                .route(r -> r.path("/api/v1/clubs/name/{clubName}").and().method(HttpMethod.GET).uri("lb://club-service"))
+                .route(r -> r.path("/api/v1/clubs/{clubId}").and().method(HttpMethod.PUT).uri("lb://club-service"))
+                .route(r -> r.path("/api/v1/clubs/{clubId}").and().method(HttpMethod.PATCH).uri("lb://club-service"))
                 .build();
     }
 
@@ -70,5 +76,10 @@ public class ApiGatewayApplication {
             // Print effective routes
             routeLocator.getRoutes().subscribe(route -> LOGGER.info("Effective Route: {}", route));
         };
+    }
+
+    @Bean
+    public LogFolderInitializer logFolderInitializer() {
+        return new LogFolderInitializer();
     }
 }

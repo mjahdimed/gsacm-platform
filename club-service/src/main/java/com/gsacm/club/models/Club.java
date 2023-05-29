@@ -67,6 +67,6 @@ public class Club extends AbstractEntity {
     private String description;
 
     @Column(name = "status")
-    private Boolean status;
+    private String status;
 
 }
