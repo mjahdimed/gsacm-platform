@@ -42,11 +42,20 @@ import com.gsacm.club.validators.ClubValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.gsacm.club.utils.ClubUtils.createDirectoryIfNotExists;
+import static com.gsacm.club.utils.ClubUtils.getDefaultLogoUrl;
 
 
 /**
@@ -57,16 +66,58 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ClubServiceImpl implements ClubService {
 
-    // Import Club Repository
+    /**
+     * The Club dao.
+     */
     private final IClubDAO iClubDAO;
 
-    public ClubDTO newClub(ClubDTO dto) {
+
+    /**
+     * New club club dto.
+     *
+     * @param dto  the dto
+     * @param file the file
+     * @return the club dto
+     */
+    public ClubDTO newClub(ClubDTO dto, MultipartFile file) {
         // Validate Fields
         List<String> errors = ClubValidator.validate(dto);
         if (!errors.isEmpty()) {
             log.error("Club is not valid: {}", dto);
             throw new InvalidEntityException("Club is not valid", ErrorCodes.INVALID_INPUT, errors);
         }
+
+        // Get the current working directory
+        String currentDir = System.getProperty("user.dir");
+
+        // Set the relative path to the gsacm-platform folder
+        String relativePath = "gsacm-platform";
+
+        // Resolve the absolute path of the parent folder
+        Path parentFolderPath = Paths.get(currentDir, relativePath);
+
+        // Update the destination folder path
+        String destinationFolderPath = parentFolderPath.resolve("assets/images").toString();
+
+        // Format the path using the correct file separator
+        destinationFolderPath = destinationFolderPath.replace("/", File.separator);
+        // Create the directory if it doesn't exist
+        createDirectoryIfNotExists(Paths.get(destinationFolderPath));
+
+        // Initialize the logoUrl variable with a default value
+        String logoUrl = getDefaultLogoUrl();
+
+        if (file != null && !file.isEmpty()) {
+            try {
+                Path destinationPath = Paths.get(destinationFolderPath, file.getOriginalFilename());
+                Files.copy(file.getInputStream(), destinationPath);
+                logoUrl = destinationPath.toString();
+            } catch (IOException e) {
+                System.out.println("Failed to upload image: " + e.getMessage());
+            }
+        }
+
+        dto.setLogoUrl(logoUrl);
 
         Club club = ClubDTOConverter.toEntity(dto);
         // Set Creation date
@@ -79,6 +130,14 @@ public class ClubServiceImpl implements ClubService {
         return ClubDTOConverter.fromEntity(savedClub);
     }
 
+
+    /**
+     * Update club by id club dto.
+     *
+     * @param dto    the dto
+     * @param clubId the club id
+     * @return the club dto
+     */
     @Override
     public ClubDTO updateClubByID(ClubDTO dto, Long clubId) {
         // Check if clubId is not empty
@@ -101,6 +160,11 @@ public class ClubServiceImpl implements ClubService {
                             ErrorCodes.RESOURCE_NOT_FOUND);
                 });
 
+        // Check if logoUrl is empty, set default value if so
+        if (existingClub.getLogoUrl() == null || existingClub.getLogoUrl().isEmpty()) {
+            String defaultLogoUrl = getDefaultLogoUrl();
+            existingClub.setLogoUrl(defaultLogoUrl);
+        }
         // Update the fields of the existing club with the values from the DTO
         existingClub.setName(dto.getName());
         existingClub.setDescription(dto.getDescription());
@@ -111,6 +175,12 @@ public class ClubServiceImpl implements ClubService {
         return ClubDTOConverter.fromEntity(updatedClub);
     }
 
+    /**
+     * Find club by id club dto.
+     *
+     * @param clubId the club id
+     * @return the club dto
+     */
     @Override
     public ClubDTO findClubByID(Long clubId) {
         // Check if clubId is not empty
@@ -129,6 +199,12 @@ public class ClubServiceImpl implements ClubService {
                 });
     }
 
+    /**
+     * Find club by name club dto.
+     *
+     * @param clubName the club name
+     * @return the club dto
+     */
     @Override
     public ClubDTO findClubByName(String clubName) {
         // Check if clubName is not empty
@@ -147,6 +223,11 @@ public class ClubServiceImpl implements ClubService {
                 });
     }
 
+    /**
+     * Find all clubs list.
+     *
+     * @return the list
+     */
     @Override
     public List<ClubDTO> findAllClubs() {
         List<Club> clubs = new ArrayList<>(iClubDAO.findAllByStatus("Active"));
@@ -161,6 +242,12 @@ public class ClubServiceImpl implements ClubService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Delete club by id club dto.
+     *
+     * @param clubId the club id
+     * @return the club dto
+     */
     @Override
     public ClubDTO deleteClubByID(Long clubId) {
         // Check if clubId is not empty

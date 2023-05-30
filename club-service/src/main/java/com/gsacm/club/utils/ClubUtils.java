@@ -27,30 +27,59 @@
  *
  */
 
-package com.gsacm.club.services;
+package com.gsacm.club.utils;
 
-import com.gsacm.clients.club.ClubDTO;
-import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import java.util.List;
+/**
+ * The type Club utils.
+ */
+public class ClubUtils {
 
-public interface ClubService {
 
-    // Insert New Club
-    ClubDTO newClub(ClubDTO dto, MultipartFile file);
+    /**
+     * Gets default logo url.
+     *
+     * @param relativePath the relative path to the gsacm-platform folder
+     * @return the default logo url
+     */
+    private static final String DEFAULT_LOGO_URL = "/assets/placeholder/no-image.png";
 
-    //Update Club By ID
-    ClubDTO updateClubByID(ClubDTO dto, Long clubId);
+    /**
+     * Gets default logo url.
+     *
+     * @param relativePath the relative path to the gsacm-platform folder
+     * @return the default logo url
+     */
+    public static String getDefaultLogoUrl() {
+        String defaultLogoPath = DEFAULT_LOGO_URL;
+        URL resourceUrl = ClubUtils.class.getResource(defaultLogoPath);
+        if (resourceUrl != null) {
+            String defaultLogoUrl = URLDecoder.decode(resourceUrl.toString(), StandardCharsets.UTF_8);
+            defaultLogoUrl = defaultLogoUrl.replace("\\", "/"); // Replace backslashes with forward slashes
+            return defaultLogoUrl;
+        } else {
+            throw new IllegalStateException("Default logo resource not found");
+        }
+    }
 
-    //Find Club By ID
-    ClubDTO findClubByID(Long clubId);
-
-    //Find Club By Name
-    ClubDTO findClubByName(String clubName);
-
-    //Get All Clubs
-    List<ClubDTO> findAllClubs();
-
-    //Delete Club By ID
-    ClubDTO deleteClubByID(Long clubId);
+    /**
+     * Create directory if not exists.
+     *
+     * @param directoryPath the directory path
+     * @throws IOException the io exception
+     */
+    public static void createDirectoryIfNotExists(Path directoryPath) {
+        try {
+            Files.createDirectories(directoryPath);
+        } catch (IOException e) {
+            System.out.println("Failed to create directory: " + e.getMessage());
+        }
+    }
 }

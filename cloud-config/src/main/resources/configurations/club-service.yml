@@ -1,0 +1,85 @@
+# Server Settings
+server:
+  port: 8094
+
+# Eureka Settings
+eureka:
+  instance:
+    hostname: localhost
+    preferIpAddress: true
+  client:
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+
+# Logging Settings
+logging:
+  level:
+    root: INFO
+    com.gsacm: DEBUG
+  file: classpath:logs/club-service/file.log
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] ${LOG_LEVEL_PATTERN:-%5p} %m%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] %-5level %logger{36} - %msg%n"
+
+
+# Spring Boot Settings
+spring:
+  output:
+    ansi:
+      enabled: always
+  # DataSource
+  datasource:
+    url: jdbc:postgresql://localhost:5432/club_db
+    username: admin
+    password: admin
+  jpa:
+    hibernate:
+      ddl-auto: none
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl # Specify the naming implicit-strategy
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # Specify the naming physical-strategy
+    # Additional PostgreSQL configuration
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect # Specify the PostgreSQL dialect
+        format_sql: true
+        jdbc:
+          batch_size: 50 # Set the batch size for JDBC batch processing
+        cache:
+          use_second_level_cache: true # Enable second-level caching
+          region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory # Specify the cache region factory
+        time_zone: UTC # Set the database time zone to UTC for consistency
+        default_batch_fetch_size: 100 # Set the default batch fetch size
+        generate_statistics: true # Enable Hibernate statistics
+    show-sql: true
+
+  # Flyway settings
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+
+# Actuator Settings
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  # Zipkin Settings
+#  tracing:
+#    # Configure Zipkin
+#    zipkin:
+#      enabled: true
+#      base-url: http://localhost:9411 # Replace with your Zipkin server URL
+
+# OpenAPI Settings
+openapi:
+  service:
+    title: club-service doc
+    version: 1.0.0
+    url: http://localhost:8091
+springdoc:
+  api-docs:
+    path: /club-service/v3/api-docs
+  swagger-ui:
+    path: /club-service/swagger-ui.html

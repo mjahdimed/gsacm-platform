@@ -66,15 +66,7 @@ springdoc:
 
 # Actuator Settings
 management:
-  metrics:
-    export:
-      # Enable Micrometer integration with Zipkin
-      tracing:
-        enabled: true
-  # Zipkin Settings
   tracing:
-    # Configure Zipkin
-    zipkin:
-      enabled: true
-      base-url: http://localhost:9411 # Replace with your Zipkin server URL
+    sampling:
+      probability: 1.0
 

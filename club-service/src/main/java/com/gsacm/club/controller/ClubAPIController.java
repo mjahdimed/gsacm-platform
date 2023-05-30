@@ -38,8 +38,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -60,25 +62,21 @@ public class ClubAPIController {
      */
     private final ClubService clubService;
 
-    /**
-     * New club
-     *
-     * @param dto dto
-     * @return {@link ResponseEntity}
-     * @see ResponseEntity
-     * @see ClubDTO
-     */
     @Operation(summary = "Add new club", description = "Add a new club to the system")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Club added successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid request format")
     })
-    @PostMapping("add")
-    public ResponseEntity<ClubDTO> newClub(@RequestBody ClubDTO dto) {
+    @PostMapping(value = "add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<ClubDTO> newClub(
+            @ModelAttribute ClubDTO dto,
+            @RequestParam(value = "file", required = false) MultipartFile file
+    ) {
         log.info("Club {} saved successfully", dto);
-        ClubDTO createdClub = clubService.newClub(dto);
+        ClubDTO createdClub = clubService.newClub(dto, file);
         return ResponseEntity.ok(createdClub);
     }
+
 
     /**
      * Find club by id response entity.
