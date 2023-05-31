@@ -36,19 +36,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 /**
- * The type Eureka server application.
+ * L'application serveur de type Eureka.
  */
 @SpringBootApplication
 @EnableEurekaServer
 public class EurekaServerApplication {
-    private static final Logger LOGGER = LoggerFactory.getLogger(EurekaServerApplication.class);
     /**
-     * The entry point of application.
+     * Le LOGGER constant.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(EurekaServerApplication.class);
+
+    /**
+     * Le point d'entrée de l'application.
      *
-     * @param args the input arguments
+     * @param args les arguments d'entrée
      */
     public static void main(String[] args) {
-        LOGGER.info("Starting Eureka Server application");
+        LOGGER.info("Démarrage de l'application Eureka Server");
         SpringApplication.run(EurekaServerApplication.class, args);
     }
 }

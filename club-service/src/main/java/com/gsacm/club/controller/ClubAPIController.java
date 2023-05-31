@@ -30,8 +30,8 @@
 package com.gsacm.club.controller;
 
 
-import com.gsacm.clients.club.ClubDTO;
 import com.gsacm.club.services.ClubService;
+import com.gsacm.helpers.dto.ClubDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -45,49 +45,55 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-import static com.gsacm.clients.helpers.RequestRouts.API_CLUB_ROUT;
+import static com.gsacm.helpers.helpers.RequestRouts.API_CLUB_ROUT;
 
 /**
- * The type Club api controller.
+ * Le contrôleur API de type Club.
  */
 @Slf4j
 @AllArgsConstructor
 @RequestMapping(API_CLUB_ROUT)
 @RestController
-@Tag(name = "Club API", description = "Endpoints for managing clubs")
+@Tag(name = "API du clube", description = "Terminaux pour la gestion des clubs")
 public class ClubAPIController {
 
     /**
-     * The Club service.
+     * Le service Clube.
      */
     private final ClubService clubService;
 
-    @Operation(summary = "Add new club", description = "Add a new club to the system")
+    /**
+     * Ajouter un nouveau clube.
+     *
+     * @param file le fichier téléchargé.
+     * @return l'entité de réponse
+     */
+    @Operation(summary = "Ajouter un nouveau clube", description = "Ajouter un nouveau clube au système")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Club added successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request format")
+            @ApiResponse(responseCode = "200", description = "Clube ajouté avec succès"),
+            @ApiResponse(responseCode = "400", description = "Format de demande invalide")
     })
     @PostMapping(value = "add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ClubDTO> newClub(
             @ModelAttribute ClubDTO dto,
             @RequestParam(value = "file", required = false) MultipartFile file
     ) {
-        log.info("Club {} saved successfully", dto);
+        log.info("Clube {} enregistré avec succès", dto);
         ClubDTO createdClub = clubService.newClub(dto, file);
         return ResponseEntity.ok(createdClub);
     }
 
 
     /**
-     * Find club by id response entity.
+     * Rechercher un clube par entité de réponse d'identifiant.
      *
-     * @param id the id
-     * @return the response entity
+     * @param id l'identifiant du clube
+     * @return l'entité de réponse
      */
-    @Operation(summary = "Find club by ID", description = "Find club by ID from system")
+    @Operation(summary = "Trouver un clube par ID", description = "Trouver un clube par ID à partir du système")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Club found successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request format")
+            @ApiResponse(responseCode = "200", description = "Clube trouvé avec succès"),
+            @ApiResponse(responseCode = "400", description = "Format de demande invalide")
     })
     @GetMapping("{clubId}")
     public ResponseEntity<ClubDTO> findClubByID(@PathVariable("clubId") Long id) {
@@ -96,15 +102,15 @@ public class ClubAPIController {
     }
 
     /**
-     * Find club by name response entity.
+     * Rechercher un club par nom d'entité de réponse.
      *
-     * @param name the name
-     * @return the response entity
+     * @param name le nom du clube
+     * @return l'entité de réponse
      */
-    @Operation(summary = "Find club by Name", description = "Find club by ID from system")
+    @Operation(summary = "Trouver un clube par Nom", description = "Trouver un clube par Nom à partir du système")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Club found successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request format")
+            @ApiResponse(responseCode = "200", description = "Clube trouvé avec succès"),
+            @ApiResponse(responseCode = "400", description = "Format de demande invalide")
     })
     @GetMapping("name/{clubName}")
     public ResponseEntity<ClubDTO> findClubByName(@PathVariable("clubName") String name) {
@@ -113,16 +119,16 @@ public class ClubAPIController {
     }
 
     /**
-     * Update club by id response entity.
+     * Mettre à jour le club par entité de réponse d'identifiant.
      *
-     * @param dto the dto
-     * @param id  the id
-     * @return the response entity
+     * @param dto le dto
+     * @param id  l'identifiant du clube
+     * @return l'entité de réponse
      */
-    @Operation(summary = "Update club by ID", description = "Update club by ID to the system")
+    @Operation(summary = "Mettre à jour le clube par ID", description = "Mettre à jour le club par ID dans le système")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Club updated successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request format")
+            @ApiResponse(responseCode = "200", description = "Clube est mis à jour avec succès"),
+            @ApiResponse(responseCode = "400", description = "Format de demande invalide")
     })
     @PutMapping("{clubId}")
     ResponseEntity<ClubDTO> updateClubByID(@RequestBody ClubDTO dto, @PathVariable("clubId") Long id) {
@@ -132,14 +138,14 @@ public class ClubAPIController {
 
 
     /**
-     * Find all clubs response entity.
+     * Trouver toutes les entités de réponse des clubes.
      *
-     * @return the response entity
+     * @return l'entité de réponse
      */
-    @Operation(summary = "List Of Clubs", description = "Get List Of Clubs from system")
+    @Operation(summary = "Liste des clubes", description = "Obtenir la liste des clubs du système")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Clubs fetched successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request format")
+            @ApiResponse(responseCode = "200", description = "Clubes récupérés avec succès"),
+            @ApiResponse(responseCode = "400", description = "Format de demande invalide")
     })
     @GetMapping("all")
     public ResponseEntity<List<ClubDTO>> findAllClubs() {
@@ -148,15 +154,15 @@ public class ClubAPIController {
     }
 
     /**
-     * Delete club by id response entity.
+     * Supprimer le club par entité de réponse d'identifiant.
      *
-     * @param id the id
-     * @return the response entity
+     * @param id l'identifiant cu clube
+     * @return l'entité de réponse
      */
-    @Operation(summary = "Delete club by ID", description = "Delete club by ID from system")
+    @Operation(summary = "Supprimer le club par ID", description = "Supprimer le club par ID du système")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Club deleted successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request format")
+            @ApiResponse(responseCode = "200", description = "Clube supprimé avec succès"),
+            @ApiResponse(responseCode = "400", description = "Format de demande invalide")
     })
     @PatchMapping("{clubId}")
     public ResponseEntity<ClubDTO> deleteClubByID(@PathVariable("clubId") Long id) {

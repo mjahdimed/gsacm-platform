@@ -30,26 +30,29 @@
 package com.gsacm.club.utils;
 
 
-import com.gsacm.clients.club.ClubDTO;
 import com.gsacm.club.models.Address;
 import com.gsacm.club.models.Club;
 import com.gsacm.club.models.Info;
+import com.gsacm.helpers.dto.ClubDTO;
+
 
 /**
- * The type Club dto converter.
+ * Le convertisseur dto de type Class.
  */
 public class ClubDTOConverter {
     /**
-     * From entity club dto.
+     * Du clube dto.
      *
-     * @param club the club
-     * @return the club dto
+     * @param club le clube
+     * @return le clube dto
      */
     public static ClubDTO fromEntity(Club club) {
+        // Vérifier si Clube est vide
         if (club == null) {
             return null;
         }
 
+        // Retourn les propriétés créer ClubDTO
         return ClubDTO.builder()
                 .id(club.getId())
                 .name(club.getName())
@@ -73,16 +76,17 @@ public class ClubDTOConverter {
     }
 
     /**
-     * To entity club.
+     * ver clube entité.
      *
-     * @param clubDTO the club dto
-     * @return the club
+     * @param clubDTO le clube dto
+     * @return le clube
      */
     public static Club toEntity(ClubDTO clubDTO) {
+        // Vérifier si ClubDTO est vide
         if (clubDTO == null) {
             return null;
         }
-
+        // Nouvelle instance Clube entité
         Club club = new Club();
         club.setId(clubDTO.getId());
         club.setName(clubDTO.getName());
@@ -90,7 +94,7 @@ public class ClubDTOConverter {
         club.setDescription(clubDTO.getDescription());
         club.setStatus(clubDTO.getStatus());
 
-        // Set properties from embedded classes
+        // Nouvelle instance Info entité
         Info info = new Info();
         info.setEmail(clubDTO.getEmail());
         info.setNumFix(clubDTO.getNumFix());
@@ -99,6 +103,7 @@ public class ClubDTOConverter {
         info.setSiteWeb(clubDTO.getSiteWeb());
         club.setInfo(info);
 
+        // Nouvelle instance Adresses entité
         Address address = new Address();
         address.setAddress1(clubDTO.getAddress1());
         address.setAddress2(clubDTO.getAddress2());
@@ -107,10 +112,12 @@ public class ClubDTOConverter {
         address.setPays(clubDTO.getPays());
         club.setAddress(address);
 
+        // Définir des propriétés à partir de la classe AbstractEntity intégrées
         club.setCreationDate(clubDTO.getCreationDate());
         club.setLastModifiedDate(clubDTO.getLastModifiedDate());
         club.setDeletedDate(clubDTO.getDeletedDate());
 
+        // Entité Retourné Clube
         return club;
     }
 }

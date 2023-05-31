@@ -66,7 +66,8 @@
         <module>adherent-service</module>
         <!-- Dossier médical Service Module -->
         <module>dossier-medical-service</module>
-        <module>clients</module>
+        <!-- Platform Helpers Module -->
+        <module>platform-helpers</module>
     </modules>
     <!-- Project metadata -->
     <name>gsacm-platform</name>

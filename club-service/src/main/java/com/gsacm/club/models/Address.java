@@ -38,7 +38,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * The type Address.
+ * Le type Adresse classe complementaire,
+ * de l'entité Clube
  */
 @Data
 @AllArgsConstructor
@@ -47,18 +48,33 @@ import lombok.NoArgsConstructor;
 @Embeddable
 public class Address {
 
+    /**
+     * L'adresse 1.
+     */
     @Column(name = "address1")
     private String address1;
 
+    /**
+     * L'adresse 2.
+     */
     @Column(name = "address2")
     private String address2;
 
+    /**
+     * La Ville.
+     */
     @Column(name = "ville")
     private String ville;
 
+    /**
+     * Le code postal.
+     */
     @Column(name = "code_postale")
     private String codepostale;
 
+    /**
+     * Le pays.
+     */
     @Column(name = "pays")
     private String pays;
 }

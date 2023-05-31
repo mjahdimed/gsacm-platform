@@ -44,22 +44,39 @@ import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 
+/**
+ * Le type Application de gateway API.
+ */
 @SpringBootApplication
 @EnableDiscoveryClient
 @OpenAPIDefinition(info = @Info(title = "API Gateway", version = "1.0", description = "Documentation API Gateway v1.0"))
 public class ApiGatewayApplication {
 
+    /**
+     * Le LOGGER constant.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ApiGatewayApplication.class);
 
+    /**
+     * Le point d'entrée de l'application.
+     *
+     * @param args les arguments d'entrée
+     */
     public static void main(String[] args) {
-        LOGGER.info("Starting API Gateway application");
+        LOGGER.info("Démarrage de l'application API Gateway");
         SpringApplication.run(ApiGatewayApplication.class, args);
     }
 
+    /**
+     * Localisateur des url.
+     *
+     * @param builder le constructeur
+     * @return le localisateur d'url
+     */
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                //Club Service Routes
+                // Les URL du service des clube
                 .route(r -> r.path("/club-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://club-service"))
                 .route(r -> r.path("/api/v1/clubs/add").and().method(HttpMethod.POST).uri("lb://club-service"))
                 .route(r -> r.path("/api/v1/clubs/all").and().method(HttpMethod.POST).uri("lb://club-service"))
@@ -70,14 +87,25 @@ public class ApiGatewayApplication {
                 .build();
     }
 
+    /**
+     * Executeur la ligne de command.
+     *
+     * @param routeLocator le localisateur d'url
+     * @return la ligne de command.
+     */
     @Bean
     public CommandLineRunner commandLineRunner(RouteLocator routeLocator) {
         return args -> {
-            // Print effective routes
+            // Imprimer des les url réels
             routeLocator.getRoutes().subscribe(route -> LOGGER.info("Effective Route: {}", route));
         };
     }
 
+    /**
+     * Initialiseur de dossier de journaux.
+     *
+     * @return l'initialiseur de dossier de journal
+     */
     @Bean
     public LogFolderInitializer logFolderInitializer() {
         return new LogFolderInitializer();

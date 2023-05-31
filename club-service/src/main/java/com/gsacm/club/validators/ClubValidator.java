@@ -29,8 +29,8 @@
 
 package com.gsacm.club.validators;
 
-import com.gsacm.clients.club.ClubDTO;
 import com.gsacm.club.helpers.ErrorList;
+import com.gsacm.helpers.dto.ClubDTO;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -38,74 +38,28 @@ import java.util.List;
 
 
 /**
- * The type Club validator.
+ * Le validateur de type Clube classe.
  */
 public class ClubValidator {
     /**
-     * Validate list.
+     * Valider la liste.
      *
-     * @param clubDTO the club dto
-     * @return the list
+     * @param clubDTO le club dto
+     * @return la liste
      */
     public static List<String> validate(ClubDTO clubDTO) {
+        // Vérifier si la liste des erreurs est vide
         List<String> errors = new ArrayList<>();
-
+        // Vérifier si ClubDTO est vide
         if (clubDTO == null) {
             errors.add(ErrorList.ERROR_CLUB_NAME_REQUIRED);
-//            errors.add(ERROR_CLUB_DESCRIPTION_REQUIRED);
-//            errors.add(ERROR_CLUB_EMAIL_REQUIRED);
-//            errors.add(ERROR_CLUB_ADDRESS_ONE_REQUIRED);
-//            errors.add(ERROR_CLUB_VILLE_REQUIRED);
-//            errors.add(ERROR_CLUB_POSTAL_CODE_REQUIRED);
-//            errors.add(ERROR_CLUB_PAYS_REQUIRED);
-//            errors.add(ERROR_CLUB_PHONE_REQUIRED);
-//            errors.add(ERROR_CLUB_FAX_REQUIRED);
-//            errors.add(ERROR_CLUB_GSM_REQUIRED);
             return errors;
         }
-
+        // Vérifiez si le nom du club est vide
         if (StringUtils.isEmpty(clubDTO.getName())) {
             errors.add(ErrorList.ERROR_CLUB_NAME_REQUIRED);
         }
-
-//        if (StringUtils.isEmpty(clubDTO.getDescription())) {
-//            errors.add(ERROR_CLUB_DESCRIPTION_REQUIRED);
-//        }
-//
-//        if (StringUtils.isEmpty(clubDTO.getEmail())) {
-//            errors.add(ERROR_CLUB_EMAIL_REQUIRED);
-//        }
-//
-//        if (StringUtils.isEmpty(clubDTO.getAddress1())) {
-//            errors.add(ERROR_CLUB_ADDRESS_ONE_REQUIRED);
-//        }
-//
-//        if (StringUtils.isEmpty(clubDTO.getVille())) {
-//            errors.add(ERROR_CLUB_VILLE_REQUIRED);
-//        }
-//
-//
-//        if (StringUtils.isEmpty(clubDTO.getCodepostale())) {
-//            errors.add(ERROR_CLUB_POSTAL_CODE_REQUIRED);
-//        }
-//
-//
-//        if (StringUtils.isEmpty(clubDTO.getNumFix())) {
-//            errors.add(ERROR_CLUB_PHONE_REQUIRED);
-//        }
-//
-//        if (StringUtils.isEmpty(clubDTO.getNumFax())) {
-//            errors.add(ERROR_CLUB_FAX_REQUIRED);
-//        }
-//
-//        if (StringUtils.isEmpty(clubDTO.getGsm())) {
-//            errors.add(ERROR_CLUB_GSM_REQUIRED);
-//        }
-//
-//        if (StringUtils.isEmpty(clubDTO.getPays())) {
-//            errors.add(ERROR_CLUB_PAYS_REQUIRED);
-//        }
-
+        // Renvoyer la liste des erreurs
         return errors;
     }
 }

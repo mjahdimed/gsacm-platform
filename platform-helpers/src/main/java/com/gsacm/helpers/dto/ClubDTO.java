@@ -27,39 +27,41 @@
  *
  */
 
-package com.gsacm.club.exceptions;
+package com.gsacm.helpers.dto;
 
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
-public enum ErrorCodes {
-    INVALID_INPUT(HttpStatus.BAD_REQUEST, "InvalidInput", "The input provided is invalid."),
-    MISSING_FIELD(HttpStatus.BAD_REQUEST, "MissingField", "A required field is missing."),
-    DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "DatabaseError", "An error occurred while accessing the database."),
-    AUTHENTICATION_ERROR(HttpStatus.UNAUTHORIZED, "AuthenticationError", "Authentication failed."),
-    PERMISSION_DENIED(HttpStatus.FORBIDDEN, "PermissionDenied", "You don't have permission to perform this operation."),
-    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "ResourceNotFound", "The requested resource was not found.");
+import java.time.LocalDateTime;
 
-    private final HttpStatus httpStatus;
-    private final String code;
-    private final String message;
+/**
+ * DTO for {@link ClubDTO}
+ */
+@Data
+@AllArgsConstructor
+@Builder
+public class ClubDTO {
 
-    ErrorCodes(HttpStatus httpStatus, String code, String message) {
-        this.httpStatus = httpStatus;
-        this.code = code;
-        this.message = message;
-    }
+    private Long id;
+    private String name;
+    private String logoUrl;
+    private String description;
+    private String email;
+    private String numFix;
+    private String numFax;
+    private String gsm;
+    private String siteWeb;
+    private String address1;
+    private String address2;
+    private String ville;
+    private String codepostale;
+    private String pays;
+    private String status;
+    private LocalDateTime creationDate;
+    private LocalDateTime lastModifiedDate;
+    private LocalDateTime deletedDate;
 
-    public HttpStatus getHttpStatus() {
-        return httpStatus;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public String getMessage() {
-        return message;
+    public ClubDTO() {
     }
 }
-
-

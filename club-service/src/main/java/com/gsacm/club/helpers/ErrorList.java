@@ -30,48 +30,49 @@
 package com.gsacm.club.helpers;
 
 /**
- * The interface Error list.
+ * La liste d'erreurs de l'interface.
  */
 public interface ErrorList {
     /**
-     * The constant ERROR_CLUB_NAME_REQUIRED.
+     * La constante ERROR_CLUB_NAME_REQUIRED.
      */
-    String ERROR_CLUB_NAME_REQUIRED = "Please enter the club name";
+    String ERROR_CLUB_NAME_REQUIRED = "Veuillez entrer le nom du club";
     /**
-     * The constant ERROR_CLUB_DESCRIPTION_REQUIRED.
+     * La constante ERROR_CLUB_DESCRIPTION_REQUIRED.
      */
-    String ERROR_CLUB_DESCRIPTION_REQUIRED = "Please enter the club description";
+    String ERROR_CLUB_DESCRIPTION_REQUIRED = "Veuillez entrer la description du club";
     /**
-     * The constant ERROR_CLUB_EMAIL_REQUIRED.
+     * La constante ERROR_CLUB_EMAIL_REQUIRED.
      */
-    String ERROR_CLUB_EMAIL_REQUIRED = "Please enter the club email";
+    String ERROR_CLUB_EMAIL_REQUIRED = "Veuillez entrer l'e-mail du club";
     /**
-     * The constant ERROR_CLUB_PHONE_REQUIRED.
+     * La constante ERROR_CLUB_PHONE_REQUIRED.
      */
-    String ERROR_CLUB_PHONE_REQUIRED = "Please enter the club phone";
+    String ERROR_CLUB_PHONE_REQUIRED = "Veuillez entrer le numéro de téléphone du club";
     /**
-     * The constant ERROR_CLUB_FAX_REQUIRED.
+     * La constante ERROR_CLUB_FAX_REQUIRED.
      */
-    String ERROR_CLUB_FAX_REQUIRED = "Please enter the club fax";
+    String ERROR_CLUB_FAX_REQUIRED = "Veuillez entrer le numéro de fax du club";
     /**
-     * The constant ERROR_CLUB_GSM_REQUIRED.
+     * La constante ERROR_CLUB_GSM_REQUIRED.
      */
-    String ERROR_CLUB_GSM_REQUIRED = "Please enter the club GSM";
+    String ERROR_CLUB_GSM_REQUIRED = "Veuillez entrer le numéro GSM du club";
     /**
-     * The constant ERROR_CLUB_ADDRESS_ONE_REQUIRED.
+     * La constante ERROR_CLUB_ADDRESS_ONE_REQUIRED.
      */
-    String ERROR_CLUB_ADDRESS_ONE_REQUIRED = "Please enter the club address 1";
+    String ERROR_CLUB_ADDRESS_ONE_REQUIRED = "Veuillez entrer l'adresse 1 du club";
+
     /**
-     * The constant ERROR_CLUB_VILLE_REQUIRED.
+     * La constante ERROR_CLUB_VILLE_REQUIRED .
      */
-    String ERROR_CLUB_VILLE_REQUIRED = "Please enter the club ville";
+    String ERROR_CLUB_VILLE_REQUIRED = "Veuillez entrer la ville du club";
     /**
-     * The constant ERROR_CLUB_POSTAL_CODE_REQUIRED.
+     * La constante ERROR_CLUB_POSTAL_CODE_REQUIRED.
      */
-    String ERROR_CLUB_POSTAL_CODE_REQUIRED = "Please enter the club postal code";
+    String ERROR_CLUB_POSTAL_CODE_REQUIRED = "Veuillez entrer le code postal du club";
     /**
-     * The constant ERROR_CLUB_PAYS_REQUIRED.
+     * La constante ERROR_CLUB_PAYS_REQUIRED.
      */
-    String ERROR_CLUB_PAYS_REQUIRED = "Please enter the club pays";
+    String ERROR_CLUB_PAYS_REQUIRED = "Veuillez entrer le pays du club";
 }
 

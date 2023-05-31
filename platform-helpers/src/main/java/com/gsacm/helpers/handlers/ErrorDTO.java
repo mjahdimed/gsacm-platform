@@ -27,9 +27,9 @@
  *
  */
 
-package com.gsacm.club.handlers;
+package com.gsacm.helpers.handlers;
 
-import com.gsacm.club.exceptions.ErrorCodes;
+import com.gsacm.helpers.exceptions.ErrorCodes;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -37,12 +37,27 @@ import org.springframework.http.HttpStatus;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Le type Erreur dto.
+ */
 @Data
 @Builder
 public class ErrorDTO {
+    /**
+     * Le statut HTTP.
+     */
     private HttpStatus httpStatus;
+    /**
+     * Le code Erreur.
+     */
     private ErrorCodes code;
+    /**
+     * Le message.
+     */
     private String message;
+    /**
+     * Les Erreurs.
+     */
     @Builder.Default
     private List<String> errors = new ArrayList<>();
 }

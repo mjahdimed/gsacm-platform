@@ -40,19 +40,36 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.Collections;
 
+/**
+ * Le type Open api configs.
+ */
 @OpenAPIDefinition
 @Configuration
 public class OpenApiConfigs {
 
+    /**
+     * Le titre du service.
+     */
     @Value("${openapi.service.title}")
     private String serviceTitle;
 
+    /**
+     * La version Services.
+     */
     @Value("${openapi.service.version}")
     private String serviceVersion;
 
+    /**
+     * L'URL.
+     */
     @Value("${openapi.service.url}")
     private String url;
 
+    /**
+     * open api personnalisée..
+     *
+     * @return la open api
+     */
     @Bean
     public OpenAPI customOpenAPI() {
         return new OpenAPI()

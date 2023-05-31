@@ -27,104 +27,91 @@
  *
  */
 
-package com.gsacm.club.exceptions;
+package com.gsacm.helpers.exceptions;
 
-import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
-import java.util.List;
-
-@Getter
-public class InvalidEntityException extends RuntimeException {
-
-    private ErrorCodes errorCodes;
-    private List<String> errors;
+/**
+ * Les codes d'erreur enum.
+ */
+public enum ErrorCodes {
+    /**
+     * L'entrée invalide.
+     */
+    INVALID_INPUT(HttpStatus.BAD_REQUEST, "InvalidInput", "L'entrée fournie n'est pas valide."),
+    /**
+     * Le champ Manquant.
+     */
+    MISSING_FIELD(HttpStatus.BAD_REQUEST, "MissingField", "Un champ obligatoire est manquant."),
+    /**
+     * L'erreur de base de données.
+     */
+    DATABASE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "DatabaseError", "Une erreur s'est produite lors de l'accès à la base de données."),
+    /**
+     * Codes d'erreur d'erreur d'authentification.
+     */
+    AUTHENTICATION_ERROR(HttpStatus.UNAUTHORIZED, "AuthenticationError", "Authentification échouée."),
+    /**
+     * Codes d'erreur d'erreur d'authentification.
+     */
+    PERMISSION_DENIED(HttpStatus.FORBIDDEN, "PermissionDenied", "Vous n'êtes pas autorisé à effectuer cette opération."),
+    /**
+     * La Ressource est introuvable.
+     */
+    RESOURCE_NOT_FOUND(HttpStatus.NOT_FOUND, "ResourceNotFound", "La ressource demandée n'a pas été trouvée.");
 
     /**
-     * Instantiates a new Invalid entity exception.
-     *
-     * @param message the message
-     * @param cause   the cause
+     * Le statut HTTP.
      */
-    public InvalidEntityException(String message, Throwable cause) {
-        super(message, cause);
+    private final HttpStatus httpStatus;
+    /**
+     * Le code Erreur.
+     */
+    private final String code;
+    /**
+     * Le Message.
+     */
+    private final String message;
+
+    /**
+     * Instancie un nouveau code d'erreur.
+     *
+     * @param httpStatus Le statut HTTP.
+     * @param code       Le code Erreur.
+     * @param message    Le Message.
+     */
+    ErrorCodes(HttpStatus httpStatus, String code, String message) {
+        this.httpStatus = httpStatus;
+        this.code = code;
+        this.message = message;
     }
 
     /**
-     * Instantiates a new Invalid entity exception.
+     * Obtient le statut http.
      *
-     * @param message the message
+     * @return le statut http
      */
-    public InvalidEntityException(String message) {
-        super(message);
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
     }
 
     /**
-     * Instantiates a new Invalid entity exception.
+     * Obtient le code errur.
      *
-     * @param message    the message
-     * @param cause      the cause
-     * @param errorCodes the error codes
-     * @param errors     the errors
+     * @return le code errur
      */
-    public InvalidEntityException(String message, Throwable cause, ErrorCodes errorCodes, List<String> errors) {
-        super(message, cause);
-        this.errorCodes = errorCodes;
-        this.errors = errors;
+    public String getCode() {
+        return code;
     }
 
     /**
-     * Instantiates a new Invalid entity exception.
+     * Reçoit un message.
      *
-     * @param message the message
-     * @param cause   the cause
-     * @param errors  the errors
+     * @return un message
      */
-    public InvalidEntityException(String message, ErrorCodes cause, List<String> errors) {
-        super(message);
-        this.errors = errors;
+    public String getMessage() {
+        return message;
     }
-
-    /**
-     * Instantiates a new Invalid entity exception.
-     *
-     * @param message    the message
-     * @param cause      the cause
-     * @param errorCodes the error codes
-     */
-    public InvalidEntityException(String message, Throwable cause, ErrorCodes errorCodes) {
-        super(message, cause);
-        this.errorCodes = errorCodes;
-    }
-
-    /**
-     * Instantiates a new Invalid entity exception.
-     *
-     * @param message    the message
-     * @param errorCodes the error codes
-     */
-    public InvalidEntityException(String message, ErrorCodes errorCodes) {
-        super(message);
-        this.errorCodes = errorCodes;
-    }
-
-    /**
-     * Instantiates a new Invalid entity exception.
-     *
-     * @param errorCodes the error codes
-     */
-    public InvalidEntityException(ErrorCodes errorCodes) {
-        this.errorCodes = errorCodes;
-    }
-
-    /**
-     * Instantiates a new Invalid entity exception.
-     *
-     * @param errorCodes the error codes
-     * @param errors     the errors
-     */
-    public InvalidEntityException(ErrorCodes errorCodes, List<String> errors) {
-        this.errorCodes = errorCodes;
-        this.errors = errors;
-    }
-
 }
+
+

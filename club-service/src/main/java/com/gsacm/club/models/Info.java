@@ -38,7 +38,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * The type Address.
+ * Le type Info classe complementaire,
+ * de l'entité Clube
  */
 @Data
 @AllArgsConstructor

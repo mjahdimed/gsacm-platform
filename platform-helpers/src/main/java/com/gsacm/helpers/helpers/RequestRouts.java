@@ -27,51 +27,15 @@
  *
  */
 
-package com.gsacm.club.exceptions;
+package com.gsacm.helpers.helpers;
 
-import lombok.Getter;
-
-@Getter
-public class EntityNotFoundException extends RuntimeException {
-
-    private ErrorCodes errorCodes;
-
-    public EntityNotFoundException(String message) {
-        super(message);
-    }
+/**
+ * The interface Request routs.
+ */
+public interface RequestRouts {
 
     /**
-     * Instantiates a new Entity not foudn exception.
-     *
-     * @param message    the message
-     * @param errorCodes the error codes
+     * The constant API_CLUB_ROUT.
      */
-    public EntityNotFoundException(String message, ErrorCodes errorCodes) {
-        super(message);
-        this.errorCodes = errorCodes;
-    }
-
-    /**
-     * Instantiates a new Entity not foudn exception.
-     *
-     * @param message the message
-     * @param cause   the cause
-     */
-    public EntityNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
-
-
-    /**
-     * Instantiates a new Entity not foudn exception.
-     *
-     * @param message    the message
-     * @param cause      the cause
-     * @param errorCodes the error codes
-     */
-    public EntityNotFoundException(String message, Throwable cause, ErrorCodes errorCodes) {
-        super(message, cause);
-        this.errorCodes = errorCodes;
-    }
+    String API_CLUB_ROUT = "/api/v1/clubs/";
 }
-

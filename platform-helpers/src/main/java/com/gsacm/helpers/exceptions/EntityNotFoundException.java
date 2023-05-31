@@ -27,38 +27,61 @@
  *
  */
 
-package com.gsacm.club.handlers;
+package com.gsacm.helpers.exceptions;
 
-import com.gsacm.club.exceptions.EntityNotFoundException;
-import com.gsacm.club.exceptions.InvalidEntityException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+import lombok.Getter;
 
-@RestControllerAdvice
-public class RestExceptionHandler extends ResponseEntityExceptionHandler {
+/**
+ * L'exception de type Entité introuvable.
+ */
+@Getter
+public class EntityNotFoundException extends RuntimeException {
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ErrorDTO> handleException(EntityNotFoundException exception, WebRequest webRequest) {
-        ErrorDTO errorDto = ErrorDTO.builder()
-                .code(exception.getErrorCodes())
-                .httpStatus(HttpStatus.NOT_FOUND)
-                .message(exception.getMessage())
-                .build();
-        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+    /**
+     * Les codes d'erreur.
+     */
+    private ErrorCodes errorCodes;
+
+    /**
+     * Instancie une nouvelle exception Entité introuvable
+     *
+     * @param message le message
+     */
+    public EntityNotFoundException(String message) {
+        super(message);
     }
 
-    @ExceptionHandler(InvalidEntityException.class)
-    public ResponseEntity<ErrorDTO> handleException(InvalidEntityException exception, WebRequest webRequest) {
-        ErrorDTO errorDto = ErrorDTO.builder()
-                .code(exception.getErrorCodes())
-                .httpStatus(HttpStatus.BAD_REQUEST)
-                .message(exception.getMessage())
-                .errors(exception.getErrors())
-                .build();
-        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
+    /**
+     * Instancie une nouvelle exception Entité introuvable
+     *
+     * @param message    le message
+     * @param errorCodes les codes d'erreur
+     */
+    public EntityNotFoundException(String message, ErrorCodes errorCodes) {
+        super(message);
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instancie une nouvelle exception Entité introuvable
+     *
+     * @param message le message
+     * @param cause   la cause
+     */
+    public EntityNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Instancie une nouvelle exception Entité introuvable
+     *
+     * @param message    le message
+     * @param cause      la cause
+     * @param errorCodes les codes d'erreur
+     */
+    public EntityNotFoundException(String message, Throwable cause, ErrorCodes errorCodes) {
+        super(message, cause);
+        this.errorCodes = errorCodes;
     }
 }
+

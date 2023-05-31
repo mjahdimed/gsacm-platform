@@ -35,19 +35,28 @@ import org.springframework.core.io.ClassPathResource;
 
 import java.io.File;
 
+/**
+ * L'initialiseur de dossier de journal de type.
+ */
 public class LogFolderInitializer implements ApplicationRunner {
 
+    /**
+     * Executé.
+     *
+     * @param args les arguments
+     * @throws Exception l'exception
+     */
     public void run(ApplicationArguments args) throws Exception {
         // Create log folder if it doesn't exist
         File resourceFolder = new ClassPathResource("").getFile();
-        File logFolder = new File(resourceFolder, "logs/club-service");
+        File logFolder = new File(resourceFolder, "logs/${spring.application.name}");
 
         if (!logFolder.exists()) {
             boolean created = logFolder.mkdirs();
             if (created) {
-                System.out.println("Log folder created: " + logFolder.getAbsolutePath());
+                System.out.println("Dossier de journal créé: " + logFolder.getAbsolutePath());
             } else {
-                System.out.println("Failed to create log folder: " + logFolder.getAbsolutePath());
+                System.out.println("Échec de la création du dossier de journal: " + logFolder.getAbsolutePath());
             }
         }
     }

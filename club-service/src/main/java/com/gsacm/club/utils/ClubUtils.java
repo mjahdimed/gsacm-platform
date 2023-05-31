@@ -30,56 +30,60 @@
 package com.gsacm.club.utils;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
- * The type Club utils.
+ * Les utilitaires de type class pour le Clube
  */
 public class ClubUtils {
 
 
     /**
-     * Gets default logo url.
-     *
-     * @param relativePath the relative path to the gsacm-platform folder
-     * @return the default logo url
+     * La constante DEFAULT_LOGO_URL.
      */
     private static final String DEFAULT_LOGO_URL = "/assets/placeholder/no-image.png";
 
     /**
-     * Gets default logo url.
+     * Obtient l'URL du logo par défaut.
      *
-     * @param relativePath the relative path to the gsacm-platform folder
-     * @return the default logo url
+     * @param relativePath le chemin relatif vers le dossier gsacm-platform
+     * @return l 'URL du logo par défaut
      */
+
     public static String getDefaultLogoUrl() {
         String defaultLogoPath = DEFAULT_LOGO_URL;
         URL resourceUrl = ClubUtils.class.getResource(defaultLogoPath);
         if (resourceUrl != null) {
-            String defaultLogoUrl = URLDecoder.decode(resourceUrl.toString(), StandardCharsets.UTF_8);
-            defaultLogoUrl = defaultLogoUrl.replace("\\", "/"); // Replace backslashes with forward slashes
-            return defaultLogoUrl;
+            try {
+                URI resourceUri = resourceUrl.toURI();
+                String defaultLogoUrl = Paths.get(resourceUri).toString();
+                defaultLogoUrl = defaultLogoUrl.replace("\\\\", "\\");// Replace double backslashes with single backslash
+                return defaultLogoUrl;
+            } catch (URISyntaxException e) {
+                throw new IllegalStateException("Erreur lors de la récupération de l'URL du logo par défaut", e);
+            }
         } else {
-            throw new IllegalStateException("Default logo resource not found");
+            throw new IllegalStateException("Ressource de logo par défaut introuvable");
         }
     }
 
+
     /**
-     * Create directory if not exists.
+     * Créer un répertoire s'il n'existe pas.
      *
-     * @param directoryPath the directory path
-     * @throws IOException the io exception
+     * @param directoryPath le chemin du répertoire
+     * @throws IOException l'exception io
      */
     public static void createDirectoryIfNotExists(Path directoryPath) {
         try {
             Files.createDirectories(directoryPath);
         } catch (IOException e) {
-            System.out.println("Failed to create directory: " + e.getMessage());
+            System.out.println("Impossible de créer le répertoire: " + e.getMessage());
         }
     }
 }

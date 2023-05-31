@@ -37,20 +37,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.config.server.EnableConfigServer;
 
 /**
- * The type Cloud server config application.
+ * Le type Application de configuration de serveur Cloud.
  */
 @SpringBootApplication
 @EnableConfigServer
 public class CloudServerConfigApplication {
+    /**
+     * Le LOGGER constant.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(CloudServerConfigApplication.class);
 
     /**
-     * The entry point of application.
+     * Le point d'entrée de l'application.
      *
-     * @param args the input arguments
+     * @param args les arguments d'entrée
      */
     public static void main(String[] args) {
-        LOGGER.info("Starting Cloud Server configuration application");
+        LOGGER.info("Démarrage de l'application de configuration du serveur cloud");
         SpringApplication.run(CloudServerConfigApplication.class, args);
     }
 }

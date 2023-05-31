@@ -40,7 +40,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**
- * The type Club.
+ * Le type Clube entité classe .
  */
 @Data
 @AllArgsConstructor
@@ -51,21 +51,41 @@ import lombok.NoArgsConstructor;
 public class Club extends AbstractEntity {
 
 
+    /**
+     * le Nom.
+     */
     @Column(name = "name")
     private String name;
 
+    /**
+     * L'URL du logo.
+     */
     @Column(name = "logo_url")
     private String logoUrl;
 
+    /**
+     * Les Infos Ajoutter
+     * atraver la calss Info
+     */
     @Embedded
     private Info info;
 
+    /**
+     * Les Adresses Ajoutter
+     * atraver la calss Address
+     */
     @Embedded
     private Address address;
 
+    /**
+     * La Description.
+     */
     @Column(name = "description")
     private String description;
 
+    /**
+     * Le Status.
+     */
     @Column(name = "status")
     private String status;
 

@@ -27,41 +27,55 @@
  *
  */
 
-package com.gsacm.clients.club;
+package com.gsacm.helpers.handlers;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-
-import java.time.LocalDateTime;
+import com.gsacm.helpers.exceptions.EntityNotFoundException;
+import com.gsacm.helpers.exceptions.InvalidEntityException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /**
- * DTO for {@link ClubDTO}
+ * La classe RestExceptionHandler.
  */
-@Data
-@AllArgsConstructor
-@Builder
-public class ClubDTO {
+@RestControllerAdvice
+public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    private Long id;
-    private String name;
-    private String logoUrl;
-    private String description;
-    private String email;
-    private String numFix;
-    private String numFax;
-    private String gsm;
-    private String siteWeb;
-    private String address1;
-    private String address2;
-    private String ville;
-    private String codepostale;
-    private String pays;
-    private String status;
-    private LocalDateTime creationDate;
-    private LocalDateTime lastModifiedDate;
-    private LocalDateTime deletedDate;
+    /**
+     * Gère l'exception et renvoie une ResponseEntity.
+     *
+     * @param exception  l'exception
+     * @param webRequest la requête web
+     * @return la ResponseEntity
+     */
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleException(EntityNotFoundException exception, WebRequest webRequest) {
+        ErrorDTO errorDto = ErrorDTO.builder()
+                .code(exception.getErrorCodes())
+                .httpStatus(HttpStatus.NOT_FOUND)
+                .message(exception.getMessage())
+                .build();
+        return new ResponseEntity<>(errorDto, HttpStatus.NOT_FOUND);
+    }
 
-    public ClubDTO() {
+    /**
+     * Gère l'exception et renvoie une ResponseEntity.
+     *
+     * @param exception  l'exception
+     * @param webRequest la requête web
+     * @return la ResponseEntity
+     */
+    @ExceptionHandler(InvalidEntityException.class)
+    public ResponseEntity<ErrorDTO> handleException(InvalidEntityException exception, WebRequest webRequest) {
+        ErrorDTO errorDto = ErrorDTO.builder()
+                .code(exception.getErrorCodes())
+                .httpStatus(HttpStatus.BAD_REQUEST)
+                .message(exception.getMessage())
+                .errors(exception.getErrors())
+                .build();
+        return new ResponseEntity<>(errorDto, HttpStatus.BAD_REQUEST);
     }
 }

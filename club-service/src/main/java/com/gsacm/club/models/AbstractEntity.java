@@ -43,7 +43,8 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * The type Abstract entity.
+ * Le type Entité abstraite pour compléter,
+ * les information de l'entité Clube
  */
 @Data
 @Builder
@@ -52,27 +53,42 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class AbstractEntity implements Serializable {
+    /**
+     * L'identifient.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
     @SequenceGenerator(name = "sequence_generator", sequenceName = "club_seq", allocationSize = 1)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
+    /**
+     * La date de création.
+     */
     @CreatedDate
     @Column(name = "creationDate", updatable = false)
     @JsonIgnore
     private LocalDateTime creationDate;
 
+    /**
+     * La date de la dernière modification.
+     */
     @LastModifiedDate
     @Column(name = "lastModifiedDate", updatable = true)
     @JsonIgnore
     private LocalDateTime lastModifiedDate;
 
 
+    /**
+     * La date de suppression.
+     */
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "deletedDate", updatable = true)
     private LocalDateTime deletedDate;
 
+    /**
+     * Le statut.
+     */
     @Column(name = "status")
     private String status;
 

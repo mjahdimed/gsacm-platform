@@ -38,17 +38,33 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
+/**
+ * L'application de service de type Clube classe.
+ */
 @SpringBootApplication
 @EnableDiscoveryClient
 public class ClubServiceApplication {
 
+    /**
+     * Le LOGGER constant.
+     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ClubServiceApplication.class);
 
+    /**
+     * Le point d'entrée de l'application.
+     *
+     * @param args les arguments d'entrée
+     */
     public static void main(String[] args) {
-        LOGGER.info("Starting Club Service application");
+        LOGGER.info("Démarrage de l'application Club Service");
         SpringApplication.run(ClubServiceApplication.class, args);
     }
 
+    /**
+     * Initialiseur de dossier de journaux.
+     *
+     * @return l'initialiseur de dossier de journal
+     */
     @Bean
     public LogFolderInitializer logFolderInitializer() {
         return new LogFolderInitializer();

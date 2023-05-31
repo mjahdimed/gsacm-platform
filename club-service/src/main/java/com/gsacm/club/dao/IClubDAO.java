@@ -35,10 +35,32 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * L'interface Clube Objet d'accès aux données.
+ */
 public interface IClubDAO extends JpaRepository<Club, Long> {
+    /**
+     * Trouvez tout par collection de statut.
+     *
+     * @param status le statut
+     * @return la collection
+     */
     Collection<Club> findAllByStatus(String status);
 
+    /**
+     * Rechercher par nom facultatif.
+     *
+     * @param clubName le nom du clube
+     * @return facultatif
+     */
     Optional<Club> findByName(String clubName);
 
+    /**
+     * Rechercher par identifiant et statut facultatif.
+     *
+     * @param clubId l'identifiant du clube
+     * @param status le statut
+     * @return facultatif
+     */
     Optional<Club> findByIdAndStatus(Long clubId, String status);
 }

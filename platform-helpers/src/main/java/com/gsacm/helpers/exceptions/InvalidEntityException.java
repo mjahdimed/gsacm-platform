@@ -27,15 +27,113 @@
  *
  */
 
-package com.gsacm.clients.helpers;
+package com.gsacm.helpers.exceptions;
+
+import lombok.Getter;
+
+import java.util.List;
 
 /**
- * The interface Request routs.
+ * Le type Exception d'entité non valide.
  */
-public interface RequestRouts {
+@Getter
+public class InvalidEntityException extends RuntimeException {
 
     /**
-     * The constant API_CLUB_ROUT.
+     * Les codes d'erreur.
      */
-    String API_CLUB_ROUT = "/api/v1/clubs/";
+    private ErrorCodes errorCodes;
+    /**
+     * Les erreurs.
+     */
+    private List<String> errors;
+
+    /**
+     * Instancie une nouvelle exception d'entité non valide.
+     *
+     * @param message le message
+     * @param cause   la cause
+     */
+    public InvalidEntityException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    /**
+     * Instancie une nouvelle exception d'entité non valide.
+     *
+     * @param message le message
+     */
+    public InvalidEntityException(String message) {
+        super(message);
+    }
+
+    /**
+     * Instancie une nouvelle exception d'entité non valide.
+     *
+     * @param message    le message
+     * @param cause      la cause
+     * @param errorCodes les codes d'erreur.
+     * @param errors     les erreurs
+     */
+    public InvalidEntityException(String message, Throwable cause, ErrorCodes errorCodes, List<String> errors) {
+        super(message, cause);
+        this.errorCodes = errorCodes;
+        this.errors = errors;
+    }
+
+    /**
+     * Instancie une nouvelle exception d'entité non valide.
+     *
+     * @param message le message
+     * @param cause   le cause
+     * @param errors  les erreurs
+     */
+    public InvalidEntityException(String message, ErrorCodes cause, List<String> errors) {
+        super(message);
+        this.errors = errors;
+    }
+
+    /**
+     * Instancie une nouvelle exception d'entité non valide.
+     *
+     * @param message    le message
+     * @param cause      la cause
+     * @param errorCodes les codes d'erreur.
+     */
+    public InvalidEntityException(String message, Throwable cause, ErrorCodes errorCodes) {
+        super(message, cause);
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instancie une nouvelle exception d'entité non valide.
+     *
+     * @param message    le message
+     * @param errorCodes les codes d'erreur.
+     */
+    public InvalidEntityException(String message, ErrorCodes errorCodes) {
+        super(message);
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instancie une nouvelle exception d'entité non valide.
+     *
+     * @param errorCodes les codes d'erreur.
+     */
+    public InvalidEntityException(ErrorCodes errorCodes) {
+        this.errorCodes = errorCodes;
+    }
+
+    /**
+     * Instancie une nouvelle exception d'entité non valide.
+     *
+     * @param errorCodes les codes d'erreur.
+     * @param errors     les erreurs
+     */
+    public InvalidEntityException(ErrorCodes errorCodes, List<String> errors) {
+        this.errorCodes = errorCodes;
+        this.errors = errors;
+    }
+
 }
