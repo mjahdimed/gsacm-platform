@@ -22,8 +22,6 @@ logging:
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] ${LOG_LEVEL_PATTERN:-%5p} %m%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] %-5level %logger{36} - %msg%n"
-
-
 # Spring Boot Settings
 spring:
   output:
@@ -34,31 +32,30 @@ spring:
     url: jdbc:postgresql://localhost:5432/club_db
     username: admin
     password: admin
-  jpa:
-    hibernate:
-      ddl-auto: none
-      naming:
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl # Specify the naming implicit-strategy
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl # Specify the naming physical-strategy
-    # Additional PostgreSQL configuration
-    properties:
+    jpa:
       hibernate:
-        dialect: org.hibernate.dialect.PostgreSQLDialect # Specify the PostgreSQL dialect
-        format_sql: true
-        jdbc:
-          batch_size: 50 # Set the batch size for JDBC batch processing
-        cache:
-          use_second_level_cache: true # Enable second-level caching
-          region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory # Specify the cache region factory
-        time_zone: UTC # Set the database time zone to UTC for consistency
-        default_batch_fetch_size: 100 # Set the default batch fetch size
-        generate_statistics: true # Enable Hibernate statistics
-    show-sql: true
+        ddl-auto: none
+        naming:
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      properties:
+        hibernate:
+          show-sql: true
+          dialect: org.hibernate.dialect.PostgreSQLDialect
+          format_sql: true
+          jdbc:
+            batch_size: 50
+          cache:
+            use_second_level_cache: true
+            region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
+          default_batch_fetch_size: 100
+          generate_statistics: true
+# Flyway Settings
+flyway:
+  locations: classpath:db/migration
+  baselineOnMigrate: true
+  validateOnMigrate: true
 
-  # Flyway settings
-  flyway:
-    locations: classpath:db/migration
-    baseline-on-migrate: true
 
 # Actuator Settings
 management:

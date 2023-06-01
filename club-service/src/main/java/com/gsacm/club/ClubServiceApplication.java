@@ -38,33 +38,76 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
-/**
- * L'application de service de type Clube classe.
- */
+import java.sql.*;
+
 @SpringBootApplication
 @EnableDiscoveryClient
 public class ClubServiceApplication {
 
-    /**
-     * Le LOGGER constant.
-     */
     private static final Logger LOGGER = LoggerFactory.getLogger(ClubServiceApplication.class);
 
-    /**
-     * Le point d'entrée de l'application.
-     *
-     * @param args les arguments d'entrée
-     */
     public static void main(String[] args) {
         LOGGER.info("Démarrage de l'application Club Service");
+
+        String dbUrl = "jdbc:postgresql://localhost:5432/postgres";
+        String dbPassword = "admin";
+        String dbUsername = "admin";
+
+        Connection connection = null;
+        Statement statement = null;
+        try {
+            System.out.println("Création de la base de données si elle n'existe pas...");
+            connection = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+            statement = connection.createStatement();
+
+            // Check if the database already exists
+            ResultSet resultSet = connection.getMetaData().getCatalogs();
+            boolean databaseExists = false;
+            while (resultSet.next()) {
+                String databaseName = resultSet.getString(1);
+                if (databaseName.equalsIgnoreCase("club_db")) {
+                    databaseExists = true;
+                    break;
+                }
+            }
+            resultSet.close();
+
+            if (!databaseExists) {
+                statement.executeUpdate("CREATE DATABASE club_db");
+                System.out.println("Base de données créée.");
+            } else {
+                System.out.println("La base de données existe déjà. Ignorer la création.");
+            }
+
+            // Grant privileges to the user on the newly created database
+            Connection clubDbConnection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/club_db", dbUsername, dbPassword);
+            Statement clubDbStatement = clubDbConnection.createStatement();
+            clubDbStatement.executeUpdate("GRANT ALL PRIVILEGES ON DATABASE club_db TO " + dbUsername);
+            System.out.println("Privilèges accordés sur club_db.");
+
+            clubDbStatement.close();
+            clubDbConnection.close();
+        } catch (SQLException e) {
+            System.err.println(e);
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                    System.out.println("Déclaration fermée.");
+                }
+                if (connection != null) {
+                    System.out.println("Connexion fermée.");
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.err.println(e);
+            }
+        }
+
         SpringApplication.run(ClubServiceApplication.class, args);
     }
 
-    /**
-     * Initialiseur de dossier de journaux.
-     *
-     * @return l'initialiseur de dossier de journal
-     */
+
     @Bean
     public LogFolderInitializer logFolderInitializer() {
         return new LogFolderInitializer();
