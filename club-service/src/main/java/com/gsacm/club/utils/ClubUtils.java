@@ -46,7 +46,7 @@ public class ClubUtils {
     /**
      * La constante DEFAULT_LOGO_URL.
      */
-    private static final String DEFAULT_LOGO_URL = "/assets/placeholder/no-image.png";
+    private static final String DEFAULT_LOGO_URL = "/placeholder/no-image.png";
 
     /**
      * Obtient l'URL du logo par défaut.
