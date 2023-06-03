@@ -68,21 +68,20 @@ public class ClubAPIController {
      * @param file le fichier téléchargé.
      * @return l'entité de réponse
      */
-    @Operation(summary = "Ajouter un nouveau clube", description = "Ajouter un nouveau clube au système")
+    @Operation(summary = "Ajouter un nouveau club", description = "Ajouter un nouveau club au système")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Clube ajouté avec succès"),
+            @ApiResponse(responseCode = "200", description = "Club ajouté avec succès"),
             @ApiResponse(responseCode = "400", description = "Format de demande invalide")
     })
     @PostMapping(value = "add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ClubDTO> newClub(
+    public ResponseEntity<ClubDTO> addClub(
             @ModelAttribute ClubDTO dto,
             @RequestParam(value = "file", required = false) MultipartFile file
     ) {
-        log.info("Clube {} enregistré avec succès", dto);
-        ClubDTO createdClub = clubService.newClub(dto, file);
+        log.info("Club {} enregistré avec succès", dto);
+        ClubDTO createdClub = clubService.addClub(dto, file);
         return ResponseEntity.ok(createdClub);
     }
-
 
     /**
      * Rechercher un clube par entité de réponse d'identifiant.
@@ -130,9 +129,12 @@ public class ClubAPIController {
             @ApiResponse(responseCode = "200", description = "Clube est mis à jour avec succès"),
             @ApiResponse(responseCode = "400", description = "Format de demande invalide")
     })
-    @PutMapping("{clubId}")
-    ResponseEntity<ClubDTO> updateClubByID(@RequestBody ClubDTO dto, @PathVariable("clubId") Long id) {
-        ClubDTO updatedClub = clubService.updateClubByID(dto, id);
+    @PutMapping(value = "{clubId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseEntity<ClubDTO> updateClubByID(
+            @ModelAttribute ClubDTO dto,
+            @PathVariable("clubId") Long id,
+            @RequestParam(value = "file", required = false) MultipartFile file) {
+        ClubDTO updatedClub = clubService.updateClubByID(dto, id, file);
         return ResponseEntity.ok(updatedClub);
     }
 
@@ -147,7 +149,7 @@ public class ClubAPIController {
             @ApiResponse(responseCode = "200", description = "Clubes récupérés avec succès"),
             @ApiResponse(responseCode = "400", description = "Format de demande invalide")
     })
-    @GetMapping("all")
+    @GetMapping(value = "all")
     public ResponseEntity<List<ClubDTO>> findAllClubs() {
         List<ClubDTO> allClubs = clubService.findAllClubs();
         return ResponseEntity.ok(allClubs);

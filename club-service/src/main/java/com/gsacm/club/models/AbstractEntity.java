@@ -74,7 +74,7 @@ public class AbstractEntity implements Serializable {
      * La date de la dernière modification.
      */
     @LastModifiedDate
-    @Column(name = "lastModifiedDate", updatable = true)
+    @Column(name = "lastModifiedDate")
     @JsonIgnore
     private LocalDateTime lastModifiedDate;
 
@@ -83,7 +83,7 @@ public class AbstractEntity implements Serializable {
      * La date de suppression.
      */
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "deletedDate", updatable = true)
+    @Column(name = "deletedDate")
     private LocalDateTime deletedDate;
 
     /**

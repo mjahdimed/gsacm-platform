@@ -1,6 +1,22 @@
 # Server Settings
 server:
   port: 8094
+  servlet:
+    ## MULTIPART (MultipartProperties)
+    multipart:
+      # Enable multipart uploads
+      enable: true
+      # Threshold after which files are written to disk.
+      file-size-threshold: 2KB
+      # Max file size.
+      max-file-size: 200MB
+      # Max Request Size
+      max-request-size: 215MB
+## File Storage Properties
+# All files uploaded through the REST API will be stored in this directory
+file:
+  upload-dir: ../gsacm-platform/assets/images
+  default-dir: ../gsacm-platform/assets/placeholder
 
 # Eureka Settings
 eureka:
@@ -34,7 +50,7 @@ spring:
     password: admin
     jpa:
       hibernate:
-        ddl-auto: none
+        ddl-auto: update
         naming:
           implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl

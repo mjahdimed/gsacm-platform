@@ -27,72 +27,15 @@
  *
  */
 
-package com.gsacm.club.services;
+package com.gsacm.helpers.exceptions;
 
-import com.gsacm.helpers.dto.ClubDTO;
-import org.springframework.web.multipart.MultipartFile;
+public class FileStorageException extends RuntimeException {
 
-import java.util.List;
+    public FileStorageException(String message) {
+        super(message);
+    }
 
-/**
- * L'interface du service Clube.
- */
-public interface ClubService {
-
-    /**
-     * Nouveau clube clube dto.
-     *
-     * @param dto  le dto
-     * @param file le fichier téléchargé
-     * @return le Clube dto
-     * :: Insérer un nouveau clube ::
-     */
-    ClubDTO addClub(ClubDTO dto, MultipartFile file);
-
-    /**
-     * Mettre à jour le club par id clube dto.
-     *
-     * @param dto    le dto
-     * @param clubId l'identifiant du clube
-     * @return le Clube dto
-     * :: Mettre à jour le clube par ID ::
-     */
-
-    ClubDTO updateClubByID(ClubDTO dto, Long clubId, MultipartFile file);
-
-    /**
-     * Trouver un club par identifiant club dto.
-     *
-     * @param clubId l'identifiant du clube
-     * @return le dto du clube
-     * :: Trouver un clube par ID ::
-     */
-    ClubDTO findClubByID(Long clubId);
-
-    /**
-     * Trouver un club par nom clube dto.
-     *
-     * @param clubName le nom du clube
-     * @return le dto du clube
-     * :: Trouver un club par Nom ::
-     */
-
-    ClubDTO findClubByName(String clubName);
-
-    /**
-     * Trouver la liste de tous les clubes.
-     *
-     * @return la liste
-     * :: Obtenir tous les clubes ::
-     */
-    List<ClubDTO> findAllClubs();
-
-    /**
-     * Supprimer le club par id club dto.
-     *
-     * @param clubId l'identifiant du clube
-     * @return le dto du clube
-     * :: Supprimer le clube par ID ::
-     */
-    ClubDTO deleteClubByID(Long clubId);
+    public FileStorageException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

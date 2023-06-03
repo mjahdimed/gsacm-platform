@@ -34,14 +34,17 @@ import com.gsacm.club.dao.IClubDAO;
 import com.gsacm.club.models.Club;
 import com.gsacm.club.services.ClubService;
 import com.gsacm.club.utils.ClubDTOConverter;
+import com.gsacm.club.utils.FileStorageProperties;
 import com.gsacm.club.validators.ClubValidator;
 import com.gsacm.helpers.dto.ClubDTO;
 import com.gsacm.helpers.exceptions.EntityNotFoundException;
 import com.gsacm.helpers.exceptions.ErrorCodes;
+import com.gsacm.helpers.exceptions.FileStorageException;
 import com.gsacm.helpers.exceptions.InvalidEntityException;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -49,26 +52,42 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.gsacm.club.utils.ClubUtils.createDirectoryIfNotExists;
-import static com.gsacm.club.utils.ClubUtils.getDefaultLogoUrl;
+
+
 
 /**
  * Le service Implementation de type Clube.
  */
 @Service
 @Slf4j
-@AllArgsConstructor
 public class ClubServiceImpl implements ClubService {
 
     /**
      * Le Clube dao.
      */
     private final IClubDAO iClubDAO;
+
+    private final Path fileStorageLocation;
+    private final Path fileDefautlLocation;
+
+    @Autowired
+    public ClubServiceImpl(IClubDAO iClubDAO, FileStorageProperties fileStorageProperties) {
+        this.iClubDAO = iClubDAO;
+        this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
+        this.fileDefautlLocation = Paths.get(fileStorageProperties.getDefaultDir()).toAbsolutePath().normalize();
+        try {
+            Files.createDirectories(this.fileStorageLocation);
+        } catch (IOException ex) {
+            throw new FileStorageException("Could not create the directory to upload", ex);
+        }
+    }
 
 
     /**
@@ -78,51 +97,36 @@ public class ClubServiceImpl implements ClubService {
      * @param file le fichier téléchargé
      * @return le Clube dto
      */
-    public ClubDTO newClub(ClubDTO dto, MultipartFile file) {
-        // Valider les champs
+    @Override
+    public ClubDTO addClub(ClubDTO dto, MultipartFile file) {
+        // Validate the fields
         List<String> errors = ClubValidator.validate(dto);
         if (!errors.isEmpty()) {
-            log.error("Le club n'est pas valide: {}", dto);
-            throw new InvalidEntityException("Le club n'est pas valide", ErrorCodes.INVALID_INPUT, errors);
+            log.error("Club invalide: {}", dto);
+            throw new InvalidEntityException("Club invalide", ErrorCodes.INVALID_INPUT, errors);
         }
-
-        // Obtenir le répertoire de travail actuel
-        String currentDir = System.getProperty("user.dir");
-
-        // Définissez le chemin relatif vers le dossier gsacm-platform
-        String relativePath = "assets";
-
-        // Résoudre le chemin absolu du dossier parent
-        Path parentFolderPath = Paths.get(currentDir, relativePath);
-
-        // Mettre à jour le chemin du dossier de destination
-        String destinationFolderPath = parentFolderPath.resolve("/images").toString();
-
-        // Formatez le chemin en utilisant le bon séparateur de fichiers
-        destinationFolderPath = destinationFolderPath.replace("/", File.separator);
-        // Créer le répertoire s'il n'existe pas
-        createDirectoryIfNotExists(Paths.get(destinationFolderPath));
-
-        // Initialiser la variable logoUrl avec une valeur par défaut
-        String logoUrl = getDefaultLogoUrl();
-        if (file != null && !file.isEmpty()) {
+        String logoUrl;
+        if (file != null && !file.isEmpty() && file.getOriginalFilename() != null) {
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
             try {
-                Path destinationPath = Paths.get(destinationFolderPath, file.getOriginalFilename());
-                Files.copy(file.getInputStream(), destinationPath);
-                logoUrl = destinationPath.toString();
-            } catch (IOException e) {
-                System.out.println("Échec du téléchargement de l'image: " + e.getMessage());
+                Path targetLocation = this.fileStorageLocation.resolve(fileName);
+                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                logoUrl = targetLocation.toString(); // Use the file path as the logo URL
+            } catch (IOException ex) {
+                throw new FileStorageException("Impossible de stocker le fichier " + fileName + ". Veuillez réessayer!", ex);
             }
+        } else {
+            logoUrl = this.fileDefautlLocation.toString() + File.separator + "no-image.png"; // Use the fileDefaultLocation as the default logo URL
         }
-        dto.setLogoUrl(logoUrl);
-        // Convertir ClubDTO en Club
+        // Convert ClubDTO to Club
         Club club = ClubDTOConverter.toEntity(dto);
-        // Définir la date de création
+        // SetlogoUrl
+        club.setLogoUrl(logoUrl);
+        // Set the creation date
         club.setCreationDate(LocalDateTime.now());
-        // Définir le statut sur "Actif"
+        // Set the status to "Active"
         club.setStatus("Active");
-
-        // Clube de sauvegarde
+        // Save the club
         Club savedClub = iClubDAO.save(club);
         return ClubDTOConverter.fromEntity(savedClub);
     }
@@ -136,14 +140,14 @@ public class ClubServiceImpl implements ClubService {
      * @return le Clube dto
      */
     @Override
-    public ClubDTO updateClubByID(ClubDTO dto, Long clubId) {
-        // Vérifier si clubId n'est pas vide
+    public ClubDTO updateClubByID(ClubDTO dto, Long clubId, MultipartFile file) {
+        // Verify if clubId is not empty
         if (clubId == null) {
             log.error("L'identifiant du club est nul");
             throw new InvalidEntityException("L'identifiant du club est nul", ErrorCodes.INVALID_INPUT);
         }
 
-        // Valider les champs
+        // Validate the fields
         List<String> errors = ClubValidator.validate(dto);
         if (!errors.isEmpty()) {
             log.error("Le club n'est pas valide: {}", dto);
@@ -157,22 +161,34 @@ public class ClubServiceImpl implements ClubService {
                             ErrorCodes.RESOURCE_NOT_FOUND);
                 });
 
-        // Vérifiez si logoUrl est vide, définissez la valeur par défaut si c'est le cas
-        if (existingClub.getLogoUrl() == null || existingClub.getLogoUrl().isEmpty()) {
-            String defaultLogoUrl = getDefaultLogoUrl();
+        // Check if a file is provided for logo update
+        if (file != null && !file.isEmpty() && file.getOriginalFilename() != null) {
+            String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+            try {
+                Path targetLocation = this.fileStorageLocation.resolve(fileName);
+                Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+                String logoUrl = targetLocation.toString();
+                existingClub.setLogoUrl(logoUrl);
+            } catch (IOException ex) {
+                throw new FileStorageException("Impossible de stocker le fichier " + fileName + ". Veuillez réessayer!", ex);
+            }
+        }
+
+        // Check if logoUrl is empty, set the default value if it is
+        if (Objects.isNull(existingClub.getLogoUrl()) || existingClub.getLogoUrl().isEmpty()) {
+            String defaultLogoUrl = this.fileDefautlLocation.toString() + File.separator + "no-image.png"; // Use the fileDefaultLocation as the default logo URL;
             existingClub.setLogoUrl(defaultLogoUrl);
         }
-        // Mettre à jour les champs du club existant avec les valeurs du DTO
+        // Update the fields of the existing club with the values from the DTO
         existingClub.setName(dto.getName());
         existingClub.setDescription(dto.getDescription());
         existingClub.setLastModifiedDate(LocalDateTime.now());
 
-        //Mettre à jour le clube
+        // Save the updated club
         Club updatedClub = iClubDAO.save(existingClub);
 
         return ClubDTOConverter.fromEntity(updatedClub);
     }
-
     /**
      * Trouver un club par identifiant club dto.
      *
@@ -249,17 +265,17 @@ public class ClubServiceImpl implements ClubService {
      */
     @Override
     public ClubDTO deleteClubByID(Long clubId) {
-        // Vérifier si clubId n'est pas vide
+        // Vérifiez si clubId n'est pas vide
         if (clubId == null) {
             log.error("L'identifiant du club est nul");
             throw new InvalidEntityException("L'identifiant du club est nul", ErrorCodes.INVALID_INPUT);
         }
 
-        // Vérifier si le clube existe par ID
+        // Vérifier si le club existe par ID
         Club existingClub = iClubDAO.findByIdAndStatus(clubId, "Active")
                 .orElseThrow(() -> {
-                    log.error("Clube avec l'identifiant donné {} introuvable", clubId);
-                    return new EntityNotFoundException("Clube avec l'identifiant: " + clubId + " n'a pas été trouvé",
+                    log.error("Club avec l'identifiant donné {} introuvable", clubId);
+                    return new EntityNotFoundException("Club avec l'identifiant: " + clubId + " n'a pas été trouvé",
                             ErrorCodes.RESOURCE_NOT_FOUND);
                 });
 
@@ -267,8 +283,9 @@ public class ClubServiceImpl implements ClubService {
         existingClub.setDeletedDate(LocalDateTime.now());
         // Mettre à jour le statut du club existant
         existingClub.setStatus("Inactive");
-        // Mettre à jour le clube
+        // Mettre à jour le club
         Club deletedClub = iClubDAO.save(existingClub);
         return ClubDTOConverter.fromEntity(deletedClub);
     }
+
 }

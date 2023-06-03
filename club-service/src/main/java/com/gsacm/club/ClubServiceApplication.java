@@ -30,11 +30,14 @@
 package com.gsacm.club;
 
 
+import com.gsacm.club.utils.FileStorageProperties;
 import com.gsacm.club.utils.LogFolderInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 
@@ -45,6 +48,10 @@ import java.sql.*;
  */
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableConfigurationProperties({
+        FileStorageProperties.class
+})
+@EntityScan("com.gsacm.club.models")
 public class ClubServiceApplication {
 
     /**
@@ -84,7 +91,7 @@ public class ClubServiceApplication {
             connection = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
             statement = connection.createStatement();
 
-            // Vérifiez si la base de données existe déjà
+            // Check if the database already exists
             ResultSet resultSet = connection.getMetaData().getCatalogs();
             boolean databaseExists = false;
             while (resultSet.next()) {
@@ -103,7 +110,7 @@ public class ClubServiceApplication {
                 System.out.println("La base de données existe déjà. Ignorer la création.");
             }
 
-            // Accorder des privilèges à l'utilisateur sur la base de données nouvellement créée
+            // Grant privileges to the user on the newly created database
             Connection clubDbConnection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + CLUB_DB_NAME, DB_USERNAME, DB_PASSWORD);
             Statement clubDbStatement = clubDbConnection.createStatement();
             clubDbStatement.executeUpdate("GRANT ALL PRIVILEGES ON DATABASE " + CLUB_DB_NAME + " TO " + DB_USERNAME);
@@ -128,6 +135,13 @@ public class ClubServiceApplication {
             }
         }
 
+        // Use the updated DB_URL for the remaining part of the code
+        String newDBUrl = "jdbc:postgresql://localhost:5432/" + CLUB_DB_NAME;
+
+        // Update the Spring datasource URL
+        System.setProperty("spring.datasource.url", newDBUrl);
+
+        // Run the Spring application
         SpringApplication.run(ClubServiceApplication.class, args);
     }
 

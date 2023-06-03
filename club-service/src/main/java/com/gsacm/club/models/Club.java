@@ -39,6 +39,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+
 /**
  * Le type Clube entité classe .
  */
@@ -49,7 +50,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "club_tbl")
 public class Club extends AbstractEntity {
-
 
     /**
      * le Nom.
@@ -65,14 +65,14 @@ public class Club extends AbstractEntity {
 
     /**
      * Les Infos Ajoutter
-     * atraver la calss Info
+     * atraver la classe Info
      */
     @Embedded
     private Info info;
 
     /**
      * Les Adresses Ajoutter
-     * atraver la calss Address
+     * atraver la classe Address
      */
     @Embedded
     private Address address;
@@ -88,5 +88,6 @@ public class Club extends AbstractEntity {
      */
     @Column(name = "status")
     private String status;
+
 
 }

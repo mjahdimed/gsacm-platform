@@ -29,61 +29,27 @@
 
 package com.gsacm.club.utils;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-/**
- * Les utilitaires de type class pour le Clube
- */
-public class ClubUtils {
+@ConfigurationProperties(prefix = "file")
+public class FileStorageProperties {
 
+    private String uploadDir;
+    private String defaultDir;
 
-    /**
-     * La constante DEFAULT_LOGO_URL.
-     */
-    private static final String DEFAULT_LOGO_URL = "/placeholder/no-image.png";
-
-    /**
-     * Obtient l'URL du logo par défaut.
-     *
-     * @param relativePath le chemin relatif vers le dossier gsacm-platform
-     * @return l 'URL du logo par défaut
-     */
-
-    public static String getDefaultLogoUrl() {
-        String defaultLogoPath = DEFAULT_LOGO_URL;
-        URL resourceUrl = ClubUtils.class.getResource(defaultLogoPath);
-        if (resourceUrl != null) {
-            try {
-                URI resourceUri = resourceUrl.toURI();
-                String defaultLogoUrl = Paths.get(resourceUri).toString();
-                defaultLogoUrl = defaultLogoUrl.replace("\\\\", "\\");// Replace double backslashes with single backslash
-                return defaultLogoUrl;
-            } catch (URISyntaxException e) {
-                throw new IllegalStateException("Erreur lors de la récupération de l'URL du logo par défaut", e);
-            }
-        } else {
-            throw new IllegalStateException("Ressource de logo par défaut introuvable");
-        }
+    public String getUploadDir() {
+        return uploadDir;
     }
 
+    public void setUploadDir(String uploadDir) {
+        this.uploadDir = uploadDir;
+    }
 
-    /**
-     * Créer un répertoire s'il n'existe pas.
-     *
-     * @param directoryPath le chemin du répertoire
-     * @throws IOException l'exception io
-     */
-    public static void createDirectoryIfNotExists(Path directoryPath) {
-        try {
-            Files.createDirectories(directoryPath);
-        } catch (IOException e) {
-            System.out.println("Impossible de créer le répertoire: " + e.getMessage());
-        }
+    public String getDefaultDir() {
+        return defaultDir;
+    }
+
+    public void setDefaultDir(String defaultDir) {
+        this.defaultDir = defaultDir;
     }
 }

@@ -32,25 +32,25 @@
 -- Creates the club_tbl table
 CREATE TABLE IF NOT EXISTS club_tbl
 (
-    id               BIGINT NOT NULL,
-    creationDate     TIMESTAMP(6),
-    deletedDate      TIMESTAMP(6),
-    lastModifiedDate TIMESTAMP(6),
-    status           VARCHAR(255),
-    address1         VARCHAR(255),
-    address2         VARCHAR(255),
-    code_postale     VARCHAR(255),
-    pays             VARCHAR(255),
-    ville            VARCHAR(255),
-    description      VARCHAR(255),
-    email            VARCHAR(255),
-    gsm              VARCHAR(255),
-    num_fax          VARCHAR(255),
-    num_fix          VARCHAR(255),
-    site_web         VARCHAR(255),
-    logo_url         VARCHAR(255),
-    name             VARCHAR(255),
-    PRIMARY KEY (id)
+    id                 BIGINT NOT NULL,
+    creation_date      TIMESTAMP WITHOUT TIME ZONE,
+    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
+    deleted_date       TIMESTAMP WITHOUT TIME ZONE,
+    status             VARCHAR(255),
+    name               VARCHAR(255),
+    logo_url           VARCHAR(255),
+    description        VARCHAR(255),
+    email              VARCHAR(255),
+    num_fix            VARCHAR(255),
+    num_fax            VARCHAR(255),
+    gsm                VARCHAR(255),
+    site_web           VARCHAR(255),
+    address1           VARCHAR(255),
+    address2           VARCHAR(255),
+    ville              VARCHAR(255),
+    code_postale       VARCHAR(255),
+    pays               VARCHAR(255),
+    CONSTRAINT pk_club_tbl PRIMARY KEY (id)
 );
 
 -- Creates the club_seq sequence if it doesn't already exist

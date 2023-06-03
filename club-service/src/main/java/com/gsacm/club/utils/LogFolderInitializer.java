@@ -49,7 +49,7 @@ public class LogFolderInitializer implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         // Create log folder if it doesn't exist
         File resourceFolder = new ClassPathResource("").getFile();
-        File logFolder = new File(resourceFolder, "logs/${spring.application.name}");
+        File logFolder = new File(resourceFolder, "logs/club-service");
 
         if (!logFolder.exists()) {
             boolean created = logFolder.mkdirs();
