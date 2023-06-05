@@ -50,7 +50,7 @@ spring:
     password: admin
     jpa:
       hibernate:
-        ddl-auto: update
+        ddl-auto: none
         naming:
           implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
@@ -59,13 +59,6 @@ spring:
           show-sql: true
           dialect: org.hibernate.dialect.PostgreSQLDialect
           format_sql: true
-          jdbc:
-            batch_size: 50
-          cache:
-            use_second_level_cache: true
-            region.factory_class: org.hibernate.cache.jcache.JCacheRegionFactory
-          default_batch_fetch_size: 100
-          generate_statistics: true
 # Flyway Settings
 flyway:
   locations: classpath:db/migration
@@ -78,12 +71,6 @@ management:
   tracing:
     sampling:
       probability: 1.0
-  # Zipkin Settings
-#  tracing:
-#    # Configure Zipkin
-#    zipkin:
-#      enabled: true
-#      base-url: http://localhost:9411 # Replace with your Zipkin server URL
 
 # OpenAPI Settings
 openapi:

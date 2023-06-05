@@ -27,20 +27,19 @@
  *
  */
 
-package com.gsacm.club.services.impl;
+package com.gscam.association.services.impl;
 
-
-import com.gsacm.club.dao.IClubDAO;
-import com.gsacm.club.models.Club;
-import com.gsacm.club.services.ClubService;
-import com.gsacm.club.utils.ClubDTOConverter;
-import com.gsacm.club.utils.FileStorageProperties;
-import com.gsacm.club.validators.ClubValidator;
-import com.gsacm.helpers.dto.ClubDTO;
+import com.gsacm.helpers.dto.AssociationDTO;
 import com.gsacm.helpers.exceptions.EntityNotFoundException;
 import com.gsacm.helpers.exceptions.ErrorCodes;
 import com.gsacm.helpers.exceptions.FileStorageException;
 import com.gsacm.helpers.exceptions.InvalidEntityException;
+import com.gscam.association.dao.IAssociationDAO;
+import com.gscam.association.models.Association;
+import com.gscam.association.services.AssociationService;
+import com.gscam.association.utils.AssociationDTOConverter;
+import com.gscam.association.utils.FileStorageProperties;
+import com.gscam.association.validators.AssociationValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,26 +60,22 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 
-
-
-/**
- * Le service Implementation de type Clube.
- */
 @Service
 @Slf4j
-public class ClubServiceImpl implements ClubService {
+public class AssociationServiceImpl implements AssociationService {
+
 
     /**
-     * Le Clube dao.
+     * L'Association dao.
      */
-    private final IClubDAO iClubDAO;
+    private final IAssociationDAO iAssociationDAO;
 
     private final Path fileStorageLocation;
     private final Path fileDefautlLocation;
 
     @Autowired
-    public ClubServiceImpl(IClubDAO iClubDAO, FileStorageProperties fileStorageProperties) {
-        this.iClubDAO = iClubDAO;
+    public AssociationServiceImpl(IAssociationDAO iAssociationDAO, FileStorageProperties fileStorageProperties) {
+        this.iAssociationDAO = iAssociationDAO;
         this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
         this.fileDefautlLocation = Paths.get(fileStorageProperties.getDefaultDir()).toAbsolutePath().normalize();
         try {
@@ -90,21 +85,21 @@ public class ClubServiceImpl implements ClubService {
         }
     }
 
-
     /**
-     * Nouveau club clube dto.
+     * Nouvelle association association dto.
      *
      * @param dto  le dto
      * @param file le fichier téléchargé
-     * @return le Clube dto
+     * @return l'associations  dto
+     * :: Insérer un nouvelle association ::
      */
     @Override
-    public ClubDTO addClub(ClubDTO dto, MultipartFile file) {
+    public AssociationDTO addAssociation(AssociationDTO dto, MultipartFile file) {
         // Validate the fields
-        List<String> errors = ClubValidator.validate(dto);
+        List<String> errors = AssociationValidator.validate(dto);
         if (!errors.isEmpty()) {
-            log.error("Club invalide: {}", dto);
-            throw new InvalidEntityException("Club invalide", ErrorCodes.INVALID_INPUT, errors);
+            log.error("association invalide: {}", dto);
+            throw new InvalidEntityException("association invalide", ErrorCodes.INVALID_INPUT, errors);
         }
         String logoUrl;
         if (file != null && !file.isEmpty() && file.getOriginalFilename() != null) {
@@ -119,46 +114,46 @@ public class ClubServiceImpl implements ClubService {
         } else {
             logoUrl = this.fileDefautlLocation.toString() + File.separator + "no-image.png"; // Use the fileDefaultLocation as the default logo URL
         }
-        // Convert ClubDTO to Club
-        Club club = ClubDTOConverter.toEntity(dto);
+        // Convert AssociationDTO to association
+        Association association = AssociationDTOConverter.toEntity(dto);
         // SetlogoUrl
-        club.setLogoUrl(logoUrl);
+        association.setLogoUrl(logoUrl);
         // Set the creation date
-        club.setCreationDate(LocalDateTime.now());
+        association.setCreationDate(LocalDateTime.now());
         // Set the status to "Active"
-        club.setStatus("Active");
-        // Save the club
-        Club savedClub = iClubDAO.save(club);
-        return ClubDTOConverter.fromEntity(savedClub);
+        association.setStatus("Active");
+        // Save the association
+        Association savedAssociation = iAssociationDAO.save(association);
+        return AssociationDTOConverter.fromEntity(savedAssociation);
     }
 
-
     /**
-     * Mettre à jour le club par id clube dto.
+     * Mettre à jour le association par id association dto.
      *
-     * @param dto    le dto
-     * @param clubId l'identifiant du clube
-     * @return le Clube dto
+     * @param dto     le dto
+     * @param assocId l'identifiant de l'association
+     * @return l'associations  dto
+     * :: Mettre à jour l'association  par ID ::
      */
     @Override
-    public ClubDTO updateClubByID(ClubDTO dto, Long clubId, MultipartFile file) {
-        // Verify if clubId is not empty
-        if (clubId == null) {
-            log.error("L'identifiant du club est nul");
-            throw new InvalidEntityException("L'identifiant du club est nul", ErrorCodes.INVALID_INPUT);
+    public AssociationDTO updateAssociationByID(AssociationDTO dto, Long assocId, MultipartFile file) {
+        // Verify if assocId is not empty
+        if (assocId == null) {
+            log.error("L'identifiant de l'association est nul");
+            throw new InvalidEntityException("L'identifiant de l'association est nul", ErrorCodes.INVALID_INPUT);
         }
 
         // Validate the fields
-        List<String> errors = ClubValidator.validate(dto);
+        List<String> errors = AssociationValidator.validate(dto);
         if (!errors.isEmpty()) {
-            log.error("Le club n'est pas valide: {}", dto);
-            throw new InvalidEntityException("Le club n'est pas valide", ErrorCodes.INVALID_INPUT, errors);
+            log.error("l'Association n'est pas valide: {}", dto);
+            throw new InvalidEntityException("l'Association n'est pas valide", ErrorCodes.INVALID_INPUT, errors);
         }
 
-        Club existingClub = iClubDAO.findByIdAndStatus(clubId, "Active")
+        Association existingAssociation = iAssociationDAO.findByIdAndStatus(assocId, "Active")
                 .orElseThrow(() -> {
-                    log.error("Club actif avec ID {} introuvable", clubId);
-                    return new EntityNotFoundException("Club actif avec ID: " + clubId + " introuvable",
+                    log.error("l'Association Actif avec ID {} introuvable", assocId);
+                    return new EntityNotFoundException("l'Association Actif avec ID: " + assocId + " introuvable",
                             ErrorCodes.RESOURCE_NOT_FOUND);
                 });
 
@@ -169,118 +164,121 @@ public class ClubServiceImpl implements ClubService {
                 Path targetLocation = this.fileStorageLocation.resolve(fileName);
                 Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
                 String logoUrl = targetLocation.toString();
-                existingClub.setLogoUrl(logoUrl);
+                existingAssociation.setLogoUrl(logoUrl);
             } catch (IOException ex) {
                 throw new FileStorageException("Impossible de stocker le fichier " + fileName + ". Veuillez réessayer!", ex);
             }
         }
 
         // Check if logoUrl is empty, set the default value if it is
-        if (Objects.isNull(existingClub.getLogoUrl()) || existingClub.getLogoUrl().isEmpty()) {
+        if (Objects.isNull(existingAssociation.getLogoUrl()) || existingAssociation.getLogoUrl().isEmpty()) {
             String defaultLogoUrl = this.fileDefautlLocation.toString() + File.separator + "no-image.png"; // Use the fileDefaultLocation as the default logo URL;
-            existingClub.setLogoUrl(defaultLogoUrl);
+            existingAssociation.setLogoUrl(defaultLogoUrl);
         }
-        // Update the fields of the existing club with the values from the DTO
-        existingClub.setName(dto.getName());
-        existingClub.setDescription(dto.getDescription());
-        existingClub.setLastModifiedDate(LocalDateTime.now());
+        // Update the fields of the existing association with the values from the DTO
+        existingAssociation.setName(dto.getName());
+        existingAssociation.setDescription(dto.getDescription());
+        existingAssociation.setLastModifiedDate(LocalDateTime.now());
 
-        // Save the updated club
-        Club updatedClub = iClubDAO.save(existingClub);
+        // Save the updated association
+        Association updatedAssociation = iAssociationDAO.save(existingAssociation);
 
-        return ClubDTOConverter.fromEntity(updatedClub);
-    }
-    /**
-     * Trouver un club par identifiant club dto.
-     *
-     * @param clubId l'identifiant du clube
-     * @return le dto du clube
-     */
-    @Override
-    public ClubDTO findClubByID(Long clubId) {
-        if (clubId == null) {
-            throw new InvalidEntityException("L'identifiant du clube est nul", ErrorCodes.INVALID_INPUT);
-        }
-
-        Optional<Club> optionalClub = iClubDAO.findByIdAndStatus(clubId, "Active");
-        Club club = optionalClub.orElseThrow(() -> new EntityNotFoundException(
-                "Clube avec l'identifiant: " + clubId + " n'a pas été trouvé", ErrorCodes.RESOURCE_NOT_FOUND));
-
-        return ClubDTOConverter.fromEntity(club);
+        return AssociationDTOConverter.fromEntity(updatedAssociation);
     }
 
+
     /**
-     * Trouver un club par nom clube dto.
+     * Trouver une association  par identifiant association dto.
      *
-     * @param clubName le nom du clube
-     * @return le dto du clube
+     * @param assocId l'identifiant de l'association
+     * @return le dto de l'association
+     * :: Trouver une association e par ID ::
      */
     @Override
-    public ClubDTO findClubByName(String clubName) {
-        // Vérifiez si Nom clube n'est pas vide
-        if (clubName == null) {
-            log.error("Le nom du clube est nul");
-            throw new InvalidEntityException("Le nom du clube est nul", ErrorCodes.INVALID_INPUT);
+    public AssociationDTO findAssociationByID(Long assocId) {
+        if (assocId == null) {
+            throw new InvalidEntityException("L'identifiant de l' association est nul", ErrorCodes.INVALID_INPUT);
         }
-        // Récupérer le club par nom
-        return iClubDAO.findByName(clubName)
-                .filter(club -> club.getStatus().equals("Active")) // Filtrer les clubs actifs
-                .map(ClubDTOConverter::fromEntity)
+
+        Optional<Association> optionalAssociation = iAssociationDAO.findByIdAndStatus(assocId, "Active");
+        Association association = optionalAssociation.orElseThrow(() -> new EntityNotFoundException(
+                "l'Association avec l'identifiant: " + assocId + " n'a pas été trouvé", ErrorCodes.RESOURCE_NOT_FOUND));
+
+        return AssociationDTOConverter.fromEntity(association);
+    }
+
+    @Override
+    public AssociationDTO findAssociationByName(String assocName) {
+        // Vérifiez si Nom de l' association n'est pas vide
+        if (assocName == null) {
+            log.error("Le nom de l' association est nul");
+            throw new InvalidEntityException("Le nom de l' association est nul", ErrorCodes.INVALID_INPUT);
+        }
+        // Récupérer L' association par nom
+        return iAssociationDAO.findByName(assocName)
+                .filter(association -> association.getStatus().equals("Active")) // Filtrer les clubs actifs
+                .map(AssociationDTOConverter::fromEntity)
                 .orElseThrow(() -> {
-                    log.error("Le club avec le nom donné est {} introuvable", clubName);
-                    return new EntityNotFoundException("Le club avec le nom donné: " + clubName + " n'a pas été trouvé",
+                    log.error("L' association avec le nom donné est {} introuvable", assocName);
+                    return new EntityNotFoundException("L' association avec le nom donné: " + assocName + " n'a pas été trouvé",
                             ErrorCodes.RESOURCE_NOT_FOUND);
                 });
     }
 
+
     /**
-     * Trouver la liste de tous les clubes.
+     * Trouver la liste de tous les Associations.
      *
      * @return la liste
+     * :: Obtenir tous les associations ::
      */
     @Override
-    public List<ClubDTO> findAllClubs() {
-        List<Club> clubs = new ArrayList<>(iClubDAO.findAllByStatus("Active"));
-        if (clubs.isEmpty()) {
-            log.info("Aucun clube trouvé");
+    public List<AssociationDTO> findAllAssociations() {
+        List<Association> associations = new ArrayList<>(iAssociationDAO.findAllByStatus("Active"));
+        if (associations.isEmpty()) {
+            log.info("Aucune association trouvé");
         } else {
-            log.info("clubes {} trouvés", clubs.size());
+            log.info("Associations {} trouvés", associations.size());
         }
 
-        return clubs.stream()
-                .map(ClubDTOConverter::fromEntity)
+        return associations.stream()
+                .map(AssociationDTOConverter::fromEntity)
                 .collect(Collectors.toList());
     }
 
+
     /**
-     * Supprimer le club par id club dto.
+     * Supprimer le club par id association dto.
      *
-     * @param clubId l'identifiant du clube
-     * @return le dto du clube
+     * @param assocId l'identifiant de l'association
+     * @return le dto de l'association
+     * :: Supprimer l'associations  par ID ::
      */
+
     @Override
-    public ClubDTO deleteClubByID(Long clubId) {
-        // Vérifiez si clubId n'est pas vide
-        if (clubId == null) {
-            log.error("L'identifiant du club est nul");
-            throw new InvalidEntityException("L'identifiant du club est nul", ErrorCodes.INVALID_INPUT);
+    public AssociationDTO deleteAssociationByID(Long assocId) {
+        // Vérifiez si assocId n'est pas vide
+        if (assocId == null) {
+            log.error("L'identifiant de l'association est nul");
+            throw new InvalidEntityException("L'identifiant de l'association est nul", ErrorCodes.INVALID_INPUT);
         }
 
-        // Vérifier si le club existe par ID
-        Club existingClub = iClubDAO.findByIdAndStatus(clubId, "Active")
+        // Vérifier si le Association existe par ID
+        Association existingAssociation = iAssociationDAO.findByIdAndStatus(assocId, "Active")
                 .orElseThrow(() -> {
-                    log.error("Club avec l'identifiant donné {} introuvable", clubId);
-                    return new EntityNotFoundException("Club avec l'identifiant: " + clubId + " n'a pas été trouvé",
+                    log.error("Association avec l'identifiant donné {} introuvable", assocId);
+                    return new EntityNotFoundException("Association avec l'identifiant: " + assocId + " n'a pas été trouvé",
                             ErrorCodes.RESOURCE_NOT_FOUND);
                 });
 
         // Définir la date de suppression
-        existingClub.setDeletedDate(LocalDateTime.now());
-        // Mettre à jour le statut du club existant
-        existingClub.setStatus("Inactive");
-        // Mettre à jour le club
-        Club deletedClub = iClubDAO.save(existingClub);
-        return ClubDTOConverter.fromEntity(deletedClub);
+        existingAssociation.setDeletedDate(LocalDateTime.now());
+        // Mettre à jour le statut du Association existant
+        existingAssociation.setStatus("Inactive");
+        // Mettre à jour l'Association
+        Association deletedAssociation = iAssociationDAO.save(existingAssociation);
+        return AssociationDTOConverter.fromEntity(deletedAssociation);
     }
+
 
 }

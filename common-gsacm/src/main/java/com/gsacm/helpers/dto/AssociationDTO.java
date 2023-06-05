@@ -27,34 +27,41 @@
  *
  */
 
--- V2__create_association_tbl.sql
+package com.gsacm.helpers.dto;
 
--- Creates the club_tbl table
-CREATE TABLE IF NOT EXISTS club_tbl
-(
-    id                 BIGINT NOT NULL,
-    creation_date      TIMESTAMP WITHOUT TIME ZONE,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    deleted_date       TIMESTAMP WITHOUT TIME ZONE,
-    status             VARCHAR(255),
-    name               VARCHAR(255),
-    logo_url           VARCHAR(255),
-    description        VARCHAR(255),
-    email              VARCHAR(255),
-    num_fix            VARCHAR(255),
-    num_fax            VARCHAR(255),
-    gsm                VARCHAR(255),
-    site_web           VARCHAR(255),
-    address1           VARCHAR(255),
-    address2           VARCHAR(255),
-    ville              VARCHAR(255),
-    code_postale       VARCHAR(255),
-    pays               VARCHAR(255),
-    CONSTRAINT pk_club_tbl PRIMARY KEY (id)
-);
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
--- Creates the club_seq sequence if it doesn't already exist
-CREATE SEQUENCE IF NOT EXISTS club_seq START WITH 1 INCREMENT BY 1;
+import java.time.LocalDateTime;
 
--- Add a meaningful comment here describing the purpose of the migration
-COMMENT ON TABLE club_tbl IS 'Table for storing information about clubs.';
+/**
+ * DTO for {@link AssociationDTO}
+ */
+@Data
+@AllArgsConstructor
+@Builder
+public class AssociationDTO {
+
+    private Long id;
+    private String name;
+    private String logoUrl;
+    private String description;
+    private String email;
+    private String numFix;
+    private String numFax;
+    private String gsm;
+    private String siteWeb;
+    private String address1;
+    private String address2;
+    private String ville;
+    private String codepostale;
+    private String pays;
+    private String status;
+    private LocalDateTime creationDate;
+    private LocalDateTime lastModifiedDate;
+    private LocalDateTime deletedDate;
+
+    public AssociationDTO() {
+    }
+}

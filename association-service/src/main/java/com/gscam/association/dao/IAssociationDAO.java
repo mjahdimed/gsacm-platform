@@ -27,60 +27,18 @@
  *
  */
 
-package com.gscam.association.model;
+package com.gscam.association.dao;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import com.gscam.association.models.Association;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.io.Serializable;
-import java.time.Instant;
+import java.util.Collection;
+import java.util.Optional;
 
-/**
- * The type Abstract entity.
- */
-@Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
-public class AbstractEntity implements Serializable {
-    @Id
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "sequence_generator"
-    )
-    @SequenceGenerator(
-            name = "sequence_generator",
-            sequenceName = "association_seq", allocationSize = 1
-    )
-    @Column(name = "id", updatable = false, nullable = false)
-    private Long id;
+public interface IAssociationDAO extends JpaRepository<Association, Long> {
+    Optional<Association> findByIdAndStatus(Long assocId, String active);
 
-    @CreatedDate
-    @Column(name = "creationDate", updatable = false)
-    @JsonIgnore
-    private Instant creationDate;
+    Collection<Association> findAllByStatus(String active);
 
-    @LastModifiedDate
-    @Column(name = "lastModifiedDate", updatable = true)
-    @JsonIgnore
-    private Instant lastModifiedDate;
-
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "deletedDate", updatable = true)
-    private Instant deletedDate;
-
-
-    @Column(name = "status")
-    @JsonIgnore
-    private boolean status;
+    Optional<Association> findByName(String assocName);
 }

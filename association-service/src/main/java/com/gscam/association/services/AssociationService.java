@@ -27,34 +27,72 @@
  *
  */
 
--- V2__create_association_tbl.sql
+package com.gscam.association.services;
 
--- Creates the club_tbl table
-CREATE TABLE IF NOT EXISTS club_tbl
-(
-    id                 BIGINT NOT NULL,
-    creation_date      TIMESTAMP WITHOUT TIME ZONE,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    deleted_date       TIMESTAMP WITHOUT TIME ZONE,
-    status             VARCHAR(255),
-    name               VARCHAR(255),
-    logo_url           VARCHAR(255),
-    description        VARCHAR(255),
-    email              VARCHAR(255),
-    num_fix            VARCHAR(255),
-    num_fax            VARCHAR(255),
-    gsm                VARCHAR(255),
-    site_web           VARCHAR(255),
-    address1           VARCHAR(255),
-    address2           VARCHAR(255),
-    ville              VARCHAR(255),
-    code_postale       VARCHAR(255),
-    pays               VARCHAR(255),
-    CONSTRAINT pk_club_tbl PRIMARY KEY (id)
-);
 
--- Creates the club_seq sequence if it doesn't already exist
-CREATE SEQUENCE IF NOT EXISTS club_seq START WITH 1 INCREMENT BY 1;
+import com.gsacm.helpers.dto.AssociationDTO;
+import org.springframework.web.multipart.MultipartFile;
 
--- Add a meaningful comment here describing the purpose of the migration
-COMMENT ON TABLE club_tbl IS 'Table for storing information about clubs.';
+import java.util.List;
+
+/**
+ * L'interface du service Association.
+ */
+public interface AssociationService {
+
+    /**
+     * Nouvelle association association dto.
+     *
+     * @param dto  le dto
+     * @param file le fichier téléchargé
+     * @return l'associations  dto
+     * :: Insérer un nouvelle association ::
+     */
+    AssociationDTO addAssociation(AssociationDTO dto, MultipartFile file);
+
+    /**
+     * Mettre à jour le club par id clube dto.
+     *
+     * @param dto     le dto
+     * @param assocId l'identifiant de l'association
+     * @return l'associations  dto
+     * :: Mettre à jour l'associations  par ID ::
+     */
+    AssociationDTO updateAssociationByID(AssociationDTO dto, Long assocId, MultipartFile file);
+
+    /**
+     * Trouver une association  par identifiant association dto.
+     *
+     * @param assocId l'identifiant de l'association
+     * @return le dto de l'association
+     * :: Trouver une association e par ID ::
+     */
+    AssociationDTO findAssociationByID(Long assocId);
+
+    /**
+     * Trouver une association  par nom clube dto.
+     *
+     * @param assocName le nom de l'association
+     * @return le dto de l'association
+     * :: Trouver une association  par Nom ::
+     */
+
+    AssociationDTO findAssociationByName(String assocName);
+
+    /**
+     * Trouver la liste de tous les clubes.
+     *
+     * @return la liste
+     * :: Obtenir tous les associations ::
+     */
+    List<AssociationDTO> findAllAssociations();
+
+    /**
+     * Supprimer le club par id association dto.
+     *
+     * @param assocId l'identifiant de l'association
+     * @return le dto de l'association
+     * :: Supprimer l'associations  par ID ::
+     */
+    AssociationDTO deleteAssociationByID(Long assocId);
+}

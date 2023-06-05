@@ -27,15 +27,29 @@
  *
  */
 
-package com.gsacm.helpers.helpers;
+package com.gscam.association.utils;
 
-/**
- * The interface Request routs.
- */
-public interface RequestRouts {
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
-    /**
-     * The constant API_CLUB_ROUT.
-     */
-    String API_CLUB_ROUT = "/api/v1/clubs/";
+@ConfigurationProperties(prefix = "file")
+public class FileStorageProperties {
+
+    private String uploadDir;
+    private String defaultDir;
+
+    public String getUploadDir() {
+        return uploadDir;
+    }
+
+    public void setUploadDir(String uploadDir) {
+        this.uploadDir = uploadDir;
+    }
+
+    public String getDefaultDir() {
+        return defaultDir;
+    }
+
+    public void setDefaultDir(String defaultDir) {
+        this.defaultDir = defaultDir;
+    }
 }

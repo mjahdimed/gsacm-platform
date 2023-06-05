@@ -27,34 +27,37 @@
  *
  */
 
--- V2__create_association_tbl.sql
+package com.gscam.association.utils;
 
--- Creates the club_tbl table
-CREATE TABLE IF NOT EXISTS club_tbl
-(
-    id                 BIGINT NOT NULL,
-    creation_date      TIMESTAMP WITHOUT TIME ZONE,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    deleted_date       TIMESTAMP WITHOUT TIME ZONE,
-    status             VARCHAR(255),
-    name               VARCHAR(255),
-    logo_url           VARCHAR(255),
-    description        VARCHAR(255),
-    email              VARCHAR(255),
-    num_fix            VARCHAR(255),
-    num_fax            VARCHAR(255),
-    gsm                VARCHAR(255),
-    site_web           VARCHAR(255),
-    address1           VARCHAR(255),
-    address2           VARCHAR(255),
-    ville              VARCHAR(255),
-    code_postale       VARCHAR(255),
-    pays               VARCHAR(255),
-    CONSTRAINT pk_club_tbl PRIMARY KEY (id)
-);
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.core.io.ClassPathResource;
 
--- Creates the club_seq sequence if it doesn't already exist
-CREATE SEQUENCE IF NOT EXISTS club_seq START WITH 1 INCREMENT BY 1;
+import java.io.File;
 
--- Add a meaningful comment here describing the purpose of the migration
-COMMENT ON TABLE club_tbl IS 'Table for storing information about clubs.';
+/**
+ * L'initialiseur de dossier de journal de type.
+ */
+public class LogFolderInitializer implements ApplicationRunner {
+
+    /**
+     * Executé.
+     *
+     * @param args les arguments
+     * @throws Exception l'exception
+     */
+    public void run(ApplicationArguments args) throws Exception {
+        // Create log folder if it doesn't exist
+        File resourceFolder = new ClassPathResource("").getFile();
+        File logFolder = new File(resourceFolder, "logs/association-service");
+
+        if (!logFolder.exists()) {
+            boolean created = logFolder.mkdirs();
+            if (created) {
+                System.out.println("Dossier de journal créé: " + logFolder.getAbsolutePath());
+            } else {
+                System.out.println("Échec de la création du dossier de journal: " + logFolder.getAbsolutePath());
+            }
+        }
+    }
+}

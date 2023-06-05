@@ -27,34 +27,41 @@
  *
  */
 
--- V2__create_association_tbl.sql
+package com.gscam.association.validators;
 
--- Creates the club_tbl table
-CREATE TABLE IF NOT EXISTS club_tbl
-(
-    id                 BIGINT NOT NULL,
-    creation_date      TIMESTAMP WITHOUT TIME ZONE,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    deleted_date       TIMESTAMP WITHOUT TIME ZONE,
-    status             VARCHAR(255),
-    name               VARCHAR(255),
-    logo_url           VARCHAR(255),
-    description        VARCHAR(255),
-    email              VARCHAR(255),
-    num_fix            VARCHAR(255),
-    num_fax            VARCHAR(255),
-    gsm                VARCHAR(255),
-    site_web           VARCHAR(255),
-    address1           VARCHAR(255),
-    address2           VARCHAR(255),
-    ville              VARCHAR(255),
-    code_postale       VARCHAR(255),
-    pays               VARCHAR(255),
-    CONSTRAINT pk_club_tbl PRIMARY KEY (id)
-);
 
--- Creates the club_seq sequence if it doesn't already exist
-CREATE SEQUENCE IF NOT EXISTS club_seq START WITH 1 INCREMENT BY 1;
+import com.gsacm.helpers.dto.AssociationDTO;
+import com.gscam.association.helpers.ErrorList;
+import org.springframework.util.StringUtils;
 
--- Add a meaningful comment here describing the purpose of the migration
-COMMENT ON TABLE club_tbl IS 'Table for storing information about clubs.';
+import java.util.ArrayList;
+import java.util.List;
+
+
+/**
+ * Le validateur de type Association classe.
+ */
+public class AssociationValidator {
+    /**
+     * Valider la liste.
+     *
+     * @param AssociationDTO l'association dto
+     * @return la liste
+     */
+    public static List<String> validate(AssociationDTO associationDTO) {
+        // Vérifier si la liste des erreurs est vide
+        List<String> errors = new ArrayList<>();
+        // Vérifier si ClubDTO est vide
+        if (associationDTO == null) {
+            errors.add(ErrorList.ERROR_ASSOCIATION_NAME_REQUIRED);
+            return errors;
+        }
+        // Vérifiez si le nom du club est vide
+        if (StringUtils.isEmpty(associationDTO.getName())) {
+            errors.add(ErrorList.ERROR_ASSOCIATION_NAME_REQUIRED);
+        }
+        // Renvoyer la liste des erreurs
+        return errors;
+    }
+}
+

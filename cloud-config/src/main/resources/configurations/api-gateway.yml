@@ -59,10 +59,14 @@ springdoc:
       - url: /v3/api-docs
         name: API Gateway Service
         primaryName: API Gateway Service
+
       - url: /club-service/v3/api-docs
         name: Club Service
         primaryName: Club Service
 
+      - url: /association-service/v3/api-docs
+        name: Association Service
+        primaryName: Association Service
 
 # Actuator Settings
 management:

@@ -67,7 +67,7 @@
         <!-- Dossier médical Service Module -->
         <module>dossier-medical-service</module>
         <!-- Platform Helpers Module -->
-        <module>platform-helpers</module>
+        <module>common-gsacm</module>
     </modules>
     <!-- Project metadata -->
     <name>gsacm-platform</name>

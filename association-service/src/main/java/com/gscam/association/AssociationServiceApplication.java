@@ -30,23 +30,57 @@
 package com.gscam.association;
 
 
+import com.gscam.association.utils.FileStorageProperties;
+import com.gscam.association.utils.LogFolderInitializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.Bean;
 
 /**
  * The type Association service application.
  */
 @SpringBootApplication
 @EnableDiscoveryClient
-
+@EnableConfigurationProperties({
+        FileStorageProperties.class
+})
+@EntityScan("com.gsacm.association.models")
 public class AssociationServiceApplication {
     /**
-     * The entry point of application.
+     * Le LOGGER constant.
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(AssociationServiceApplication.class);
+
+    /**
+     * The constant DB_URL.
+     */
+
+
+    /**
+     * Le point d'entrée de l'application.
      *
-     * @param args the input arguments
+     * @param args les arguments d'entrée
      */
     public static void main(String[] args) {
+        LOGGER.info("Démarrage de l'application Club Service");
+        // Run the Spring application
         SpringApplication.run(AssociationServiceApplication.class, args);
     }
+
+
+    /**
+     * Initialiseur de dossier de journaux Initialiseur de dossier de journaux.
+     *
+     * @return the initialiseur de dossier de journal
+     */
+    @Bean
+    public LogFolderInitializer logFolderInitializer() {
+        return new LogFolderInitializer();
+    }
 }
+

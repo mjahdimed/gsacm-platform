@@ -29,13 +29,15 @@
 
 -- V2__create_association_tbl.sql
 
--- Creates the club_tbl table
-CREATE TABLE IF NOT EXISTS club_tbl
+-- Creates the association_tbl table
+-- Migration SQL script for creating the association_tbl table
+
+CREATE TABLE IF NOT EXISTS association_tbl
 (
-    id                 BIGINT NOT NULL,
-    creation_date      TIMESTAMP WITHOUT TIME ZONE,
-    last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    deleted_date       TIMESTAMP WITHOUT TIME ZONE,
+    id                 BIGINT(20) NOT NULL,
+    creation_date      TIMESTAMP,
+    last_modified_date TIMESTAMP,
+    deleted_date       TIMESTAMP,
     status             VARCHAR(255),
     name               VARCHAR(255),
     logo_url           VARCHAR(255),
@@ -50,11 +52,9 @@ CREATE TABLE IF NOT EXISTS club_tbl
     ville              VARCHAR(255),
     code_postale       VARCHAR(255),
     pays               VARCHAR(255),
-    CONSTRAINT pk_club_tbl PRIMARY KEY (id)
+    PRIMARY KEY (id)
 );
 
--- Creates the club_seq sequence if it doesn't already exist
-CREATE SEQUENCE IF NOT EXISTS club_seq START WITH 1 INCREMENT BY 1;
-
 -- Add a meaningful comment here describing the purpose of the migration
-COMMENT ON TABLE club_tbl IS 'Table for storing information about clubs.';
+COMMENT ON TABLE association_tbl IS 'Table for storing information about clubs.';
+

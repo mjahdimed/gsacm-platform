@@ -76,7 +76,7 @@ public class ApiGatewayApplication {
     @Bean
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                // Les URL du service des clube
+                // Les URL du service clube
                 .route(r -> r.path("/club-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://club-service"))
                 .route(r -> r.path("/api/v1/clubs/add").and().method(HttpMethod.POST).uri("lb://club-service"))
                 .route(r -> r.path("/api/v1/clubs/all").and().method(HttpMethod.POST).uri("lb://club-service"))
@@ -84,6 +84,15 @@ public class ApiGatewayApplication {
                 .route(r -> r.path("/api/v1/clubs/name/{clubName}").and().method(HttpMethod.GET).uri("lb://club-service"))
                 .route(r -> r.path("/api/v1/clubs/{clubId}").and().method(HttpMethod.PUT).uri("lb://club-service"))
                 .route(r -> r.path("/api/v1/clubs/{clubId}").and().method(HttpMethod.PATCH).uri("lb://club-service"))
+
+                // Les URL du service association
+                .route(r -> r.path("/association-service/v3/api-docs").and().method(HttpMethod.GET).uri("lb://association-service"))
+                .route(r -> r.path("/api/v1/associations/add").and().method(HttpMethod.POST).uri("lb://association-service"))
+                .route(r -> r.path("/api/v1/associations/all").and().method(HttpMethod.POST).uri("lb://association-service"))
+                .route(r -> r.path("/api/v1/associations/{assocId}").and().method(HttpMethod.GET).uri("lb://association-service"))
+                .route(r -> r.path("/api/v1/associations/name/{assocName}").and().method(HttpMethod.GET).uri("lb://association-service"))
+                .route(r -> r.path("/api/v1/associations/{assocId}").and().method(HttpMethod.PUT).uri("lb://association-service"))
+                .route(r -> r.path("/api/v1/associations/{assocId}").and().method(HttpMethod.PATCH).uri("lb://association-service"))
                 .build();
     }
 

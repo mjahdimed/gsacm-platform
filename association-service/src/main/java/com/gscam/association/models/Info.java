@@ -27,42 +27,54 @@
  *
  */
 
-package com.gscam.association.model;
+package com.gscam.association.models;
 
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.Embeddable;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
- * The type Association.
+ * The type Address.
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@Entity
-@Table(name = "association_tbl")
-public class Association extends AbstractEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@Embeddable
+public class Info {
 
+    /**
+     * Le Email.
+     */
+    @Column(name = "email")
+    private String email;
 
-    @Column(name = "name")
-    private String name;
+    /**
+     * Le Num fix.
+     */
+    @Column(name = "num_fix")
+    private String numFix;
 
-    @Column(name = "logo")
-    private String logo;
+    /**
+     * Le Num fax.
+     */
+    @Column(name = "num_fax")
+    private String numFax;
 
-    @Embedded
-    private Info info;
+    /**
+     * Le Gsm.
+     */
+    @Column(name = "gsm")
+    private String gsm;
 
-    @Embedded
-    private Address address;
-
-    @Column(name = "description")
-    private String description;
-
-    @Column(name = "status")
-    private Boolean status;
+    /**
+     * Le Site web.
+     */
+    @Column(name = "site_web")
+    private String siteWeb;
 
 }

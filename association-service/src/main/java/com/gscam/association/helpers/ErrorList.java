@@ -27,38 +27,52 @@
  *
  */
 
-package com.gscam.association.model;
-
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Embeddable;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+package com.gscam.association.helpers;
 
 /**
- * The type Address.
+ * La liste d'erreurs de l'interface.
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
-@Embeddable
-public class Address {
+public interface ErrorList {
+    /**
+     * La constante ERROR_ASSOCIATION_NAME_REQUIRED.
+     */
+    String ERROR_ASSOCIATION_NAME_REQUIRED = "Veuillez entrer le nom de l'association";
+    /**
+     * La constante ERROR_ASSOCIATION_DESCRIPTION_REQUIRED.
+     */
+    String ERROR_ASSOCIATION_DESCRIPTION_REQUIRED = "Veuillez entrer la description de l'association";
+    /**
+     * La constante ERROR_ASSOCIATION_EMAIL_REQUIRED.
+     */
+    String ERROR_ASSOCIATION_EMAIL_REQUIRED = "Veuillez entrer l'e-mail de l'association";
+    /**
+     * La constante ERROR_ASSOCIATION_PHONE_REQUIRED.
+     */
+    String ERROR_ASSOCIATION_PHONE_REQUIRED = "Veuillez entrer le numéro de téléphone de l'association";
+    /**
+     * La constante ERROR_ASSOCIATION_FAX_REQUIRED.
+     */
+    String ERROR_ASSOCIATION_FAX_REQUIRED = "Veuillez entrer le numéro de fax de l'association";
+    /**
+     * La constante ERROR_ASSOCIATION_GSM_REQUIRED.
+     */
+    String ERROR_ASSOCIATION_GSM_REQUIRED = "Veuillez entrer le numéro GSM de l'association";
+    /**
+     * La constante ERROR_ASSOCIATION_ADDRESS_ONE_REQUIRED.
+     */
+    String ERROR_ASSOCIATION_ADDRESS_ONE_REQUIRED = "Veuillez entrer l'adresse 1 de l'association";
 
-    @Column(name = "address1")
-    private String address1;
-
-    @Column(name = "address2")
-    private String address2;
-
-    @Column(name = "ville")
-    private String ville;
-
-    @Column(name = "code_postale")
-    private String codepostale;
-
-    @Column(name = "pays")
-    private String pays;
+    /**
+     * La constante ERROR_ASSOCIATION_VILLE_REQUIRED .
+     */
+    String ERROR_ASSOCIATION_VILLE_REQUIRED = "Veuillez entrer la ville de l'association";
+    /**
+     * La constante ERROR_ASSOCIATION_POSTAL_CODE_REQUIRED.
+     */
+    String ERROR_ASSOCIATION_POSTAL_CODE_REQUIRED = "Veuillez entrer le code postal de l'association";
+    /**
+     * La constante ERROR_ASSOCIATION_PAYS_REQUIRED.
+     */
+    String ERROR_ASSOCIATION_PAYS_REQUIRED = "Veuillez entrer le pays de l'association";
 }
+

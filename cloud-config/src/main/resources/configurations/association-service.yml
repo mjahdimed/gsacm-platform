@@ -1,10 +1,28 @@
 # Server Settings
 server:
   port: 8095
+  servlet:
+    ## MULTIPART (MultipartProperties)
+    multipart:
+      # Enable multipart uploads
+      enable: true
+      # Threshold after which files are written to disk.
+      file-size-threshold: 2KB
+      # Max file size.
+      max-file-size: 200MB
+      # Max Request Size
+      max-request-size: 215MB
+## File Storage Properties
+# All files uploaded through the REST API will be stored in this directory
+file:
+  upload-dir: ../gsacm-platform/assets/images
+  default-dir: ../gsacm-platform/assets/placeholder
+
 # Eureka Settings
 eureka:
   instance:
     hostname: localhost
+    preferIpAddress: true
   client:
     service-url:
       defaultZone: http://${eureka.instance.hostname}:8761/eureka/
@@ -13,15 +31,46 @@ eureka:
 
 # Logging Settings
 logging:
+  level:
+    root: INFO
+    com.gsacm: DEBUG
+  file: classpath:logs/association-service/file.log
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] ${LOG_LEVEL_PATTERN:-%5p} %m%n"
-
-
-# Spring bootSettings
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId:-},%X{spanId:-}] %-5level %logger{36} - %msg%n"
+# Spring Boot Settings
 spring:
   output:
     ansi:
       enabled: always
+  # DataSource
+  datasource:
+    url: jdbc:mysql://localhost:3306/association_db?createDatabaseIfNotExist=true&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&useAffectedRows=true
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #JPA SETTINGS
+    jpa:
+      open-in-view: false
+      database: association_db
+      database-platform: org.hibernate.dialect.MySQL8Dialect
+      hibernate:
+        ddl-auto: update
+        naming:
+          implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+          physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      properties:
+        hibernate:
+          show-sql: true
+          format_sql: true
+
+
+# Flyway Settings
+#flyway:
+#  locations: classpath:db/migration
+#  baselineOnMigrate: true
+#  validateOnMigrate: true
+
 
 # Actuator Settings
 management:
@@ -29,24 +78,14 @@ management:
     sampling:
       probability: 1.0
 
-# Zipkin Settings
-opentelemetry:
-  trace:
-    exporter:
-      zipkin:
-        endpoint: http://localhost:9411/api/v2/spans
-
-# SpringDoc OpenAPI Configuration
-springdoc:
-  packagesToScan: com.gsacm.association
-  api-docs:
-    path: /association-service/v3/api-docs
-    swagger-ui:
-      path: /association-service/swagger-ui.html
-
-# openapi Settings
+# OpenAPI Settings
 openapi:
   service:
     title: association-service doc
     version: 1.0.0
     url: http://localhost:8091
+springdoc:
+  api-docs:
+    path: /association-service/v3/api-docs
+  swagger-ui:
+    path: /association-service/swagger-ui.html
